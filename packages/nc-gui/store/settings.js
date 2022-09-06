@@ -14,7 +14,7 @@ export const state = () => ({
   customTheme: {},
   language: browserLang({
     languages: ['en', 'ar', 'nl', 'fr', 'de', 'it', 'ja', 'ru', 'es', 'ca', 'cs', 'et', 'lt', 'no', 'te', 'ur', 'zh-cn', 'da', 'tl', 'el', 'ms', 'pl', 'sr', 'sv', 'th', 'bn', 'zh-tw', 'fi', 'ko', 'iw', 'ml', 'pt', 'sk', 'tg', 'tr', 'vi', 'bg', 'hr', 'eo', 'id', 'lv', 'mr', 'ro', 'sl', 'ta', 'uk', 'kn', 'hi'],
-    fallback: 'en'
+    fallback: 'zh-cn'
   }),
   showTour: {
     home: true,
@@ -92,7 +92,7 @@ export const mutations = {
     state.customTheme = theme
   },
   MutLanguage(state, language) {
-    state.language = language
+    state.language = 'zh_CN'
   },
   MutToggleTreeviewWindow(state, show) {
     state.treeWindow = !state.treeWindow

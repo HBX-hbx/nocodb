@@ -2,14 +2,20 @@
   <v-dialog v-model="dialogShow" width="60%">
     <v-container>
       <v-card class="pa-10">
-        <v-icon class="float-right" color="error" @click="dialogShow = false"> mdi-close-box-outline </v-icon>
+        <v-icon class="float-right" color="error" @click="dialogShow = false">
+          mdi-close-box-outline
+        </v-icon>
         <p class="text-center" />
-        <p class="display-1 text-center">NocoDB: Settings</p>
+        <p class="display-1 text-center">
+          NocoDB: Settings
+        </p>
 
         <v-tabs v-model="tab" color="pink">
           <v-tabs-slider />
 
-          <v-tab href="#tab-theme"> Appearance </v-tab>
+          <v-tab href="#tab-theme">
+            Appearance
+          </v-tab>
 
           <v-tab-item value="tab-theme">
             <v-card flat tile>
@@ -86,7 +92,9 @@
                             >
                               <v-list-item-content class="py-0">
                                 <div class="d-flex align-center" style="width: 100%">
-                                  <div style="min-width: 100px">Custom</div>
+                                  <div style="min-width: 100px">
+                                    Custom
+                                  </div>
                                   <div class="flex-grow-1">
                                     <!--                            <v-container fluid>-->
 
@@ -115,7 +123,9 @@
             </v-card>
           </v-tab-item>
 
-          <v-tab href="#tab-other"> Version & Updates </v-tab>
+          <v-tab href="#tab-other">
+            Version & Updates
+          </v-tab>
 
           <v-tab-item value="tab-other">
             <v-card flat tile>
@@ -137,7 +147,9 @@
                     <tr v-if="enableAppRefresh">
                       <td>Application refresh</td>
                       <td>
-                        <v-btn @click="applicationRefresh"> Refresh </v-btn>
+                        <v-btn @click="applicationRefresh">
+                          Refresh
+                        </v-btn>
                       </td>
                     </tr>
                   </tbody>
@@ -175,14 +187,14 @@
   </v-dialog>
 </template>
 <script>
-import themes from '../helpers/themes';
-import dlgLabelSubmitCancel from './utils/DlgLabelSubmitCancel';
+import themes from '../helpers/themes'
+import dlgLabelSubmitCancel from './utils/DlgLabelSubmitCancel'
 
 export default {
   components: { dlgLabelSubmitCancel },
   directives: {},
   validate({ params }) {
-    return true;
+    return true
   },
   props: { value: Boolean },
 
@@ -194,7 +206,7 @@ export default {
       gaDialogShow: false,
       logReportDialogShow: false,
       languages: [
-        { label: 'English', value: 'en' },
+        { label: 'English', value: 'en' }
         // {label: 'Japanese', value: 'ja'},
         // {label: 'Chinese', value: 'zh'}
       ],
@@ -210,157 +222,157 @@ export default {
         info: '#00CED1',
         success: '#4CAF50',
         warning: '#FB8C00',
-        error: '#ff0100',
+        error: '#ff0100'
       },
-      themes,
-    };
+      themes
+    }
   },
   fetch({ store, params }) {},
   computed: {
     checkForUpdate: {
       get() {
-        return this.$store.state.settings.checkForUpdate;
+        return this.$store.state.settings.checkForUpdate
       },
       set(value) {
-        this.$store.commit('settings/MutCheckForUpdate', value);
-      },
+        this.$store.commit('settings/MutCheckForUpdate', value)
+      }
     },
     autoUpdate: {
       get() {
-        return this.$store.state.settings.downloadAndUpdateRelease;
+        return this.$store.state.settings.downloadAndUpdateRelease
       },
       set(value) {
-        this.$store.commit('settings/MutDownloadAndUpdateRelease', value);
-      },
+        this.$store.commit('settings/MutDownloadAndUpdateRelease', value)
+      }
     },
     isGaEnabled: {
       get() {
-        return this.$store.state.settings.isGaEnabled;
+        return this.$store.state.settings.isGaEnabled
       },
       set(value) {
-        this.$store.commit('settings/MutToggleGaEnabled', value);
-      },
+        this.$store.commit('settings/MutToggleGaEnabled', value)
+      }
     },
     isErrorReportingEnabled: {
       get() {
-        return this.$store.state.settings.isErrorReportingEnabled;
+        return this.$store.state.settings.isErrorReportingEnabled
       },
       set(value) {
-        this.$store.commit('settings/MutToggleErrorReportingEnabled', value);
-      },
+        this.$store.commit('settings/MutToggleErrorReportingEnabled', value)
+      }
     },
     isTelemetryEnabled: {
       get() {
-        return this.$store.state.settings.isErrorReportingEnabled;
+        return this.$store.state.settings.isErrorReportingEnabled
       },
       set(value) {
-        this.$store.commit('settings/MutToggleTelemetryEnabled', value);
-      },
+        this.$store.commit('settings/MutToggleTelemetryEnabled', value)
+      }
     },
     dialogShow: {
       get() {
-        return this.value;
+        return this.value
       },
       set(val) {
-        this.$emit('input', val);
-      },
+        this.$emit('input', val)
+      }
     },
     language: {
       get() {
-        return this.$store.state.settings.language;
+        return this.$store.state.settings.language
       },
       set(val) {
-        this.$store.commit('settings/MutSetLanguage', val);
-      },
-    },
+        this.$store.commit('settings/MutSetLanguage', val)
+      }
+    }
   },
   watch: {},
   created() {
-    this.customTheme = { ...this.customTheme, ...this.$store.state.settings.customTheme };
-    this.item = this.$store.state.settings.themeName;
+    this.customTheme = { ...this.customTheme, ...this.$store.state.settings.customTheme }
+    this.item = this.$store.state.settings.themeName
     this.$store.watch(
       state => state.settings.customTheme,
-      theme => {
-        this.customTheme = { ...this.customTheme, ...theme };
+      (theme) => {
+        this.customTheme = { ...this.customTheme, ...theme }
       }
-    );
+    )
 
     this.$store.watch(
       state => state.settings.themeName,
-      theme => {
+      (theme) => {
         this.$nextTick(() => {
           if (this.item !== theme) {
-            this.item = theme;
+            this.item = theme
           }
-        });
+        })
       }
-    );
+    )
   },
   beforeMount() {},
   async mounted() {},
   beforeDestroy() {},
   methods: {
     rightClick() {
-      this.rightClickCount++;
+      this.rightClickCount++
       if (this.rightClickCount > 5) {
         // require('electron').remote.getCurrentWindow().toggleDevTools();
-        this.rightClickCount = 0;
+        this.rightClickCount = 0
       }
     },
     async applicationRefresh() {
-      localStorage.removeItem('vuex');
-      location.reload();
+      localStorage.removeItem('vuex')
+      location.reload()
     },
     toggleGa(event) {
       if (this.isGaEnabled) {
-        this.gaDialogShow = true;
+        this.gaDialogShow = true
       } else {
-        this.isGaEnabled = true;
+        this.isGaEnabled = true
       }
     },
     toggleLogReport(event) {
       if (this.isErrorReportingEnabled) {
-        this.logReportDialogShow = true;
+        this.logReportDialogShow = true
       } else {
-        this.isErrorReportingEnabled = true;
+        this.isErrorReportingEnabled = true
       }
     },
     logReportDialogFunction(action) {
       if (action !== 'hideDialog' && this.$store.state.users.user && this.$store.state.users.user.email) {
-        this.isErrorReportingEnabled = false;
+        this.isErrorReportingEnabled = false
       } else {
         this.$toast
           .error('Only a registered user can disable Error Reporting, Please Login then disable.')
-          .goAway(5000);
+          .goAway(5000)
       }
-      this.logReportDialogShow = false;
+      this.logReportDialogShow = false
     },
     gaDialogFunction(action) {
       if (action !== 'hideDialog') {
         if (this.$store.state.users.user && this.$store.state.users.user.email) {
-          this.isGaEnabled = false;
+          this.isGaEnabled = false
         } else {
           this.$toast
             .error('Only a registered user can disable Google Analytics, Please Login then disable.')
-            .goAway(5000);
+            .goAway(5000)
         }
       }
-      this.gaDialogShow = false;
+      this.gaDialogShow = false
     },
     async changeTheme(t, theme = 'Custom') {
-      this.item = theme;
+      this.item = theme
       if (theme === 'Custom') {
-        await this.$store.dispatch('settings/ActSetTheme', { theme: { ...t }, custom: true });
+        await this.$store.dispatch('settings/ActSetTheme', { theme: { ...t }, custom: true })
       }
-      await this.$store.dispatch('settings/ActSetTheme', { theme: { ...t }, themeName: theme });
+      await this.$store.dispatch('settings/ActSetTheme', { theme: { ...t }, themeName: theme })
     },
     toggleDarkTheme() {
-      this.$store.commit('settings/MutToggleDarkMode');
-    },
+      this.$store.commit('settings/MutToggleDarkMode')
+    }
   },
   beforeCreated() {},
-  destroy() {},
-};
+  destroy() {}
+}
 </script>
 
 <style scoped></style>

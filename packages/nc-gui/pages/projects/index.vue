@@ -10,8 +10,8 @@
                 <!-- My Projects -->
                 <b>{{ $t('title.myProject') }}</b>
                 <x-icon small color="primary grey" :tooltip="$t('activity.refreshProject')" @click="projectsRefresh">
-                  mdi-refresh </x-icon
-                >&nbsp;
+                  mdi-refresh
+                </x-icon>&nbsp;
                 <!--                </x-btn>-->
               </h1>
             </v-row>
@@ -29,7 +29,9 @@
                 style="max-width: 200px"
               >
                 <template #prepend-inner>
-                  <v-icon color="grey" class="mt-1" small> search </v-icon>
+                  <v-icon color="grey" class="mt-1" small>
+                    search
+                  </v-icon>
                 </template>
               </v-text-field>
               <v-spacer />
@@ -49,14 +51,18 @@
                       >
                         <!-- New Project -->
                         {{ $t('title.newProj') }}
-                        <v-icon class="mr-1" small> mdi-menu-down </v-icon>
+                        <v-icon class="mr-1" small>
+                          mdi-menu-down
+                        </v-icon>
                       </x-btn>
                     </div>
                   </template>
                   <v-list dense>
                     <v-list-item class="create-xc-db-project nc-create-xc-db-project" @click="onCreateProject('xcdb')">
                       <v-list-item-icon class="mr-2">
-                        <v-icon small> mdi-plus </v-icon>
+                        <v-icon small>
+                          mdi-plus
+                        </v-icon>
                       </v-list-item-icon>
                       <v-list-item-title>
                         <!-- Create -->
@@ -65,7 +71,9 @@
                       <v-spacer />
                       <v-tooltip right>
                         <template #activator="{ on }">
-                          <v-icon x-small color="grey" class="ml-4" v-on="on"> mdi-information-outline </v-icon>
+                          <v-icon x-small color="grey" class="ml-4" v-on="on">
+                            mdi-information-outline
+                          </v-icon>
                         </template>
                         <!-- Create a new project -->
                         <span class="caption">{{ $t('tooltip.xcDB') }}</span>
@@ -78,7 +86,9 @@
                       @click="onCreateProject()"
                     >
                       <v-list-item-icon class="mr-2">
-                        <v-icon small class=""> mdi-power-plug-outline </v-icon>
+                        <v-icon small class="">
+                          mdi-power-plug-outline
+                        </v-icon>
                       </v-list-item-icon>
                       <v-list-item-title>
                         <!-- Create By Connecting <br>To An External Database -->
@@ -87,7 +97,9 @@
                       <v-spacer />
                       <v-tooltip right>
                         <template #activator="{ on }">
-                          <v-icon x-small color="grey" class="ml-4" v-on="on"> mdi-information-outline </v-icon>
+                          <v-icon x-small color="grey" class="ml-4" v-on="on">
+                            mdi-information-outline
+                          </v-icon>
                         </template>
                         <!-- Supports MySQL, PostgreSQL, SQL Server & SQLite -->
                         <span class="caption">{{ $t('tooltip.extDB') }}</span>
@@ -141,7 +153,9 @@
                       <div class="d-flex align-center">
                         <v-progress-circular v-if="props.item.loading" class="mr-2" size="15" indeterminate />
                         <template v-else>
-                          <v-icon x-small class="mr-2" color="green"> mdi-moon-full </v-icon>
+                          <v-icon x-small class="mr-2" color="green">
+                            mdi-moon-full
+                          </v-icon>
                           <!-- Accessible via GraphQL APIs / Accessible via REST APIs -->
                         </template>
                         <div
@@ -194,7 +208,15 @@
                 </template>
               </v-data-table>
               <v-col v-else-if="!loadingProjects" style="height: 500px" class="d-flex align-center justify-center">
-                <v-alert border="left" dense text :value="true" outlined color="success" icon="mdi-information-outline">
+                <v-alert
+                  border="left"
+                  dense
+                  text
+                  :value="true"
+                  outlined
+                  color="success"
+                  icon="mdi-information-outline"
+                >
                   <!-- Get started by creating a new project -->
                   {{ $t('msg.info.projectEmptyMessage') }}
                 </v-alert>
@@ -220,7 +242,9 @@
                   large
                   @click="onCreateProject"
                 >
-                  <v-icon color="white" class="blink_me"> mdi-lightbulb-on </v-icon>&nbsp;
+                  <v-icon color="white" class="blink_me">
+                    mdi-lightbulb-on
+                  </v-icon>&nbsp;
                   <!-- New Project -->
                   {{ $t('title.newProj') }}
                 </x-btn>
@@ -229,115 +253,127 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col v-if="loaded" class="col-sm-12 col-lg-3 d-sm-none d-md-flex justify-center justify-lg-end align-start">
-        <sponsor-mini />
-      </v-col>
+<!--      <v-col v-if="loaded" class="col-sm-12 col-lg-3 d-sm-none d-md-flex justify-center justify-lg-end align-start">-->
+<!--        <sponsor-mini />-->
+<!--      </v-col>-->
     </v-row>
 
-    <div v-if="projects && projects.length" class="d-flex justify-end">
-      <v-list
-        class="flex-shrink-1 text-left elevation-4 rounded-xl community-card mr-10"
-        width="300"
-        :class="{ active: showCommunity }"
-        dense
-      >
-        <v-list-item dense href="https://github.com/nocodb/nocodb" target="_blank">
-          <v-list-item-icon>
-            <v-icon class="ml-2 mt-n2"> mdi-github </v-icon>
-          </v-list-item-icon>
-          <v-list-item-title v-if="_isRtl">
-            <!-- us on Github -->
-            {{ $t('labels.community.starUs2') }}
-            <!-- Star -->
-            {{ $t('labels.community.starUs1') }}
-            <v-icon small> mdi-star-outline </v-icon>
-          </v-list-item-title>
-          <v-list-item-title v-else>
-            <!-- Star -->
-            {{ $t('labels.community.starUs1') }}
-            <v-icon small> mdi-star-outline </v-icon>
-            <!-- us on Github -->
-            {{ $t('labels.community.starUs2') }}
-          </v-list-item-title>
-        </v-list-item>
-        <v-divider v-if="!_isZh" />
-        <v-list-item v-if="!_isZh" dense target="_blank" href="https://calendly.com/nocodb-meeting">
-          <v-list-item-icon>
-            <v-icon class="ml-2" :color="textColors[3]"> mdi-calendar-month </v-icon>
-          </v-list-item-icon>
-          <!-- Book a Free DEMO -->
-          <v-list-item-title>
-            {{ $t('labels.community.bookDemo') }}
-          </v-list-item-title>
-        </v-list-item>
-        <v-divider />
-        <v-list-item dense href="https://discord.gg/5RgZmkW" target="_blank">
-          <v-list-item-icon>
-            <v-icon class="ml-2" :color="textColors[0]"> mdi-discord </v-icon>
-          </v-list-item-icon>
-          <!-- Get your questions answered -->
-          <v-list-item-title>
-            {{ $t('labels.community.getAnswered') }}
-          </v-list-item-title>
-        </v-list-item>
-        <v-divider />
-        <v-list-item v-if="!_isZh" dense href="https://twitter.com/NocoDB" target="_blank">
-          <v-list-item-icon>
-            <v-icon class="ml-2" :color="textColors[1]"> mdi-twitter </v-icon>
-          </v-list-item-icon>
-          <!-- Follow NocoDB -->
-          <v-list-item-title>
-            {{ $t('labels.community.followNocodb') }}
-          </v-list-item-title>
-        </v-list-item>
-        <template v-else>
-          <v-list-item dense class="" @click="$refs.wechat.$el.firstElementChild.click()">
-            <v-list-item-icon>
-              <share-icons
-                ref="wechat"
-                class="small mr-n2"
-                url="https://github.com/nocodb/nocodb"
-                :social-medias="['wechat']"
-              />
-            </v-list-item-icon>
-            <v-list-item-title> Please share it in Wechat </v-list-item-title>
-          </v-list-item>
-          <v-divider />
-          <v-list-item dense class="" @click="$refs.weibo.$el.firstElementChild.click()">
-            <v-list-item-icon>
-              <share-icons
-                ref="weibo"
-                class="small mr-n2"
-                url="https://github.com/nocodb/nocodb"
-                :social-medias="['weibo']"
-              />
-            </v-list-item-icon>
-            <v-list-item-title> Please share it in Weibo </v-list-item-title>
-          </v-list-item>
-          <v-divider />
-          <v-list-item dense target="_blank">
-            <v-list-item-icon>
-              <img class="ml-2" src="vue.svg" width="25" />
-            </v-list-item-icon>
-            <!-- Follow NocoDB -->
-            <v-list-item-title>
-              Built with Vue JS
-              <!--              {{-->
-              <!--                $t('labels.community.followNocodb')-->
-              <!--              }}-->
-            </v-list-item-title>
-          </v-list-item>
-        </template>
+<!--    <div v-if="projects && projects.length" class="d-flex justify-end">-->
+<!--      <v-list-->
+<!--        class="flex-shrink-1 text-left elevation-4 rounded-xl community-card mr-10"-->
+<!--        width="300"-->
+<!--        :class="{ active: showCommunity }"-->
+<!--        dense-->
+<!--      >-->
+<!--        <v-list-item dense href="https://github.com/nocodb/nocodb" target="_blank">-->
+<!--          <v-list-item-icon>-->
+<!--            <v-icon class="ml-2 mt-n2">-->
+<!--              mdi-github-->
+<!--            </v-icon>-->
+<!--          </v-list-item-icon>-->
+<!--          <v-list-item-title v-if="_isRtl">-->
+<!--            &lt;!&ndash; us on Github &ndash;&gt;-->
+<!--            {{ $t('labels.community.starUs2') }}-->
+<!--            &lt;!&ndash; Star &ndash;&gt;-->
+<!--            {{ $t('labels.community.starUs1') }}-->
+<!--            <v-icon small>-->
+<!--              mdi-star-outline-->
+<!--            </v-icon>-->
+<!--          </v-list-item-title>-->
+<!--          <v-list-item-title v-else>-->
+<!--            &lt;!&ndash; Star &ndash;&gt;-->
+<!--            {{ $t('labels.community.starUs1') }}-->
+<!--            <v-icon small>-->
+<!--              mdi-star-outline-->
+<!--            </v-icon>-->
+<!--            &lt;!&ndash; us on Github &ndash;&gt;-->
+<!--            {{ $t('labels.community.starUs2') }}-->
+<!--          </v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-divider v-if="!_isZh" />-->
+<!--        <v-list-item v-if="!_isZh" dense target="_blank" href="https://calendly.com/nocodb-meeting">-->
+<!--          <v-list-item-icon>-->
+<!--            <v-icon class="ml-2" :color="textColors[3]">-->
+<!--              mdi-calendar-month-->
+<!--            </v-icon>-->
+<!--          </v-list-item-icon>-->
+<!--          &lt;!&ndash; Book a Free DEMO &ndash;&gt;-->
+<!--          <v-list-item-title>-->
+<!--            {{ $t('labels.community.bookDemo') }}-->
+<!--          </v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-divider />-->
+<!--        <v-list-item dense href="https://discord.gg/5RgZmkW" target="_blank">-->
+<!--          <v-list-item-icon>-->
+<!--            <v-icon class="ml-2" :color="textColors[0]">-->
+<!--              mdi-discord-->
+<!--            </v-icon>-->
+<!--          </v-list-item-icon>-->
+<!--          &lt;!&ndash; Get your questions answered &ndash;&gt;-->
+<!--          <v-list-item-title>-->
+<!--            {{ $t('labels.community.getAnswered') }}-->
+<!--          </v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <v-divider />-->
+<!--        <v-list-item v-if="!_isZh" dense href="https://twitter.com/NocoDB" target="_blank">-->
+<!--          <v-list-item-icon>-->
+<!--            <v-icon class="ml-2" :color="textColors[1]">-->
+<!--              mdi-twitter-->
+<!--            </v-icon>-->
+<!--          </v-list-item-icon>-->
+<!--          &lt;!&ndash; Follow NocoDB &ndash;&gt;-->
+<!--          <v-list-item-title>-->
+<!--            {{ $t('labels.community.followNocodb') }}-->
+<!--          </v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--        <template v-else>-->
+<!--          <v-list-item dense class="" @click="$refs.wechat.$el.firstElementChild.click()">-->
+<!--            <v-list-item-icon>-->
+<!--              <share-icons-->
+<!--                ref="wechat"-->
+<!--                class="small mr-n2"-->
+<!--                url="https://github.com/nocodb/nocodb"-->
+<!--                :social-medias="['wechat']"-->
+<!--              />-->
+<!--            </v-list-item-icon>-->
+<!--            <v-list-item-title> Please share it in Wechat </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-divider />-->
+<!--          <v-list-item dense class="" @click="$refs.weibo.$el.firstElementChild.click()">-->
+<!--            <v-list-item-icon>-->
+<!--              <share-icons-->
+<!--                ref="weibo"-->
+<!--                class="small mr-n2"-->
+<!--                url="https://github.com/nocodb/nocodb"-->
+<!--                :social-medias="['weibo']"-->
+<!--              />-->
+<!--            </v-list-item-icon>-->
+<!--            <v-list-item-title> Please share it in Weibo </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-divider />-->
+<!--          <v-list-item dense target="_blank">-->
+<!--            <v-list-item-icon>-->
+<!--              <img class="ml-2" src="vue.svg" width="25">-->
+<!--            </v-list-item-icon>-->
+<!--            &lt;!&ndash; Follow NocoDB &ndash;&gt;-->
+<!--            <v-list-item-title>-->
+<!--              Built with Vue JS-->
+<!--              &lt;!&ndash;              {{&ndash;&gt;-->
+<!--              &lt;!&ndash;                $t('labels.community.followNocodb')&ndash;&gt;-->
+<!--              &lt;!&ndash;              }}&ndash;&gt;-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--        </template>-->
 
-        <v-divider />
-        <v-list-item v-t="['e:hiring']" dense target="_blank" href="http://careers.nocodb.com">
-          <v-list-item-icon>
-            <span class="ml-2" style="font-size: 20px">🚀</span>
-          </v-list-item-icon>
-          <v-list-item-title> We are Hiring!!! </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </div>
+<!--        <v-divider />-->
+<!--        <v-list-item v-t="['e:hiring']" dense target="_blank" href="http://careers.nocodb.com">-->
+<!--          <v-list-item-icon>-->
+<!--            <span class="ml-2" style="font-size: 20px">🚀</span>-->
+<!--          </v-list-item-icon>-->
+<!--          <v-list-item-title> We are Hiring!!! </v-list-item-title>-->
+<!--        </v-list-item>-->
+<!--      </v-list>-->
+<!--    </div>-->
 
     <dlg-label-submit-cancel
       v-if="dialogShow"
@@ -351,23 +387,23 @@
 </template>
 
 <script>
-import dlgLabelSubmitCancel from '../../components/utils/DlgLabelSubmitCancel.vue';
-import ShareIcons from '../../components/ShareIcons';
-import SponsorMini from '~/components/SponsorMini';
-import colors from '~/mixins/colors';
-import TemplatesModal from '~/components/templates/TemplatesModal';
+import dlgLabelSubmitCancel from '../../components/utils/DlgLabelSubmitCancel.vue'
+import ShareIcons from '../../components/ShareIcons'
+import SponsorMini from '~/components/SponsorMini'
+import colors from '~/mixins/colors'
+import TemplatesModal from '~/components/templates/TemplatesModal'
 
 export default {
   components: {
     TemplatesModal,
     ShareIcons,
     SponsorMini,
-    dlgLabelSubmitCancel,
+    dlgLabelSubmitCancel
     // howItWorks,
   },
   mixins: [colors],
   $_veeValidate: {
-    validator: 'new',
+    validator: 'new'
   },
   data() {
     return {
@@ -391,29 +427,29 @@ export default {
           target: '[data-v-step="1"]',
           content: 'Click here to create new Project.',
           params: {
-            placement: 'top',
-          },
+            placement: 'top'
+          }
         },
         {
           target: '[data-v-step="2"]',
-          content: 'Click here to open existing project.',
+          content: 'Click here to open existing project.'
         },
         {
           target: '[data-v-step="3"]',
-          content: 'Click here to filter projects.',
+          content: 'Click here to filter projects.'
         },
         {
           target: '[data-v-step="4"]',
-          content: 'Click here to open project folder.',
+          content: 'Click here to open project folder.'
         },
         {
           target: '[data-v-step="5"]',
-          content: 'Click here to edit project.',
+          content: 'Click here to edit project.'
         },
         {
           target: '[data-v-step="6"]',
-          content: 'Click here to delete project.',
-        },
+          content: 'Click here to delete project.'
+        }
       ],
       loaded: false,
       dialog: {
@@ -421,7 +457,7 @@ export default {
         title: 'Confirm Deleting project',
         heading: '',
         // mtdOk: this.projectRemove,
-        type: 'error',
+        type: 'error'
       },
       loadingProjects: true,
       newProjectDialog: false,
@@ -434,25 +470,25 @@ export default {
         Postgres: 'pg',
         MySQL: 'mysql',
         MSSQL: 'mssql',
-        Sqlite: 'sqlite',
+        Sqlite: 'sqlite'
       },
       headers: [
         {
           text: 'Title',
           value: 'title',
-          class: 'caption',
+          class: 'caption'
         },
         {
           text: '',
           value: 'name',
           sortable: false,
-          class: 'caption',
-        },
+          class: 'caption'
+        }
       ],
       projects: [],
       search: '',
-      deleteBtnClicked: false,
-    };
+      deleteBtnClicked: false
+    }
   },
   computed: {
     connectToExternalDB() {
@@ -460,138 +496,138 @@ export default {
         this.$store.state.project &&
         this.$store.state.project.appInfo &&
         this.$store.state.project.appInfo.connectToExternalDB
-      );
-    },
+      )
+    }
   },
   watch: {
     name() {
       if (!this.userSelectedDir) {
-        this.folder = `${this.baseFolder}/${this.name}`;
+        this.folder = `${this.baseFolder}/${this.name}`
       }
-    },
+    }
   },
   async created() {
-    this.$store.commit('settings/MutToggleGaEnabled', true);
-    this.$store.commit('settings/MutToggleTelemetryEnabled', true);
-    await this.$store.dispatch('users/ActGetUserDetails');
+    this.$store.commit('settings/MutToggleGaEnabled', true)
+    this.$store.commit('settings/MutToggleTelemetryEnabled', true)
+    await this.$store.dispatch('users/ActGetUserDetails')
   },
   async mounted() {
-    setTimeout(() => (this.showCommunity = true), 2000);
+    setTimeout(() => (this.showCommunity = true), 2000)
 
-    await this.projectsLoad();
+    await this.projectsLoad()
   },
   methods: {
     async stopProject(project) {
-      this.dialogShow = true;
-      this.confirmMessage = 'Do you want to stop the project?';
-      this.confirmAction = async act => {
+      this.dialogShow = true
+      this.confirmMessage = 'Do you want to stop the project?'
+      this.confirmAction = async(act) => {
         if (act === 'hideDialog') {
-          this.dialogShow = false;
+          this.dialogShow = false
         } else {
-          this.$set(project, 'status', 'stopping');
-          const projectId = project.id;
-          this.statusUpdatingProjectId = projectId;
-          this.projectStatusUpdating = true;
+          this.$set(project, 'status', 'stopping')
+          const projectId = project.id
+          this.statusUpdatingProjectId = projectId
+          this.projectStatusUpdating = true
           try {
-            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectStop']);
-            this.$toast.success(`Project '${project.title}' stopped successfully`).goAway(3000);
+            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectStop'])
+            this.$toast.success(`Project '${project.title}' stopped successfully`).goAway(3000)
           } catch (e) {
-            this.$toast.error(`Project '${project.title}' stopping failed`).goAway(3000);
+            this.$toast.error(`Project '${project.title}' stopping failed`).goAway(3000)
           }
-          await this.projectsLoad();
-          this.projectStatusUpdating = false;
-          this.dialogShow = false;
+          await this.projectsLoad()
+          this.projectStatusUpdating = false
+          this.dialogShow = false
         }
-      };
+      }
     },
     async startProject(project) {
-      this.dialogShow = true;
-      this.confirmMessage = 'Do you want to start the project?';
-      this.confirmAction = async act => {
+      this.dialogShow = true
+      this.confirmMessage = 'Do you want to start the project?'
+      this.confirmAction = async(act) => {
         if (act === 'hideDialog') {
-          this.dialogShow = false;
+          this.dialogShow = false
         } else {
-          this.$set(project, 'status', 'starting');
-          const projectId = project.id;
-          this.statusUpdatingProjectId = projectId;
-          this.projectStatusUpdating = true;
+          this.$set(project, 'status', 'starting')
+          const projectId = project.id
+          this.statusUpdatingProjectId = projectId
+          this.projectStatusUpdating = true
           try {
-            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectStart']);
-            this.$toast.success(`Project '${project.title}' started successfully`).goAway(3000);
+            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectStart'])
+            this.$toast.success(`Project '${project.title}' started successfully`).goAway(3000)
           } catch (e) {
-            this.$toast.error(`Project '${project.title}' starting failed`).goAway(3000);
+            this.$toast.error(`Project '${project.title}' starting failed`).goAway(3000)
           }
-          await this.projectsLoad();
-          this.projectStatusUpdating = false;
-          this.dialogShow = false;
+          await this.projectsLoad()
+          this.projectStatusUpdating = false
+          this.dialogShow = false
         }
-      };
+      }
     },
     async restartProject(project) {
-      this.dialogShow = true;
-      this.confirmMessage = 'Do you want to restart the project?';
-      this.confirmAction = async act => {
+      this.dialogShow = true
+      this.confirmMessage = 'Do you want to restart the project?'
+      this.confirmAction = async(act) => {
         if (act === 'hideDialog') {
-          this.dialogShow = false;
+          this.dialogShow = false
         } else {
-          this.$set(project, 'status', 'restarting');
-          const projectId = project.id;
-          this.statusUpdatingProjectId = projectId;
-          this.projectStatusUpdating = true;
+          this.$set(project, 'status', 'restarting')
+          const projectId = project.id
+          this.statusUpdatingProjectId = projectId
+          this.projectStatusUpdating = true
           try {
-            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectRestart']);
-            this.$toast.success(`Project '${project.title}' restarted successfully`).goAway(3000);
+            await this.$store.dispatch('sqlMgr/ActSqlOp', [{ project_id: projectId }, 'projectRestart'])
+            this.$toast.success(`Project '${project.title}' restarted successfully`).goAway(3000)
           } catch (e) {
-            this.$toast.error(`Project '${project.title}' restarting failed`).goAway(3000);
+            this.$toast.error(`Project '${project.title}' restarting failed`).goAway(3000)
           }
-          await this.projectsLoad();
-          this.projectStatusUpdating = false;
-          this.dialogShow = false;
+          await this.projectsLoad()
+          this.projectStatusUpdating = false
+          this.dialogShow = false
         }
-      };
+      }
     },
     async deleteProject(project) {
-      this.dialogShow = true;
-      this.confirmMessage = 'Do you want to delete the project?';
-      this.$e('c:project:delete');
-      this.confirmAction = async act => {
+      this.dialogShow = true
+      this.confirmMessage = 'Do you want to delete the project?'
+      this.$e('c:project:delete')
+      this.confirmAction = async(act) => {
         if (act === 'hideDialog') {
-          this.dialogShow = false;
+          this.dialogShow = false
         } else {
-          this.$set(project, 'status', 'deleting');
-          const projectId = project.id;
-          this.statusUpdatingProjectId = projectId;
-          this.projectStatusUpdating = true;
+          this.$set(project, 'status', 'deleting')
+          const projectId = project.id
+          this.statusUpdatingProjectId = projectId
+          this.projectStatusUpdating = true
           try {
-            await this.$api.project.delete(projectId);
-            this.$toast.success(`Project '${project.title}' deleted successfully`).goAway(3000);
+            await this.$api.project.delete(projectId)
+            this.$toast.success(`Project '${project.title}' deleted successfully`).goAway(3000)
           } catch (e) {
-            this.$toast.error(`Project '${project.title}' deleting failed`).goAway(3000);
+            this.$toast.error(`Project '${project.title}' deleting failed`).goAway(3000)
           }
-          await this.projectsLoad();
-          this.projectStatusUpdating = false;
+          await this.projectsLoad()
+          this.projectStatusUpdating = false
 
-          this.dialogShow = false;
-          this.$e('a:project:delete');
+          this.dialogShow = false
+          this.$e('a:project:delete')
         }
-      };
+      }
     },
     onCreateProject(xcdb) {
       if (xcdb === 'xcdb') {
-        this.$router.push('/project/xcdb');
-        this.$e('c:project:create:xcdb');
+        this.$router.push('/project/xcdb')
+        this.$e('c:project:create:xcdb')
       } else {
-        this.$router.push('/project/0');
-        this.$e('c:project:create:extdb');
+        this.$router.push('/project/0')
+        this.$e('c:project:create:extdb')
       }
     },
     onEditProject(project) {
-      this.$router.push(`/project/edit?projectId=${project.id}`);
-      this.$e('c:project:edit:rename');
+      this.$router.push(`/project/edit?projectId=${project.id}`)
+      this.$e('c:project:edit:rename')
     },
     onCreateProjectFromTemplate() {
-      this.templatesModal = true;
-      this.$e('c:project:create:template');
+      this.templatesModal = true
+      this.$e('c:project:create:template')
     },
     async importProjectFromJSON() {},
     onTourCompletion() {
@@ -601,43 +637,43 @@ export default {
       // return path.dirname(filePath);
     },
     async projectsRefresh() {
-      await this.projectsLoad();
-      this.$e('a:project:refresh');
+      await this.projectsLoad()
+      this.$e('a:project:refresh')
     },
     async projectsLoad() {
       try {
-        this.loadingProjects = true;
-        this.projects = (await this.$api.project.list({})).list;
+        this.loadingProjects = true
+        this.projects = (await this.$api.project.list({})).list
 
         // todo: multiplex
-        const user = this.$store.state.users.user;
+        const user = this.$store.state.users.user
         if (!(this.projects && this.projects.length) && user && user.roles && user.roles.owner) {
           if (this.$store.state.project.appInfo && this.$store.state.project.appInfo.oneClick) {
             //
           }
         }
 
-        this.loadingProjects = false;
+        this.loadingProjects = false
       } catch (error) {
-        console.log('Project fetch err', error);
+        console.log('Project fetch err', error)
       }
-      this.loaded = true;
+      this.loaded = true
     },
     async projectRouteHandler(project, count) {
       if (!this.deleteBtnClicked) {
         await this.$router.push({
-          path: `/nc/${project.id}`,
-        });
+          path: `/nc/${project.id}`
+        })
       }
-      this.$e('a:project:open', { count });
+      this.$e('a:project:open', { count })
     },
     async projectEdit(project) {
       this.$router.push({
-        path: `project/0?edit=true&projectId=${project.id}`,
-      });
-    },
-  },
-};
+        path: `project/0?edit=true&projectId=${project.id}`
+      })
+    }
+  }
+}
 </script>
 <style scoped>
 .action-icons {

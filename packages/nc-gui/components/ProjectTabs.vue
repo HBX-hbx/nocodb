@@ -15,26 +15,27 @@
     >
       <v-tabs-slider color="" />
 
-      <v-tab
-        v-for="(tab, index) in tabs"
-        :key="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${
-          tab.name
-        }`"
-        class="divider project-tab xc-border-right"
-        :title="tab.name"
-        :href="`#${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
-        @change="tabActivated(tab)"
-      >
-        <v-icon v-if="treeViewIcons[tab._nodes.type]" icon :small="true">
-          {{ treeViewIcons[tab._nodes.type].openIcon }}
-        </v-icon>
-        <span
-          class="flex-grow-1 caption font-weight-bold text-capitalize mx-2"
-          style="white-space: nowrap; overflow: hidden; max-width: 140px; text-overflow: ellipsis"
-          >{{ tab.name }}</span
-        >
-        <v-icon icon :small="true" @click="removeTab(index)"> mdi-close </v-icon>
-      </v-tab>
+<!--      <v-tab-->
+<!--        v-for="(tab, index) in tabs"-->
+<!--        :key="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${-->
+<!--          tab.name-->
+<!--        }`"-->
+<!--        class="divider project-tab xc-border-right"-->
+<!--        :title="tab.name"-->
+<!--        :href="`#${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"-->
+<!--        @change="tabActivated(tab)"-->
+<!--      >-->
+<!--        <v-icon v-if="treeViewIcons[tab._nodes.type]" icon :small="true">-->
+<!--          {{ treeViewIcons[tab._nodes.type].openIcon }}-->
+<!--        </v-icon>-->
+<!--        <span-->
+<!--          class="flex-grow-1 caption font-weight-bold text-capitalize mx-2"-->
+<!--          style="white-space: nowrap; overflow: hidden; max-width: 140px; text-overflow: ellipsis"-->
+<!--        >{{ tab.name }}</span>-->
+<!--        <v-icon icon :small="true" @click="removeTab(index)">-->
+<!--          mdi-close-->
+<!--        </v-icon>-->
+<!--      </v-tab>-->
 
       <v-tabs-items :value="activeTab">
         <v-tab-item
@@ -53,7 +54,7 @@
               :ref="'tabs' + index"
               :is-active="
                 activeTab ===
-                `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
+                  `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
               "
               :tab-id="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${
                 (tab._nodes && tab._nodes.dbAlias) || ''
@@ -67,7 +68,7 @@
               :ref="'tabs' + index"
               :is-active="
                 activeTab ===
-                `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
+                  `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
               "
               :tab-id="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${
                 (tab._nodes && tab._nodes.dbAlias) || ''
@@ -177,105 +178,121 @@
       </v-tabs-items>
 
       <!-- Add / Import -->
-      <v-menu v-if="_isUIAllowed('addOrImport')" offset-y>
-        <template #activator="{ on }">
-          <v-btn color="primary" style="height: 100%; padding: 5px" v-on="on">
-            <x-icon icon-class="add-btn" :color="['white', 'grey lighten-2']"> mdi-plus-box </x-icon>
-            <span class="flex-grow-1 caption font-weight-bold text-capitalize mx-2">
-              <!-- TODO: i18n -->
-              Add / Import
-            </span>
-            <v-spacer />
-          </v-btn>
-        </template>
-        <v-list class="addOrImport">
-          <v-list-item
-            v-if="_isUIAllowed('addTable')"
-            v-t="['a:table:import-from-excel']"
-            @click="dialogCreateTableShowMethod"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-table </v-icon>
-              <span class="caption">
-                <!-- Add new table -->
-                {{ $t('tooltip.addTable') }}
-              </span>
-            </v-list-item-title>
-          </v-list-item>
-          <v-divider class="my-1" />
-          <v-subheader class="caption" style="height: 35px"> QUICK IMPORT FROM </v-subheader>
+<!--      <v-menu v-if="_isUIAllowed('addOrImport')" offset-y>-->
+<!--        <template #activator="{ on }">-->
+<!--          <v-btn color="primary" style="height: 100%; padding: 5px" v-on="on">-->
+<!--            <x-icon icon-class="add-btn" :color="['white', 'grey lighten-2']">-->
+<!--              mdi-plus-box-->
+<!--            </x-icon>-->
+<!--            <span class="flex-grow-1 caption font-weight-bold text-capitalize mx-2">-->
+<!--              &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--              Add / Import-->
+<!--            </span>-->
+<!--            <v-spacer />-->
+<!--          </v-btn>-->
+<!--        </template>-->
+<!--        <v-list class="addOrImport">-->
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('addTable')"-->
+<!--            v-t="['a:table:import-from-excel']"-->
+<!--            @click="dialogCreateTableShowMethod"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-table-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; Add new table &ndash;&gt;-->
+<!--                {{ $t('tooltip.addTable') }}-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-divider class="my-1" />-->
+<!--          <v-subheader class="caption" style="height: 35px">-->
+<!--            QUICK IMPORT FROM-->
+<!--          </v-subheader>-->
 
-          <v-list-item
-            v-if="_isUIAllowed('airtableImport')"
-            v-t="['a:actions:import-airtable']"
-            @click="airtableImportModal = true"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-table-large </v-icon>
-              <span class="caption">
-                <!-- TODO: i18n -->
-                Airtable
-              </span>
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-if="_isUIAllowed('csvQuickImport')"
-            v-t="['a:actions:import-csv']"
-            @click="onImportFromExcelOrCSV('csv')"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-file-document-outline </v-icon>
-              <span class="caption">
-                <!-- TODO: i18n -->
-                CSV file
-              </span>
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-if="_isUIAllowed('jsonImport')"
-            v-t="['a:actions:import-json']"
-            @click="jsonImportModal = true"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-code-json </v-icon>
-              <span class="caption">
-                <!-- TODO: i18n -->
-                JSON file
-              </span>
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            v-if="_isUIAllowed('excelQuickImport')"
-            v-t="['a:actions:import-excel']"
-            @click="onImportFromExcelOrCSV('excel')"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-file-excel </v-icon>
-              <span class="caption">
-                <!-- TODO: i18n -->
-                Microsoft Excel
-              </span>
-            </v-list-item-title>
-          </v-list-item>
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('airtableImport')"-->
+<!--            v-t="['a:actions:import-airtable']"-->
+<!--            @click="airtableImportModal = true"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-table-large-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--                Airtable-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('csvQuickImport')"-->
+<!--            v-t="['a:actions:import-csv']"-->
+<!--            @click="onImportFromExcelOrCSV('csv')"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-file-document-outline-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--                CSV file-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('jsonImport')"-->
+<!--            v-t="['a:actions:import-json']"-->
+<!--            @click="jsonImportModal = true"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-code-json-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--                JSON file-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('excelQuickImport')"-->
+<!--            v-t="['a:actions:import-excel']"-->
+<!--            @click="onImportFromExcelOrCSV('excel')"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-file-excel-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--                Microsoft Excel-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
 
-          <v-divider class="my-1" />
+<!--          <v-divider class="my-1" />-->
 
-          <v-list-item
-            v-if="_isUIAllowed('importRequest')"
-            v-t="['e:datasource:import-request']"
-            href="https://github.com/nocodb/nocodb/issues/2052"
-            target="_blank"
-          >
-            <v-list-item-title>
-              <v-icon small> mdi-open-in-new </v-icon>
-              <span class="caption">
-                <!-- TODO: i18n -->
-                Request a data source you need ?
-              </span>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+<!--          <v-list-item-->
+<!--            v-if="_isUIAllowed('importRequest')"-->
+<!--            v-t="['e:datasource:import-request']"-->
+<!--            href="https://github.com/nocodb/nocodb/issues/2052"-->
+<!--            target="_blank"-->
+<!--          >-->
+<!--            <v-list-item-title>-->
+<!--              <v-icon small>-->
+<!--                mdi-open-in-new-->
+<!--              </v-icon>-->
+<!--              <span class="caption">-->
+<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+<!--                Request a data source you need ?-->
+<!--              </span>-->
+<!--            </v-list-item-title>-->
+<!--          </v-list-item>-->
+<!--        </v-list>-->
+<!--      </v-menu>-->
     </v-tabs>
     <!-- Create Empty Table -->
     <dlg-table-create
@@ -303,36 +320,36 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import treeViewIcons from '../helpers/treeViewIcons';
-import TableView from './project/Table';
-import FunctionTab from './project/Function';
-import ProcedureTab from './project/Procedure';
-import SequenceTab from './project/Sequence';
-import SeedTab from './project/Seed';
-import SqlClientTab from './project/SqlClient';
-import ApisTab from './project/Apis';
-import ApiClientTab from './project/ApiClientOld';
-import sqlLogAndOutput from './project/SqlLogAndOutput';
-import graphqlClient from './project/GraphqlClient';
-import xTerm from './XTerm';
+import { mapGetters, mapMutations } from 'vuex'
+import treeViewIcons from '../helpers/treeViewIcons'
+import TableView from './project/Table'
+import FunctionTab from './project/Function'
+import ProcedureTab from './project/Procedure'
+import SequenceTab from './project/Sequence'
+import SeedTab from './project/Seed'
+import SqlClientTab from './project/SqlClient'
+import ApisTab from './project/Apis'
+import ApiClientTab from './project/ApiClientOld'
+import sqlLogAndOutput from './project/SqlLogAndOutput'
+import graphqlClient from './project/GraphqlClient'
+import xTerm from './XTerm'
 
-import ApiClientSwaggerTab from './project/ApiClientSwagger';
-import XcMeta from './project/settings/XcMeta';
-import XcInfo from './project/XcInfo';
-import SwaggerClient from '~/components/project/SwaggerClient';
-import DlgTableCreate from '~/components/utils/DlgTableCreate';
-import AppStore from '~/components/project/AppStore';
-import AuthTab from '~/components/AuthTab';
-import CronJobs from '~/components/project/CronJobs';
-import DisableOrEnableModels from '~/components/project/projectMetadata/DisableOrEnableModels';
-import ProjectSettings from '~/components/project/ProjectSettings';
-import GrpcClient from '~/components/project/GrpcClient';
-import GlobalAcl from '~/components/GlobalAcl';
-import AuditTab from '~/components/project/AuditTab';
-import QuickImport from '~/components/import/QuickImport';
-import ImportFromAirtable from '~/components/import/ImportFromAirtable';
-import JsonImport from '~/components/import/JSONImport';
+import ApiClientSwaggerTab from './project/ApiClientSwagger'
+import XcMeta from './project/settings/XcMeta'
+import XcInfo from './project/XcInfo'
+import SwaggerClient from '~/components/project/SwaggerClient'
+import DlgTableCreate from '~/components/utils/DlgTableCreate'
+import AppStore from '~/components/project/AppStore'
+import AuthTab from '~/components/AuthTab'
+import CronJobs from '~/components/project/CronJobs'
+import DisableOrEnableModels from '~/components/project/projectMetadata/DisableOrEnableModels'
+import ProjectSettings from '~/components/project/ProjectSettings'
+import GrpcClient from '~/components/project/GrpcClient'
+import GlobalAcl from '~/components/GlobalAcl'
+import AuditTab from '~/components/project/AuditTab'
+import QuickImport from '~/components/import/QuickImport'
+import ImportFromAirtable from '~/components/import/ImportFromAirtable'
+import JsonImport from '~/components/import/JSONImport'
 
 export default {
   components: {
@@ -365,7 +382,7 @@ export default {
     sqlLogAndOutput,
     xTerm,
     graphqlClient,
-    QuickImport,
+    QuickImport
   },
   data() {
     return {
@@ -378,145 +395,145 @@ export default {
       quickImportModal: false,
       quickImportType: '',
       airtableImportModal: false,
-      jsonImportModal: false,
-    };
+      jsonImportModal: false
+    }
   },
   methods: {
     dialogCreateTableShowMethod() {
-      this.dialogCreateTableShow = true;
-      this.$e('c:table:create:navbar');
+      this.dialogCreateTableShow = true
+      this.$e('c:table:create:navbar')
     },
     checkInactiveState() {
-      let position = 0;
-      let idleTime = 0;
+      let position = 0
+      let idleTime = 0
       // Increment the idle time counter every minute.
-      let idleInterval = setInterval(timerIncrement, 1000);
+      let idleInterval = setInterval(timerIncrement, 1000)
 
-      const self = this;
+      const self = this
       // Zero the idle timer on mouse movement.
-      document.addEventListener('mousemove', e => {
-        self.showScreensaver = false;
-        idleTime = 0;
-        clearInterval(idleInterval);
-        idleInterval = setInterval(timerIncrement, 1000);
-      });
-      document.addEventListener('keypress', e => {
-        self.showScreensaver = false;
-        idleTime = 0;
-        clearInterval(idleInterval);
-        idleInterval = setInterval(timerIncrement, 1000);
-      });
+      document.addEventListener('mousemove', (e) => {
+        self.showScreensaver = false
+        idleTime = 0
+        clearInterval(idleInterval)
+        idleInterval = setInterval(timerIncrement, 1000)
+      })
+      document.addEventListener('keypress', (e) => {
+        self.showScreensaver = false
+        idleTime = 0
+        clearInterval(idleInterval)
+        idleInterval = setInterval(timerIncrement, 1000)
+      })
 
       function timerIncrement() {
-        idleTime = idleTime + 1;
+        idleTime = idleTime + 1
         if (idleTime > 120) {
-          const title = document.title;
+          const title = document.title
 
           function scrolltitle() {
-            document.title = title + Array(position).fill(' .').join('');
-            position = ++position % 3;
+            document.title = title + Array(position).fill(' .').join('')
+            position = ++position % 3
             if (self.showScreensaver) {
-              window.setTimeout(scrolltitle, 400);
+              window.setTimeout(scrolltitle, 400)
             } else {
-              document.title = title;
+              document.title = title
             }
           }
 
-          self.showScreensaver = self.$store.state.settings.screensaver;
-          scrolltitle();
-          clearInterval(idleInterval);
+          self.showScreensaver = self.$store.state.settings.screensaver
+          scrolltitle()
+          clearInterval(idleInterval)
         }
       }
     },
     async handleKeyDown(event) {
-      const activeTabEleKey = `tabs${this.activeTab}`;
-      let isHandled = false;
+      const activeTabEleKey = `tabs${this.activeTab}`
+      let isHandled = false
 
       if (
         this.$refs[activeTabEleKey] &&
         this.$refs[activeTabEleKey][0] &&
         this.$refs[activeTabEleKey][0].handleKeyDown
       ) {
-        isHandled = await this.$refs[activeTabEleKey][0].handleKeyDown(event);
+        isHandled = await this.$refs[activeTabEleKey][0].handleKeyDown(event)
       }
       if (!isHandled) {
         switch ([this._isMac ? event.metaKey : event.ctrlKey, event.key].join('_')) {
           case 'true_w':
-            this.removeTab(this.activeTab);
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            this.removeTab(this.activeTab)
+            event.preventDefault()
+            event.stopPropagation()
+            break
         }
       }
     },
     ...mapMutations({
       setActiveTab: 'tabs/active',
       removeTab: 'tabs/remove',
-      updateActiveTabx: 'tabs/activeTabCtx',
+      updateActiveTabx: 'tabs/activeTabCtx'
     }),
     tabActivated(tab) {},
     onImportFromExcelOrCSV(quickImportType) {
-      this.quickImportModal = true;
-      this.quickImportType = quickImportType;
+      this.quickImportModal = true
+      this.quickImportType = quickImportType
     },
     onAirtableImport() {
-      this.airtableImportModal = true;
-    },
+      this.airtableImportModal = true
+    }
   },
   computed: {
     ...mapGetters({ tabs: 'tabs/list', activeTabCtx: 'tabs/activeTabCtx' }),
     pid() {
-      return this.$route.params.project_id;
+      return this.$route.params.project_id
     },
     activeTab: {
       set(tab) {
         if (!tab) {
           return this.$router.push({
-            query: {},
-          });
+            query: {}
+          })
         }
-        const [type, dbalias, name] = tab.split('||');
+        const [type, dbalias, name] = tab.split('||')
         this.$router.push({
           query: {
             ...this.$route.query,
             type,
             dbalias,
-            name,
-          },
-        });
+            name
+          }
+        })
       },
       get() {
-        return [this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||');
-      },
-    },
+        return [this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||')
+      }
+    }
   },
 
   beforeCreated() {},
   watch: {},
   created() {
-    document.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keydown', this.handleKeyDown)
     /**
      * Listening for tab change so that we can hide/show projectlogs based on tab
      */
   },
   mounted() {
     if (this.$route && this.$route.query && this.$route.query.excelUrl) {
-      this.quickImportModal = true;
+      this.quickImportModal = true
     }
   },
   beforeDestroy() {},
   destroyed() {
-    document.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keydown', this.handleKeyDown)
   },
   directives: {},
   validate({ params }) {
-    return true;
+    return true
   },
   head() {
-    return {};
+    return {}
   },
-  props: {},
-};
+  props: {}
+}
 </script>
 
 <style scoped>

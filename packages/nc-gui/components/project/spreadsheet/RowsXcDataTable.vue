@@ -10,9 +10,13 @@
         <v-menu bottom offset-y>
           <template #activator="{ on }">
             <div style="min-width: 56px" v-on="on">
-              <v-icon class="ml-2" small color="grey"> mdi-magnify </v-icon>
+              <v-icon class="ml-2" small color="grey">
+                mdi-magnify
+              </v-icon>
 
-              <v-icon color="grey" class="pl-0 pa-1" small> mdi-menu-down </v-icon>
+              <v-icon color="grey" class="pl-0 pa-1" small>
+                mdi-menu-down
+              </v-icon>
             </div>
           </template>
           <v-list dense>
@@ -42,10 +46,11 @@
         />
       </div>
 
-      <span v-if="relationType && false" class="caption grey--text"
-        >{{ refTable }}({{ relationPrimaryValue }}) -> {{ relationType === 'hm' ? ' Has Many ' : ' Belongs To ' }} ->
-        {{ table }}</span
-      >
+      <span
+        v-if="relationType && false"
+        class="caption grey--text"
+      >{{ refTable }}({{ relationPrimaryValue }}) -> {{ relationType === 'hm' ? ' Has Many ' : ' Belongs To ' }} ->
+        {{ table }}</span>
       <div class="d-inline-flex">
         <div>
           <fields
@@ -112,122 +117,130 @@
         "
       />
 
-      <template v-if="!isForm">
-        <!-- Export Cache -->
-        <v-tooltip v-if="debug" bottom>
-          <template #activator="{ on }">
-            <v-icon class="mr-3" small v-on="on" @click="exportCache"> mdi-export </v-icon>
-          </template>
-          <span class="caption"> Export Cache </span>
-        </v-tooltip>
-        <!-- Delete Cache -->
-        <v-tooltip v-if="debug" bottom>
-          <template #activator="{ on }">
-            <v-icon class="mr-3" small v-on="on" @click="deleteCache"> mdi-delete </v-icon>
-          </template>
-          <span class="caption"> Delete Cache </span>
-        </v-tooltip>
-        <debug-metas v-if="debug" class="mr-3" />
-        <v-tooltip bottom>
-          <template #activator="{ on }">
-            <v-icon v-if="!isPkAvail && !isForm" color="warning" small class="mr-3" v-on="on">
-              mdi-information-outline
-            </v-icon>
-          </template>
-          <span class="caption"> Update & Delete not allowed since the table doesn't have any primary key </span>
-        </v-tooltip>
-        <lock-menu v-if="_isUIAllowed('view-type')" v-model="lockType" />
+<!--      <template v-if="!isForm">-->
+<!--        &lt;!&ndash; Export Cache &ndash;&gt;-->
+<!--        <v-tooltip v-if="debug" bottom>-->
+<!--          <template #activator="{ on }">-->
+<!--            <v-icon class="mr-3" small v-on="on" @click="exportCache">-->
+<!--              mdi-export-->
+<!--            </v-icon>-->
+<!--          </template>-->
+<!--          <span class="caption"> Export Cache </span>-->
+<!--        </v-tooltip>-->
+<!--        &lt;!&ndash; Delete Cache &ndash;&gt;-->
+<!--        <v-tooltip v-if="debug" bottom>-->
+<!--          <template #activator="{ on }">-->
+<!--            <v-icon class="mr-3" small v-on="on" @click="deleteCache">-->
+<!--              mdi-delete-->
+<!--            </v-icon>-->
+<!--          </template>-->
+<!--          <span class="caption"> Delete Cache </span>-->
+<!--        </v-tooltip>-->
+<!--        <debug-metas v-if="debug" class="mr-3" />-->
+<!--        <v-tooltip bottom>-->
+<!--          <template #activator="{ on }">-->
+<!--            <v-icon v-if="!isPkAvail && !isForm" color="warning" small class="mr-3" v-on="on">-->
+<!--              mdi-information-outline-->
+<!--            </v-icon>-->
+<!--          </template>-->
+<!--          <span class="caption"> Update & Delete not allowed since the table doesn't have any primary key </span>-->
+<!--        </v-tooltip>-->
+<!--        <lock-menu v-if="_isUIAllowed('view-type')" v-model="lockType" />-->
 
-        <!--        <x-btn
-          tooltip="Reload view data"
-          outlined
-          small
-          text
-          btn.class="nc-table-reload-btn px-0"
-          @click="reload"
-        >-->
-        <v-icon small class="mx-n1" color="grey lighten-1"> mdi-circle-small </v-icon>
-        <!-- tooltip="Reload view data" -->
-        <x-icon :tooltip="$t('general.reload')" icon.class="nc-table-reload-btn mx-1" small @click="reloadClick">
-          mdi-reload
-        </x-icon>
-        <v-icon v-if="isEditable && relationType !== 'bt'" small class="mx-n1" color="grey lighten-1">
-          mdi-circle-small
-        </v-icon>
-        <!--        </x-btn>-->
-        <!--        <x-btn-->
-        <!--          v-if="isEditable && relationType !== 'bt'"-->
-        <!--          tooltip="Add new row"-->
-        <!--          :disabled="isLocked"-->
-        <!--          outlined-->
-        <!--          small-->
-        <!--          text-->
-        <!--          btn.class="nc-add-new-row-btn"-->
-        <!--          @click="insertNewRow(true,true)"-->
-        <!--        >-->
+<!--        &lt;!&ndash;        <x-btn-->
+<!--          tooltip="Reload view data"-->
+<!--          outlined-->
+<!--          small-->
+<!--          text-->
+<!--          btn.class="nc-table-reload-btn px-0"-->
+<!--          @click="reload"-->
+<!--        >&ndash;&gt;-->
+<!--        <v-icon small class="mx-n1" color="grey lighten-1">-->
+<!--          mdi-circle-small-->
+<!--        </v-icon>-->
+<!--        &lt;!&ndash; tooltip="Reload view data" &ndash;&gt;-->
+<!--        <x-icon :tooltip="$t('general.reload')" icon.class="nc-table-reload-btn mx-1" small @click="reloadClick">-->
+<!--          mdi-reload-->
+<!--        </x-icon>-->
+<!--        <v-icon v-if="isEditable && relationType !== 'bt'" small class="mx-n1" color="grey lighten-1">-->
+<!--          mdi-circle-small-->
+<!--        </v-icon>-->
+<!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <x-btn&ndash;&gt;-->
+<!--        &lt;!&ndash;          v-if="isEditable && relationType !== 'bt'"&ndash;&gt;-->
+<!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
+<!--        &lt;!&ndash;          :disabled="isLocked"&ndash;&gt;-->
+<!--        &lt;!&ndash;          outlined&ndash;&gt;-->
+<!--        &lt;!&ndash;          small&ndash;&gt;-->
+<!--        &lt;!&ndash;          text&ndash;&gt;-->
+<!--        &lt;!&ndash;          btn.class="nc-add-new-row-btn"&ndash;&gt;-->
+<!--        &lt;!&ndash;          @click="insertNewRow(true,true)"&ndash;&gt;-->
+<!--        &lt;!&ndash;        >&ndash;&gt;-->
 
-        <!--          tooltip="Add new row"-->
-        <x-icon
-          v-if="!isView && isEditable && relationType !== 'bt'"
-          icon.class="nc-add-new-row-btn mx-1"
-          :tooltip="$t('activity.addRow')"
-          :disabled="isLocked"
-          small
-          :color="['success', '']"
-          @click="clickAddNewIcon"
-        >
-          mdi-plus-outline
-        </x-icon>
-        <!--        </x-btn>-->
-        <!--        <x-btn
-          small
-          text
-          btn.class="nc-save-new-row-btn"
-          outlined
-          tooltip="Save new rows"
-          :disabled="!edited || isLocked"
-          @click="save"
-        >
-          <v-icon small class="mr-1" color="grey  darken-3">
-            save
-          </v-icon>
-          Save
-        </x-btn>-->
-        <!--        <v-tooltip-->
-        <!--          bottom-->
-        <!--        >-->
-        <!--          <template #activator="{on}">-->
-        <!--            <v-btn
-              v-show="_isUIAllowed('table-delete')"
-              class="nc-table-delete-btn"
-              :disabled="isLocked"
-              small
-              outlined
-              text
-              v-on="on"
-              @click="checkAndDeleteTable"
-            >-->
-        <v-icon v-if="_isUIAllowed('table-delete')" small class="mx-n1" color="grey lighten-1">
-          mdi-circle-small
-        </v-icon>
-        <x-icon
-          v-if="_isUIAllowed('table-delete')"
-          icon.class="nc-table-delete-btn mx-1 mr-1"
-          :disabled="isLocked"
-          small
-          :color="['red', '']"
-          :tooltip="$t('activity.deleteTable')"
-          @click="checkAndDeleteTable"
-        >
-          mdi-delete-outline
-        </x-icon>
+<!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
+<!--        <x-icon-->
+<!--          v-if="!isView && isEditable && relationType !== 'bt'"-->
+<!--          icon.class="nc-add-new-row-btn mx-1"-->
+<!--          :tooltip="$t('activity.addRow')"-->
+<!--          :disabled="isLocked"-->
+<!--          small-->
+<!--          :color="['success', '']"-->
+<!--          @click="clickAddNewIcon"-->
+<!--        >-->
+<!--          mdi-plus-outline-->
+<!--        </x-icon>-->
+<!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <x-btn-->
+<!--          small-->
+<!--          text-->
+<!--          btn.class="nc-save-new-row-btn"-->
+<!--          outlined-->
+<!--          tooltip="Save new rows"-->
+<!--          :disabled="!edited || isLocked"-->
+<!--          @click="save"-->
+<!--        >-->
+<!--          <v-icon small class="mr-1" color="grey  darken-3">-->
+<!--            save-->
+<!--          </v-icon>-->
+<!--          Save-->
+<!--        </x-btn>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <v-tooltip&ndash;&gt;-->
+<!--        &lt;!&ndash;          bottom&ndash;&gt;-->
+<!--        &lt;!&ndash;        >&ndash;&gt;-->
+<!--        &lt;!&ndash;          <template #activator="{on}">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <v-btn-->
+<!--              v-show="_isUIAllowed('table-delete')"-->
+<!--              class="nc-table-delete-btn"-->
+<!--              :disabled="isLocked"-->
+<!--              small-->
+<!--              outlined-->
+<!--              text-->
+<!--              v-on="on"-->
+<!--              @click="checkAndDeleteTable"-->
+<!--            >&ndash;&gt;-->
+<!--        <v-icon v-if="_isUIAllowed('table-delete')" small class="mx-n1" color="grey lighten-1">-->
+<!--          mdi-circle-small-->
+<!--        </v-icon>-->
+<!--        <x-icon-->
+<!--          v-if="_isUIAllowed('table-delete')"-->
+<!--          icon.class="nc-table-delete-btn mx-1 mr-1"-->
+<!--          :disabled="isLocked"-->
+<!--          small-->
+<!--          :color="['red', '']"-->
+<!--          :tooltip="$t('activity.deleteTable')"-->
+<!--          @click="checkAndDeleteTable"-->
+<!--        >-->
+<!--          mdi-delete-outline-->
+<!--        </x-icon>-->
 
-        <v-icon small class="ml-n2" color="grey lighten-1"> mdi-circle-small </v-icon>
-        <!--            </v-btn>-->
-        <!--          </template>-->
-        <!--          <span class="">Delete table</span>-->
-        <!--        </v-tooltip>-->
-      </template>
+<!--        <v-icon small class="ml-n2" color="grey lighten-1">-->
+<!--          mdi-circle-small-->
+<!--        </v-icon>-->
+<!--        &lt;!&ndash;            </v-btn>&ndash;&gt;-->
+<!--        &lt;!&ndash;          </template>&ndash;&gt;-->
+<!--        &lt;!&ndash;          <span class="">Delete table</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </v-tooltip>&ndash;&gt;-->
+<!--      </template>-->
 
       <!-- Cell height -->
       <!--      <v-menu>
@@ -263,7 +276,7 @@
         text
         :btn-class="{ 'primary lighten-5 nc-toggle-nav-drawer': !toggleDrawer }"
         @click="
-          toggleDrawer = !toggleDrawer;
+          // toggleDrawer = !toggleDrawer;
           toggleClick();
         "
       >
@@ -475,21 +488,29 @@
           Create / Edit API Webhooks
         </v-tooltip>-->
         <v-list-item v-if="showAdvanceOptions" @click="showAdditionalFeatOverlay('validators')">
-          <v-icon x-small class="mr-2"> mdi-sticker-check-outline </v-icon>
+          <v-icon x-small class="mr-2">
+            mdi-sticker-check-outline
+          </v-icon>
           <span class="caption"> API Validators</span>
         </v-list-item>
         <v-divider v-if="showAdvanceOptions" class="advance-menu-divider" />
 
         <v-list-item v-if="showAdvanceOptions" @click="showAdditionalFeatOverlay('columns')">
-          <v-icon x-small class="mr-2"> mdi-view-column </v-icon>
+          <v-icon x-small class="mr-2">
+            mdi-view-column
+          </v-icon>
           <span class="caption font-weight-light">SQL Columns</span>
         </v-list-item>
         <v-list-item v-if="showAdvanceOptions" @click="showAdditionalFeatOverlay('indexes')">
-          <v-icon x-small class="mr-2"> mdi-blur </v-icon>
+          <v-icon x-small class="mr-2">
+            mdi-blur
+          </v-icon>
           <span class="caption font-weight-light">SQL Indexes</span>
         </v-list-item>
         <v-list-item v-if="showAdvanceOptions" @click="showAdditionalFeatOverlay('triggers')">
-          <v-icon x-small class="mr-2"> mdi-shield-edit-outline </v-icon>
+          <v-icon x-small class="mr-2">
+            mdi-shield-edit-outline
+          </v-icon>
           <span class="caption font-weight-light">SQL Triggers</span>
         </v-list-item>
       </spreadsheet-nav-drawer>
@@ -528,11 +549,11 @@
         <template
           v-if="
             isEditable &&
-            !isLocked &&
-            rowContextMenu.col &&
-            !rowContextMenu.col.rqd &&
-            !rowContextMenu.col.virtual &&
-            rowContextMenu.col.uidt !== 'Formula'
+              !isLocked &&
+              rowContextMenu.col &&
+              !rowContextMenu.col.rqd &&
+              !rowContextMenu.col.virtual &&
+              rowContextMenu.col.uidt !== 'Formula'
           "
         >
           <v-tooltip bottom>
@@ -637,29 +658,29 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import debounce from 'debounce';
-import { SqlUiFactory, ViewTypes, UITypes } from 'nocodb-sdk';
-import FileSaver from 'file-saver';
-import FormView from './views/FormView';
-import XcGridView from './views/GridView';
-import spreadsheet from './mixins/spreadsheet';
-import DebugMetas from '~/components/project/spreadsheet/components/DebugMetas';
+import { mapActions } from 'vuex'
+import debounce from 'debounce'
+import { SqlUiFactory, ViewTypes, UITypes } from 'nocodb-sdk'
+import FileSaver from 'file-saver'
+import FormView from './views/FormView'
+import XcGridView from './views/GridView'
+import spreadsheet from './mixins/spreadsheet'
+import DebugMetas from '~/components/project/spreadsheet/components/DebugMetas'
 
-import AdditionalFeatures from '~/components/project/spreadsheet/overlay/AdditinalFeatures';
-import GalleryView from '~/components/project/spreadsheet/views/GalleryView';
-import CalendarView from '~/components/project/spreadsheet/views/CalendarView';
-import KanbanView from '~/components/project/spreadsheet/views/KanbanView';
-import SortList from '~/components/project/spreadsheet/components/SortListMenu';
-import Fields from '~/components/project/spreadsheet/components/FieldsMenu';
-import SpreadsheetNavDrawer from '~/components/project/spreadsheet/components/SpreadsheetNavDrawer';
-import LockMenu from '~/components/project/spreadsheet/components/LockMenu';
-import ExpandedForm from '~/components/project/spreadsheet/components/ExpandedForm';
-import Pagination from '~/components/project/spreadsheet/components/Pagination';
-import ColumnFilter from '~/components/project/spreadsheet/components/ColumnFilterMenu';
-import MoreActions from '~/components/project/spreadsheet/components/MoreActions';
-import ShareViewMenu from '~/components/project/spreadsheet/components/ShareViewMenu';
-import getPlainText from '~/components/project/spreadsheet/helpers/getPlainText';
+import AdditionalFeatures from '~/components/project/spreadsheet/overlay/AdditinalFeatures'
+import GalleryView from '~/components/project/spreadsheet/views/GalleryView'
+import CalendarView from '~/components/project/spreadsheet/views/CalendarView'
+import KanbanView from '~/components/project/spreadsheet/views/KanbanView'
+import SortList from '~/components/project/spreadsheet/components/SortListMenu'
+import Fields from '~/components/project/spreadsheet/components/FieldsMenu'
+import SpreadsheetNavDrawer from '~/components/project/spreadsheet/components/SpreadsheetNavDrawer'
+import LockMenu from '~/components/project/spreadsheet/components/LockMenu'
+import ExpandedForm from '~/components/project/spreadsheet/components/ExpandedForm'
+import Pagination from '~/components/project/spreadsheet/components/Pagination'
+import ColumnFilter from '~/components/project/spreadsheet/components/ColumnFilterMenu'
+import MoreActions from '~/components/project/spreadsheet/components/MoreActions'
+import ShareViewMenu from '~/components/project/spreadsheet/components/ShareViewMenu'
+import getPlainText from '~/components/project/spreadsheet/helpers/getPlainText'
 
 export default {
   name: 'RowsXcDataTable',
@@ -679,7 +700,7 @@ export default {
     CalendarView,
     GalleryView,
     ColumnFilter,
-    AdditionalFeatures,
+    AdditionalFeatures
   },
   mixins: [spreadsheet],
   props: {
@@ -694,14 +715,14 @@ export default {
     refTable: String,
     relationPrimaryValue: [String, Number],
     deleteTable: Function,
-    showTabs: [Boolean, Number],
+    showTabs: [Boolean, Number]
   },
   data: () => ({
-    syncDataDebounce: debounce(async function (self) {
-      await self.syncData();
+    syncDataDebounce: debounce(async function(self) {
+      await self.syncData()
     }, 500),
-    loadTableDataDeb: debounce(async function (self, ignoreLoader) {
-      await self.loadTableDataFn(ignoreLoader);
+    loadTableDataDeb: debounce(async function(self, ignoreLoader) {
+      await self.loadTableDataFn(ignoreLoader)
     }, 200),
     viewKey: 0,
     extraViewParams: {},
@@ -711,7 +732,7 @@ export default {
     searchQueryVal: '',
     columnsWidth: null,
     viewStatus: {
-      type: null,
+      type: null
     },
     fieldsOrder: [],
     coverImageField: null,
@@ -731,7 +752,7 @@ export default {
     shareLink: null,
     loadingMeta: true,
     loadingData: true,
-    toggleDrawer: false,
+    toggleDrawer: true,
     selectedViewId: '',
     searchField: null,
     searchQuery: '',
@@ -741,11 +762,11 @@ export default {
     navDrawer: true,
     selected: {
       row: null,
-      col: null,
+      col: null
     },
     editEnabled: {
       row: null,
-      col: null,
+      col: null
     },
     page: 1,
     count: 0,
@@ -758,27 +779,27 @@ export default {
     spreadsheet: null,
     options: {
       allowToolbar: true,
-      columnSorting: false,
+      columnSorting: false
     },
     filteredData: [],
 
     cellHeights: [
       {
         size: 'small',
-        icon: 'mdi-view-headline',
+        icon: 'mdi-view-headline'
       },
       {
         size: 'medium',
-        icon: 'mdi-view-sequential',
+        icon: 'mdi-view-sequential'
       },
       {
         size: 'large',
-        icon: 'mdi-view-stream',
+        icon: 'mdi-view-stream'
       },
       {
         size: 'xlarge',
-        icon: 'mdi-ca rd',
-      },
+        icon: 'mdi-ca rd'
+      }
     ],
     rowContextMenu: null,
     presetValues: {},
@@ -792,28 +813,28 @@ export default {
       loadingData: true,
       selectedExpandRow: null,
       selectedExpandOldRow: null,
-      selectedExpandRowMeta: null,
+      selectedExpandRowMeta: null
     },
-    clickCount: 0,
+    clickCount: 0
   }),
   watch: {
     isActive(n, o) {
       if (!o && n) {
-        this.reload(true);
+        this.reload(true)
       }
     },
     page(p) {
       this.$store.commit('tabs/MutSetTabState', {
         id: this.uniqueId,
         key: 'page',
-        val: p,
-      });
+        val: p
+      })
     },
     selectedViewId(id) {
       if (this.tabsState[this.tabId] && this.tabsState[this.tabId].page) {
-        this.page = this.tabsState[this.tabId].page || 1;
+        this.page = this.tabsState[this.tabId].page || 1
       } else {
-        this.page = 1;
+        this.page = 1
       }
       // this.$store.commit('tabs/MutSetTabState', {
       //   id: this.tabId,
@@ -822,48 +843,48 @@ export default {
       // })
     },
     async groupingField(newVal) {
-      this.groupingField = newVal;
+      this.groupingField = newVal
       if (this.selectedView && this.selectedView.show_as === 'kanban') {
-        await this.loadKanbanData();
+        await this.loadKanbanData()
       }
-    },
+    }
   },
   async mounted() {
     try {
       if (this.tabsState && this.tabsState[this.uniqueId]) {
         if (this.tabsState[this.uniqueId].page) {
-          this.page = this.tabsState[this.uniqueId].page;
+          this.page = this.tabsState[this.uniqueId].page
         }
       }
-      await this.createTableIfNewTable();
-      this.loadingMeta = true;
-      await this.loadMeta(false);
-      this.loadingMeta = false;
+      await this.createTableIfNewTable()
+      this.loadingMeta = true
+      await this.loadMeta(false)
+      this.loadingMeta = false
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-    this.searchField = this.primaryValueColumn;
+    this.searchField = this.primaryValueColumn
   },
   methods: {
     clickAddNewIcon() {
-      this.insertNewRow(true, true);
-      this.$e('c:row:add:grid-top');
+      this.insertNewRow(true, true)
+      this.$e('c:row:add:grid-top')
     },
     toggleClick() {
-      this.$e('c:grid:toggle-navdraw');
+      this.$e('c:grid:toggle-navdraw')
     },
     ...mapActions({
-      loadTablesFromChildTreeNode: 'project/loadTablesFromChildTreeNode',
+      loadTablesFromChildTreeNode: 'project/loadTablesFromChildTreeNode'
     }),
     generateNewViewKey() {
-      this.viewKey = Math.random();
+      this.viewKey = Math.random()
     },
     loadNext() {
-      this.selectedExpandRowIndex = ++this.selectedExpandRowIndex % this.data.length;
+      this.selectedExpandRowIndex = ++this.selectedExpandRowIndex % this.data.length
     },
     loadPrev() {
       this.selectedExpandRowIndex =
-        --this.selectedExpandRowIndex === -1 ? this.data.length - 1 : this.selectedExpandRowIndex;
+        --this.selectedExpandRowIndex === -1 ? this.data.length - 1 : this.selectedExpandRowIndex
     },
     async checkAndDeleteTable() {
       // if (
@@ -874,119 +895,119 @@ export default {
       // ) {
       //   return this.$toast.info('Please delete relations before deleting table.').goAway(3000)
       // }
-      this.deleteTable('showDialog', this.meta.id);
+      this.deleteTable('showDialog', this.meta.id)
 
       // if (confirm('Do you want to delete the table?')) {
       //   await this.$api.meta.tableDelete(this.meta.id)
       // }
-      this.$e('c:table:delete');
+      this.$e('c:table:delete')
     },
     async reloadClick() {
-      await this.reload();
-      this.$e('a:table:reload:navbar');
+      await this.reload()
+      this.$e('a:table:reload:navbar')
     },
     async reload(ignoreLoader = false) {
       this.$store.dispatch('meta/ActLoadMeta', {
         env: this.nodes.env,
         dbAlias: this.nodes.dbAlias,
         table_name: this.table,
-        force: true,
-      });
+        force: true
+      })
       if (this.selectedView && this.selectedView.show_as === 'kanban') {
-        await this.loadKanbanData();
+        await this.loadKanbanData()
       } else {
-        await this.loadTableData(ignoreLoader);
+        await this.loadTableData(ignoreLoader)
       }
-      this.key = Math.random();
+      this.key = Math.random()
     },
     reloadComments() {
       if (this.$refs.ncgridview) {
-        this.$refs.ncgridview.xcAuditModelCommentsCount();
+        this.$refs.ncgridview.xcAuditModelCommentsCount()
       }
     },
     async syncData() {},
     showAdditionalFeatOverlay(feat) {
-      this.showAddFeatOverlay = true;
-      this.featureType = feat;
+      this.showAddFeatOverlay = true
+      this.featureType = feat
     },
     async createTableIfNewTable() {
       if (this.nodes.newTable && !this.nodes.tableCreated) {
-        const columns = this.sqlUi.getNewTableColumns().filter(col => {
+        const columns = this.sqlUi.getNewTableColumns().filter((col) => {
           if (col.column_name === 'id' && this.nodes.newTable.columns.includes('id_ag')) {
-            Object.assign(col, this.sqlUi.getDataTypeForUiType({ uidt: UITypes.ID }, 'AG'));
+            Object.assign(col, this.sqlUi.getDataTypeForUiType({ uidt: UITypes.ID }, 'AG'))
 
-            col.dtxp = this.sqlUi.getDefaultLengthForDatatype(col.dt);
-            col.dtxs = this.sqlUi.getDefaultScaleForDatatype(col.dt);
+            col.dtxp = this.sqlUi.getDefaultLengthForDatatype(col.dt)
+            col.dtxs = this.sqlUi.getDefaultScaleForDatatype(col.dt)
 
-            return true;
+            return true
           }
-          return this.nodes.newTable.columns.includes(col.column_name);
-        });
+          return this.nodes.newTable.columns.includes(col.column_name)
+        })
         await this.$api.dbTable.create(this.projectId, {
           table_name: this.nodes.table_name,
           title: this.nodes.title,
-          columns,
-        });
+          columns
+        })
 
         await this.loadTablesFromChildTreeNode({
           _nodes: {
-            ...this.nodes,
-          },
-        });
+            ...this.nodes
+          }
+        })
         // eslint-disable-next-line vue/no-mutating-props
-        this.nodes.tableCreated = true;
+        this.nodes.tableCreated = true
       }
 
-      this.loadViews = true;
+      this.loadViews = true
     },
 
     comingSoon() {
-      this.$toast.info('Coming soon!').goAway(3000);
+      this.$toast.info('Coming soon!').goAway(3000)
     },
     changed(col, row) {
-      this.$set(this.data[row].rowMeta, 'changed', this.data[row].rowMeta.changed || {});
+      this.$set(this.data[row].rowMeta, 'changed', this.data[row].rowMeta.changed || {})
       if (this.data[row].rowMeta) {
-        this.$set(this.data[row].rowMeta.changed, this.availableColumns[col].column_name, true);
+        this.$set(this.data[row].rowMeta.changed, this.availableColumns[col].column_name, true)
       }
     },
     async save() {
       for (let row = 0; row < this.rowLength; row++) {
-        const { row: rowObj, rowMeta } = this.data[row];
+        const { row: rowObj, rowMeta } = this.data[row]
         if (rowMeta.new) {
           try {
-            this.$set(this.data[row], 'saving', true);
-            const pks = this.meta.columns.filter(col => {
-              return col.pk;
-            });
+            this.$set(this.data[row], 'saving', true)
+            const pks = this.meta.columns.filter((col) => {
+              return col.pk
+            })
             if (
-              this.meta.columns.every(col => {
-                return !col.ai;
+              this.meta.columns.every((col) => {
+                return !col.ai
               }) &&
               pks.length &&
               pks.every(col => !rowObj[col.title] && !(col.columnDefault || col.default) && !(col.meta && col.meta.ag))
             ) {
-              return this.$toast.info('Primary column is empty please provide some value').goAway(3000);
+              return this.$toast.info('Primary column is empty please provide some value').goAway(3000)
             }
             if (
-              this.meta.columns.some(col => {
+              this.meta.columns.some((col) => {
                 return (
                   !col.ai &&
                   col.rqd &&
                   !(col.meta && col.meta.ag) &&
                   (rowObj[col.title] === undefined || rowObj[col.title] === null) &&
                   !col.cdf
-                );
+                )
               })
             ) {
-              return;
+              return
             }
 
             const insertObj = this.meta.columns.reduce((o, col) => {
               if (!col.ai && (rowObj && rowObj[col.title]) !== null) {
-                o[col.title] = rowObj && rowObj[col.title];
+                o[col.title] = rowObj && rowObj[col.title]
               }
-              return o;
-            }, {});
+              return o
+            }, {})
 
             // const insertedData = await this.api.insert(insertObj)
             const insertedData = await this.$api.dbViewRow.create(
@@ -995,31 +1016,31 @@ export default {
               this.meta.id,
               this.selectedView.id,
               insertObj
-            );
+            )
 
             this.data.splice(row, 1, {
               row: insertedData,
               rowMeta: {},
-              oldRow: { ...insertedData },
-            });
+              oldRow: { ...insertedData }
+            })
 
             /* this.$toast.success(`${insertedData[this.primaryValueColumn] ? `${insertedData[this.primaryValueColumn]}'s r` : 'R'}ow saved successfully.`, {
               position: 'bottom-center'
             }).goAway(3000) */
           } catch (e) {
             // if (e.response && e.response.data && e.response.data.msg) {
-            this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000);
+            this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000)
             // } else {
             //   this.$toast.error(`Failed to
             //
             //   row : ${e.message}`).goAway(3000)
             // }
           } finally {
-            this.$set(this.data[row], 'saving', false);
+            this.$set(this.data[row], 'saving', false)
           }
         }
       }
-      this.syncCount();
+      this.syncCount()
     },
     // // todo: move debounce to cell since this will skip few update api call
     // onCellValueChangeDebounce: debounce(async function(col, row, column, self) {
@@ -1030,18 +1051,18 @@ export default {
     // },
     async onCellValueChange(col, row, column, saved = true) {
       if (!this.data[row]) {
-        return;
+        return
       }
-      const { row: rowObj, rowMeta, oldRow, saving, lastSave } = this.data[row];
+      const { row: rowObj, rowMeta, oldRow, saving, lastSave } = this.data[row]
       if (!lastSave) {
-        this.$set(this.data[row], 'lastSave', rowObj[column.title]);
+        this.$set(this.data[row], 'lastSave', rowObj[column.title])
       }
       if (rowMeta.new) {
         // return if there is no change
         if ((column && oldRow[column.title] === rowObj[column.title]) || saving) {
-          return;
+          return
         }
-        await this.save();
+        await this.save()
       } else {
         try {
           // if (!this.api) {
@@ -1054,20 +1075,20 @@ export default {
             (oldRow[column.title] === rowObj[column.title] &&
               (lastSave || rowObj[column.title]) === rowObj[column.title])
           ) {
-            return;
+            return
           }
           if (saved) {
-            this.$set(this.data[row], 'lastSave', oldRow[column.title]);
+            this.$set(this.data[row], 'lastSave', oldRow[column.title])
           }
           const id = this.meta.columns
             .filter(c => c.pk)
             .map(c => rowObj[c.title])
-            .join('___');
+            .join('___')
 
           if (!id) {
-            return this.$toast.info("Update not allowed for table which doesn't have primary Key").goAway(3000);
+            return this.$toast.info("Update not allowed for table which doesn't have primary Key").goAway(3000)
           }
-          this.$set(this.data[row], 'saving', true);
+          this.$set(this.data[row], 'saving', true)
 
           // eslint-disable-next-line promise/param-names
           const newData = await this.$api.dbViewRow.update(
@@ -1077,12 +1098,12 @@ export default {
             this.selectedView.id,
             id,
             {
-              [column.title]: rowObj[column.title],
+              [column.title]: rowObj[column.title]
             },
             {
-              query: { ignoreWebhook: !saved },
+              query: { ignoreWebhook: !saved }
             }
-          );
+          )
 
           // audit
           this.$api.utils
@@ -1091,30 +1112,30 @@ export default {
               column_name: column.title,
               row_id: id,
               value: getPlainText(rowObj[column.title]),
-              prev_value: getPlainText(oldRow[column.title]),
+              prev_value: getPlainText(oldRow[column.title])
             })
-            .then(() => {});
+            .then(() => {})
 
-          this.$set(this.data[row], 'row', { ...rowObj, ...newData });
+          this.$set(this.data[row], 'row', { ...rowObj, ...newData })
 
-          this.$set(oldRow, column.title, rowObj[column.title]);
+          this.$set(oldRow, column.title, rowObj[column.title])
           /*    this.$toast.success(`${rowObj[this.primaryValueColumn] ? `${rowObj[this.primaryValueColumn]}'s c` : 'C'}olumn '${column.column_name}' updated successfully.`, {
             position: 'bottom-center'
           }).goAway(3000) */
         } catch (e) {
           // if (e.response && e.response.data && e.response.data.msg) {
-          this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000);
+          this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000)
           // } else {
           //   this.$toast.error(`Failed to update row : ${e.message}`).goAway(3000)
           // }
         }
 
-        this.$set(this.data[row], 'saving', false);
+        this.$set(this.data[row], 'saving', false)
       }
     },
     async deleteRow() {
       try {
-        const rowObj = this.rowContextMenu.row;
+        const rowObj = this.rowContextMenu.row
         if (!this.rowContextMenu.rowMeta.new) {
           const id =
             this.meta &&
@@ -1122,55 +1143,55 @@ export default {
             this.meta.columns
               .filter(c => c.pk)
               .map(c => rowObj[c.title])
-              .join('___');
+              .join('___')
 
-          const successfulDeletion = await this.deleteRowById(id);
+          const successfulDeletion = await this.deleteRowById(id)
           if (!successfulDeletion) {
-            return;
+            return
           }
         }
-        this.data.splice(this.rowContextMenu.index, 1);
-        this.syncCount();
+        this.data.splice(this.rowContextMenu.index, 1)
+        this.syncCount()
         // this.$toast.success('Deleted row successfully').goAway(3000)
       } catch (e) {
-        this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000);
+        this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000)
       }
     },
     async deleteSelectedRows() {
-      let row = this.rowLength;
+      let row = this.rowLength
       while (row--) {
         try {
-          const { row: rowObj, rowMeta } = this.data[row];
+          const { row: rowObj, rowMeta } = this.data[row]
           if (!rowMeta.selected) {
-            continue;
+            continue
           }
           if (!rowMeta.new) {
             const id = this.meta.columns
               .filter(c => c.pk)
               .map(c => rowObj[c.title])
-              .join('___');
+              .join('___')
 
-            const successfulDeletion = await this.deleteRowById(id);
+            const successfulDeletion = await this.deleteRowById(id)
             if (!successfulDeletion) {
-              continue;
+              continue
             }
           }
-          this.data.splice(row, 1);
+          this.data.splice(row, 1)
         } catch (e) {
-          return this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000);
+          return this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000)
         }
       }
-      this.syncCount();
+      this.syncCount()
     },
 
     async deleteRowById(id) {
       try {
         if (!id) {
-          this.$toast.info("Delete not allowed for table which doesn't have primary Key").goAway(3000);
-          return false;
+          this.$toast.info("Delete not allowed for table which doesn't have primary Key").goAway(3000)
+          return false
         }
 
-        const res = await this.$api.dbViewRow.delete('noco', this.projectName, this.meta.id, this.selectedView.id, id);
+        const res = await this.$api.dbViewRow.delete('noco', this.projectName, this.meta.id, this.selectedView.id, id)
 
         if (res?.message) {
           this.$toast
@@ -1179,29 +1200,29 @@ export default {
                 <br><br>${res.message.join('<br>')}<br><br>
                 Clear the data first & try again</div>`
             )
-            .goAway(5000);
-          return false;
+            .goAway(5000)
+          return false
         }
       } catch (e) {
-        this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000);
-        return false;
+        this.$toast.error(`Failed to delete row : ${e.message}`).goAway(3000)
+        return false
       }
-      return true;
+      return true
     },
 
     async clearCellValue() {
-      const { col, colIndex, row, index } = this.rowContextMenu;
+      const { col, colIndex, row, index } = this.rowContextMenu
       if (row[col.title] === null) {
-        return;
+        return
       }
-      this.$set(this.data[index].row, col.title, null);
-      await this.onCellValueChange(colIndex, index, col, true);
+      this.$set(this.data[index].row, col.title, null)
+      await this.onCellValueChange(colIndex, index, col, true)
     },
     async insertNewRow(atEnd = false, expand = false, presetValues = {}) {
-      const isKanban = this.selectedView && this.selectedView.show_as === 'kanban';
-      const data = isKanban ? this.kanban.data : this.data;
-      const focusRow = isKanban ? data.length : atEnd ? this.rowLength : this.rowContextMenu.index + 1;
-      const focusCol = this.availableColumns.findIndex(c => !c.ai);
+      const isKanban = this.selectedView && this.selectedView.show_as === 'kanban'
+      const data = isKanban ? this.kanban.data : this.data
+      const focusRow = isKanban ? data.length : atEnd ? this.rowLength : this.rowContextMenu.index + 1
+      const focusCol = this.availableColumns.findIndex(c => !c.ai)
       data.splice(focusRow, 0, {
         row:
           this.relationType === 'hm'
@@ -1209,43 +1230,43 @@ export default {
                 ...this.fieldList.reduce(
                   (o, f) => ({
                     ...o,
-                    [f]: presetValues[f] ?? null,
+                    [f]: presetValues[f] ?? null
                   }),
                   {}
                 ),
-                [this.relation.column_name]: this.relationIdValue,
+                [this.relation.column_name]: this.relationIdValue
               }
             : this.fieldList.reduce(
-                (o, f) => ({
-                  ...o,
-                  [f]: presetValues[f] ?? null,
-                }),
-                {}
-              ),
+              (o, f) => ({
+                ...o,
+                [f]: presetValues[f] ?? null
+              }),
+              {}
+            ),
         rowMeta: {
-          new: true,
+          new: true
         },
-        oldRow: {},
-      });
+        oldRow: {}
+      })
       if (data[focusRow].row[this.groupingField] === 'Uncategorized') {
-        data[focusRow].row[this.groupingField] = null;
+        data[focusRow].row[this.groupingField] = null
       }
       this.selected = {
         row: focusRow,
-        col: focusCol,
-      };
+        col: focusCol
+      }
       this.editEnabled = {
         row: focusRow,
-        col: focusCol,
-      };
-      this.presetValues = presetValues;
+        col: focusCol
+      }
+      this.presetValues = presetValues
 
       if (expand) {
         if (isKanban) {
-          this.expandKanbanForm(-1, data[focusRow]);
+          this.expandKanbanForm(-1, data[focusRow])
         } else {
-          const { rowMeta } = data[data.length - 1];
-          this.expandRow(data.length - 1, rowMeta);
+          const { rowMeta } = data[data.length - 1]
+          this.expandRow(data.length - 1, rowMeta)
         }
       }
     },
@@ -1253,14 +1274,14 @@ export default {
     async handleKeyDown({ metaKey, key, altKey, shiftKey, ctrlKey }) {
       switch ([this._isMac ? metaKey : ctrlKey, key].join('_')) {
         case 'true_s':
-          this.edited && (await this.save());
-          break;
+          this.edited && (await this.save())
+          break
         case 'true_l':
-          await this.loadTableData();
-          break;
+          await this.loadTableData()
+          break
         case 'true_n':
-          this.insertNewRow(true);
-          break;
+          this.insertNewRow(true)
+          break
       }
     },
     async loadMeta() {
@@ -1269,21 +1290,21 @@ export default {
         env: this.nodes.env,
         dbAlias: this.nodes.dbAlias,
         table_name: this.table,
-        force: true,
-      });
+        force: true
+      })
     },
     clickPagination() {
-      this.loadTableData(false);
-      this.$e('a:grid:pagination');
+      this.loadTableData(false)
+      this.$e('a:grid:pagination')
     },
     loadTableData(ignoreLoader = true) {
-      this.loadTableDataDeb(this, ignoreLoader);
+      this.loadTableDataDeb(this, ignoreLoader)
     },
     async loadTableDataFn(ignoreLoader = true) {
       if (this.isForm || !this.selectedView || !this.selectedView.title) {
-        return;
+        return
       }
-      this.loadingData = !ignoreLoader;
+      this.loadingData = !ignoreLoader
       try {
         // if (this.api) {
         // const { list, count } = await this.api.paginatedList(this.queryParams)
@@ -1306,26 +1327,26 @@ export default {
           this.meta.id,
           this.selectedView.id,
           this.listQueryParams
-        );
+        )
 
-        this.count = pageInfo.totalRows; // count
+        this.count = pageInfo.totalRows // count
         this.data = list.map(row => ({
           row,
           oldRow: { ...row },
-          rowMeta: {},
-        }));
+          rowMeta: {}
+        }))
         // }
       } catch (e) {
-        this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000);
+        this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000)
       }
-      this.loadingData = false;
+      this.loadingData = false
     },
     showRowContextMenu(e, row, rowMeta, index, colIndex, col) {
       if (!this.isEditable) {
-        return;
+        return
       }
-      e.preventDefault();
-      this.rowContextMenu = false;
+      e.preventDefault()
+      this.rowContextMenu = false
       this.$nextTick(() => {
         this.rowContextMenu = {
           x: e.clientX,
@@ -1334,45 +1355,45 @@ export default {
           index,
           rowMeta,
           colIndex,
-          col,
-        };
-      });
+          col
+        }
+      })
     },
     expandRow(row, rowMeta) {
-      this.showExpandModal = true;
-      this.selectedExpandRowIndex = row;
-      this.selectedExpandRowMeta = rowMeta;
+      this.showExpandModal = true
+      this.selectedExpandRowIndex = row
+      this.selectedExpandRowMeta = rowMeta
     },
     async onNewColCreation(col, oldCol) {
       // if (this.$refs.drawer) {
       //   await this.$refs.drawer.loadViews()
       //   this.$refs.drawer.onViewIdChange(this.selectedViewId)
       // }
-      await this.loadMeta(true, col, oldCol);
-      this.$nextTick(async () => {
-        await this.loadTableData();
-      });
-      this.$refs.fields && this.$refs.fields.loadFields();
+      await this.loadMeta(true, col, oldCol)
+      this.$nextTick(async() => {
+        await this.loadTableData()
+      })
+      this.$refs.fields && this.$refs.fields.loadFields()
     },
     onColDelete() {
-      this.$refs.fields && this.$refs.fields.loadFields();
+      this.$refs.fields && this.$refs.fields.loadFields()
     },
     onFileDrop(ev) {
-      let file;
+      let file
       if (ev.dataTransfer.items) {
         // Use DataTransferItemList interface to access the file(s)
         if (ev.dataTransfer.items.length && ev.dataTransfer.items[0].kind === 'file') {
-          file = ev.dataTransfer.items[0].getAsFile();
+          file = ev.dataTransfer.items[0].getAsFile()
         }
       } else if (ev.dataTransfer.files.length) {
-        file = ev.dataTransfer.files[0];
+        file = ev.dataTransfer.files[0]
       }
 
       if (file && !file.name.endsWith('.csv')) {
-        return;
+        return
       }
 
-      this.$refs.csvExportImport.onCsvFileSelection(file);
+      this.$refs.csvExportImport.onCsvFileSelection(file)
     },
     // Kanban
     async loadKanbanData(initKanbanProps = true) {
@@ -1387,32 +1408,32 @@ export default {
           loadingData: true,
           selectedExpandRow: null,
           selectedExpandOldRow: null,
-          selectedExpandRowMeta: null,
-        };
+          selectedExpandRowMeta: null
+        }
         if (initKanbanProps) {
-          this.kanban = kanban;
+          this.kanban = kanban
         }
 
         if (this.api) {
-          const groupingColumn = this.meta.columns.find(c => c.title === this.groupingField);
+          const groupingColumn = this.meta.columns.find(c => c.title === this.groupingField)
 
           if (!groupingColumn) {
-            return;
+            return
           }
-          const initialLimit = 10;
-          const uncategorized = 'Uncategorized';
+          const initialLimit = 10
+          const uncategorized = 'Uncategorized'
 
           kanban.groupingColumnItems = groupingColumn.dtxp
             .split(',')
-            .map(c => {
-              const trimCol = c.replace(/'/g, '');
-              kanban.recordCnt[trimCol] = 0;
-              return trimCol;
+            .map((c) => {
+              const trimCol = c.replace(/'/g, '')
+              kanban.recordCnt[trimCol] = 0
+              return trimCol
             })
-            .sort();
+            .sort()
 
-          kanban.groupingColumnItems.unshift(uncategorized);
-          kanban.recordCnt[uncategorized] = 0;
+          kanban.groupingColumnItems.unshift(uncategorized)
+          kanban.recordCnt[uncategorized] = 0
           for (const groupingColumnItem of kanban.groupingColumnItems) {
             {
               // enrich Kanban data
@@ -1423,30 +1444,30 @@ export default {
                   where:
                     groupingColumnItem === uncategorized
                       ? `(${this.groupingField},is,null)`
-                      : `(${this.groupingField},eq,${groupingColumnItem})`,
+                      : `(${this.groupingField},eq,${groupingColumnItem})`
                 }
-              );
-              data.forEach(d => {
+              )
+              data.forEach((d) => {
                 // handle composite primary key
                 d.c_pk = this.meta.columns
                   .filter(c => c.pk)
                   .map(c => d[c.title])
-                  .join('___');
+                  .join('___')
                 if (!d.id) {
                   // id is required for <kanban-board/>
-                  d.id = d.c_pk;
+                  d.id = d.c_pk
                 }
                 kanban.data.push({
                   row: d,
                   oldRow: d,
-                  rowMeta: {},
-                });
-                kanban.recordCnt[groupingColumnItem] += 1;
+                  rowMeta: {}
+                })
+                kanban.recordCnt[groupingColumnItem] += 1
                 kanban.blocks.push({
                   status: groupingColumnItem,
-                  ...d,
-                });
-              });
+                  ...d
+                })
+              })
             }
             {
               // enrich recordTotalCnt
@@ -1456,34 +1477,34 @@ export default {
                   where:
                     groupingColumnItem === uncategorized
                       ? `(${this.groupingField},is,null)`
-                      : `(${this.groupingField},eq,${groupingColumnItem})`,
+                      : `(${this.groupingField},eq,${groupingColumnItem})`
                 }
-              );
-              kanban.recordTotalCnt[groupingColumnItem] = data.count;
+              )
+              kanban.recordTotalCnt[groupingColumnItem] = data.count
             }
           }
         }
-        this.kanban = kanban;
+        this.kanban = kanban
       } catch (e) {
         if (e.response && e.response.data && e.response.data.msg) {
           this.$toast
             .error(e.response.data.msg, {
-              position: 'bottom-center',
+              position: 'bottom-center'
             })
-            .goAway(3000);
+            .goAway(3000)
         } else {
           this.$toast
             .error(`Error occurred : ${e.message}`, {
-              position: 'bottom-center',
+              position: 'bottom-center'
             })
-            .goAway(3000);
+            .goAway(3000)
         }
       } finally {
-        this.kanban.loadingData = false;
+        this.kanban.loadingData = false
       }
     },
     async loadMoreKanbanData(groupingFieldVal) {
-      const uncategorized = 'uncategorized';
+      const uncategorized = 'uncategorized'
       const { data } = await this.api.get(
         `/nc/${this.$store.state.project.projectId}/api/v1/${this.$route.query.name}`,
         {
@@ -1492,65 +1513,65 @@ export default {
             groupingFieldVal === uncategorized
               ? `(${this.groupingField},is,null)`
               : `(${this.groupingField},eq,${groupingFieldVal})`,
-          offset: this.kanban.recordCnt[groupingFieldVal],
+          offset: this.kanban.recordCnt[groupingFieldVal]
         }
-      );
-      data.map(d => {
+      )
+      data.map((d) => {
         // handle composite primary key
         d.c_pk = this.meta.columns
           .filter(c => c.pk)
           .map(c => d[c.title])
-          .join('___');
+          .join('___')
         if (!d.id) {
           // id is required for <kanban-board/>
-          d.id = d.c_pk;
+          d.id = d.c_pk
         }
         this.kanban.data.push({
           row: d,
           oldRow: d,
-          rowMeta: {},
-        });
+          rowMeta: {}
+        })
         this.kanban.blocks.push({
           status: groupingFieldVal,
-          ...d,
-        });
-      });
-      this.kanban.recordCnt[groupingFieldVal] += data.length;
+          ...d
+        })
+      })
+      this.kanban.recordCnt[groupingFieldVal] += data.length
     },
     expandKanbanForm(rowIdx, data) {
       if (rowIdx != -1) {
         // not a new record -> find the target record
-        data = this.kanban.data.filter(o => o.row.c_pk == rowIdx)[0];
+        data = this.kanban.data.filter(o => o.row.c_pk == rowIdx)[0]
       }
-      this.showExpandModal = true;
-      this.kanban.selectedExpandRow = data.row;
-      this.kanban.selectedExpandOldRow = data.oldRow;
-      this.kanban.selectedExpandRowMeta = data.rowMeta;
+      this.showExpandModal = true
+      this.kanban.selectedExpandRow = data.row
+      this.kanban.selectedExpandOldRow = data.oldRow
+      this.kanban.selectedExpandRowMeta = data.rowMeta
     },
     async exportCache() {
       try {
-        const data = await this.$api.utils.cacheGet();
+        const data = await this.$api.utils.cacheGet()
         if (!data) {
-          this.$toast.info('Cache is empty').goAway(3000);
-          return;
+          this.$toast.info('Cache is empty').goAway(3000)
+          return
         }
         const blob = new Blob([JSON.stringify(data)], {
-          type: 'text/plain;charset=utf-8',
-        });
-        FileSaver.saveAs(blob, 'cache_exported.json');
-        this.$toast.info('Exported Cache Successfully').goAway(3000);
+          type: 'text/plain;charset=utf-8'
+        })
+        FileSaver.saveAs(blob, 'cache_exported.json')
+        this.$toast.info('Exported Cache Successfully').goAway(3000)
       } catch (e) {
-        console.log(e);
-        this.$toast.error(e.message).goAway(3000);
+        console.log(e)
+        this.$toast.error(e.message).goAway(3000)
       }
     },
     async deleteCache() {
       try {
-        await this.$api.utils.cacheDelete();
-        this.$toast.info('Deleted Cache Successfully').goAway(3000);
+        await this.$api.utils.cacheDelete()
+        this.$toast.info('Deleted Cache Successfully').goAway(3000)
       } catch (e) {
-        console.log(e);
-        this.$toast.error(e.message).goAway(3000);
+        console.log(e)
+        this.$toast.error(e.message).goAway(3000)
       }
     },
     async syncCount() {
@@ -1559,82 +1580,82 @@ export default {
         this.$store.getters['project/GtrProjectName'],
         this.meta.id,
         this.selectedView.id
-      );
-      this.count = count;
-    },
+      )
+      this.count = count
+    }
   },
   computed: {
     listQueryParams() {
       return {
         ...this.queryParams,
         ...(this._isUIAllowed('sortSync') ? {} : { sortArrJson: JSON.stringify(this.sortList) }),
-        ...(this._isUIAllowed('filterSync') ? {} : { filterArrJson: JSON.stringify(this.filters) }),
+        ...(this._isUIAllowed('filterSync') ? {} : { filterArrJson: JSON.stringify(this.filters) })
         // sort: ['-FirstName'],
         // where: '(FirstName,like,%ro)~or((FirstName,like,%a)~and(FirstName,like,%e%))'
-      };
+      }
     },
     isLocked() {
-      return this.lockType === 'locked';
+      return this.lockType === 'locked'
     },
     lockType: {
       get() {
-        return this.selectedView && this.selectedView.lock_type;
+        return this.selectedView && this.selectedView.lock_type
       },
       set(type) {
-        this.selectedView.lock_type = type;
+        this.selectedView.lock_type = type
         this.$api.dbView.update(this.selectedViewId, {
-          lock_type: type,
-        });
-      },
+          lock_type: type
+        })
+      }
     },
     showSystemFields: {
       get() {
-        return this.selectedView && this.selectedView.show_system_fields;
+        return this.selectedView && this.selectedView.show_system_fields
       },
       set(v) {
         if (this.selectedView) {
-          this.selectedView.show_system_fields = v;
+          this.selectedView.show_system_fields = v
           this.$api.dbView
             .update(this.selectedViewId, {
-              show_system_fields: v,
+              show_system_fields: v
             })
             .then(() => {
               if (v) {
-                this.loadTableData();
+                this.loadTableData()
               }
-            });
+            })
         }
-      },
+      }
     },
     viewTypes() {
-      return ViewTypes;
+      return ViewTypes
     },
     tabsState() {
-      return this.$store.state.tabs.tabsState || {};
+      return this.$store.state.tabs.tabsState || {}
     },
     uniqueId() {
-      return `${this.tabId}_${this.selectedViewId}`;
+      return `${this.tabId}_${this.selectedViewId}`
     },
     size() {
-      return (this.$store.state.project.appInfo && this.$store.state.project.appInfo.defaultLimit) || 25;
+      return (this.$store.state.project.appInfo && this.$store.state.project.appInfo.defaultLimit) || 25
     },
     isPkAvail() {
-      return this.meta && this.meta.columns.some(c => c.pk);
+      return this.meta && this.meta.columns.some(c => c.pk)
     },
     isGallery() {
-      return this.selectedView && this.selectedView.type === ViewTypes.GALLERY;
+      return this.selectedView && this.selectedView.type === ViewTypes.GALLERY
     },
     isForm() {
-      return this.selectedView && this.selectedView.type === ViewTypes.FORM;
+      return this.selectedView && this.selectedView.type === ViewTypes.FORM
     },
     isKanban() {
-      return this.selectedView && this.selectedView.type === ViewTypes.KANBAN;
+      return this.selectedView && this.selectedView.type === ViewTypes.KANBAN
     },
     isGrid() {
-      return this.selectedView && this.selectedView.type === ViewTypes.GRID;
+      return this.selectedView && this.selectedView.type === ViewTypes.GRID
     },
     meta() {
-      return this.$store.state.meta.metas[this.table];
+      return this.$store.state.meta.metas[this.table]
     },
     currentApiUrl() {
       return (
@@ -1644,14 +1665,14 @@ export default {
             .filter(p => p[1])
             .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
             .join('&')
-      );
+      )
     },
     isEditable() {
-      return this._isUIAllowed('xcDatatableEditable');
+      return this._isUIAllowed('xcDatatableEditable')
     },
     sqlUi() {
       // return SqlUI.create(this.nodes.dbConnection)
-      return SqlUiFactory.create(this.nodes.dbConnection);
+      return SqlUiFactory.create(this.nodes.dbConnection)
     },
     api() {
       return (
@@ -1659,13 +1680,13 @@ export default {
         this.$ncApis.get({
           env: this.nodes.env,
           dbAlias: this.nodes.dbAlias,
-          table: this.meta.table_name,
+          table: this.meta.table_name
         })
-      );
+      )
       // return this.meta && this.meta.title ? ApiFactory.create(this.$store.getters['project/GtrProjectType'], this.meta && this.meta.title, this.meta && this.meta.columns, this, this.meta) : null
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

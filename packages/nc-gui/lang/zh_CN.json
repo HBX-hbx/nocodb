@@ -45,7 +45,7 @@
     "upload": "上传",
     "download": "下载",
     "default": "默认",
-    "more": "更多的",
+    "more": "更多",
     "less": "较少的",
     "event": "事件",
     "condition": "条件",
@@ -178,8 +178,8 @@
     "notifyVia": "通知通过",
     "projName": "项目名",
     "tableName": "表名称",
-    "viewName": "查看名称",
-    "viewLink": "查看链接",
+    "viewName": "视图名称",
+    "viewLink": "视图链接",
     "columnName": "列名称",
     "columnType": "列类型",
     "roleName": "角色名称",
@@ -252,7 +252,7 @@
     "refreshProject": "刷新项目",
     "saveProject": "保存项目",
     "createProjectExtended": {
-      "extDB": "通过连接新建 <br>连接到外部数据库",
+      "extDB": "连接已有数据库",
       "excel": "从Excel创建项目",
       "template": "从模板创建项目"
     },
@@ -395,7 +395,7 @@
   },
   "msg": {
     "info": {
-      "footerInfo": "每页行驶",
+      "footerInfo": "每页行数",
       "upload": "选择文件以上传",
       "upload_sub": "或拖放文件",
       "excelSupport": "支持：.xls，.xlsx，.xlsm，.ods，.ots",

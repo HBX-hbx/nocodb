@@ -19,21 +19,104 @@
       <div class="h-100 d-flex flex-column">
         <div class="flex-grow-1" style="overflow-y: auto; min-height: 200px">
           <v-skeleton-loader v-if="!projects || !projects.length" class="mt-2 ml-2" type="button" />
-          <v-text-field
-            v-else
-            v-model="search"
-            :placeholder="$t('placeholder.searchProjectTree')"
-            dense
-            hide-details
-            class="elevation-0 mr-2 pl-3 pr-1 caption nc-table-list-filter"
+<!--          <v-text-field-->
+<!--            v-else-->
+<!--            v-model="search"-->
+<!--            :placeholder="$t('placeholder.searchProjectTree')"-->
+<!--            dense-->
+<!--            hide-details-->
+<!--            class="elevation-0 mr-2 pl-3 pr-1 caption nc-table-list-filter"-->
+<!--          >-->
+<!--            <template #prepend-inner>-->
+<!--              <v-icon small class="mt-2 ml-2 mr-1"> mdi-magnify </v-icon>-->
+<!--            </template>-->
+<!--            <template #append>-->
+<!--              <v-icon v-if="search" class="mt-3 mr-3" color="grey" x-small @click="search = ''"> mdi-close </v-icon>-->
+<!--            </template>-->
+<!--          </v-text-field>-->
+          <template v-else-if="connectToExternalDB">
+            <v-menu offset-y bottom open-on-hover full-width>
+              <template #activator="{ on }">
+                <div>
+                  <x-btn
+                    v-if="_isUIAllowed('projectCreate')"
+                    v-ge="['home', 'project-new']"
+                    data-v-step="1"
+                    outlined
+                    color="primary"
+                    class="nc-new-project-menu"
+                    v-on="on"
+                  >
+                    <!-- New Project -->
+                    {{ $t('title.newProj') }}
+                    <v-icon class="mr-1" small>
+                      mdi-menu-down
+                    </v-icon>
+                  </x-btn>
+                </div>
+              </template>
+              <v-list dense>
+                <v-list-item class="create-xc-db-project nc-create-xc-db-project" @click="onCreateProject('xcdb')">
+                  <v-list-item-icon class="mr-2">
+                    <v-icon small>
+                      mdi-plus
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    <!-- Create -->
+                    <span class="caption font-weight-regular">{{ $t('general.create') }}</span>
+                  </v-list-item-title>
+                  <v-spacer />
+                  <v-tooltip right>
+                    <template #activator="{ on }">
+                      <v-icon x-small color="grey" class="ml-4" v-on="on">
+                        mdi-information-outline
+                      </v-icon>
+                    </template>
+                    <!-- Create a new project -->
+                    <span class="caption">{{ $t('tooltip.xcDB') }}</span>
+                  </v-tooltip>
+                </v-list-item>
+                <v-divider />
+                <v-list-item
+                  title
+                  class="pt-2 create-external-db-project nc-create-external-db-project"
+                  @click="onCreateProject()"
+                >
+                  <v-list-item-icon class="mr-2">
+                    <v-icon small class="">
+                      mdi-power-plug-outline
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    <!-- Create By Connecting <br>To An External Database -->
+                    <span class="caption font-weight-regular" v-html="$t('activity.createProjectExtended.extDB')" />
+                  </v-list-item-title>
+                  <v-spacer />
+                  <v-tooltip right>
+                    <template #activator="{ on }">
+                      <v-icon x-small color="grey" class="ml-4" v-on="on">
+                        mdi-information-outline
+                      </v-icon>
+                    </template>
+                    <!-- Supports MySQL, PostgreSQL, SQL Server & SQLite -->
+                    <span class="caption">{{ $t('tooltip.extDB') }}</span>
+                  </v-tooltip>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </template>
+          <x-btn
+            v-else-if="_isUIAllowed('projectCreate', true)"
+            v-ge="['home', 'project-new']"
+            outlined
+            data-v-step="1"
+            color="primary"
+            @click="onCreateProject('xcdb')"
           >
-            <template #prepend-inner>
-              <v-icon small class="mt-2 ml-2 mr-1"> mdi-magnify </v-icon>
-            </template>
-            <template #append>
-              <v-icon v-if="search" class="mt-3 mr-3" color="grey" x-small @click="search = ''"> mdi-close </v-icon>
-            </template>
-          </v-text-field>
+            <!-- New Project -->
+            {{ $t('title.newProj') }}
+          </x-btn>
 
           <v-skeleton-loader
             v-if="!projects || !projects.length"
@@ -755,6 +838,13 @@ export default {
     },
   }),
   computed: {
+    connectToExternalDB() {
+      return (
+        this.$store.state.project &&
+        this.$store.state.project.appInfo &&
+        this.$store.state.project.appInfo.connectToExternalDB
+      )
+    },
     apiLink() {
       return new URL(
         `/api/v1/db/meta/projects/${this.projectId}/swagger`,
@@ -818,6 +908,15 @@ export default {
     },
   },
   methods: {
+    onCreateProject(xcdb) {
+      if (xcdb === 'xcdb') {
+        this.$router.push('/project/xcdb')
+        this.$e('c:project:create:xcdb')
+      } else {
+        this.$router.push('/project/0')
+        this.$e('c:project:create:extdb')
+      }
+    },
     async onMove(event, children) {
       if (children.length - 1 === event.moved.newIndex) {
         this.$set(children[event.moved.newIndex], 'order', children[event.moved.newIndex - 1].order + 1);

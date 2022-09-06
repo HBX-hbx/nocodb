@@ -89,3 +89,8 @@ mongod
 shared.json
 /scripts/Cypress/screenshots
 /scripts/exp/
+
+# database
+# ========
+*.sql
+*.sqlite

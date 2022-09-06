@@ -11,9 +11,9 @@ export default {
   name: 'GithubStarBtn',
   data: () => ({ ghStarText: 'Star' }),
   mounted() {
-    setInterval(() => (this.ghStarText = this.ghStarText === 'Star' ? 'Fork' : 'Star'), 60000);
-  },
-};
+    setInterval(() => (this.ghStarText = this.ghStarText === 'Star' ? 'Fork' : 'Star'), 60000)
+  }
+}
 </script>
 
 <style scoped>

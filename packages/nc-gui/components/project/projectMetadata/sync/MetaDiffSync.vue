@@ -77,7 +77,7 @@
                   v-for="model in diff"
                   v-show="
                     !filter.trim() ||
-                    (model.table_name || model.title || '').toLowerCase().includes(filter.toLowerCase())
+                      (model.table_name || model.title || '').toLowerCase().includes(filter.toLowerCase())
                   "
                   :key="model.table_name"
                   :class="`nc-metasync-row nc-metasync-row-${model.table_name}`"
@@ -246,11 +246,15 @@
             class="mx-auto primary nc-btn-metasync-sync-now"
             @click="syncMetaDiff"
           >
-            <v-icon color="white" class="mr-2 mt-n1"> mdi-database-sync </v-icon>
+            <v-icon color="white" class="mr-2 mt-n1">
+              mdi-database-sync
+            </v-icon>
             Sync Now
           </v-btn>
 
-          <v-alert v-else dense outlined type="success"> Tables metadata is in sync </v-alert>
+          <v-alert v-else dense outlined type="success">
+            Tables metadata is in sync
+          </v-alert>
         </div>
       </v-col>
     </v-row>
@@ -258,8 +262,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import viewIcons from '~/helpers/viewIcons';
+import { mapGetters } from 'vuex'
+import viewIcons from '~/helpers/viewIcons'
 
 export default {
   name: 'DisableOrEnableTables',
@@ -272,15 +276,15 @@ export default {
     dbsTab: 0,
     filter: '',
     tables: null,
-    diff: null,
+    diff: null
   }),
   async mounted() {
-    await this.loadXcDiff();
+    await this.loadXcDiff()
     // await this.loadMode// await this.loadTableList()
   },
   methods: {
     async loadXcDiff() {
-      this.diff = await this.$api.project.metaDiffGet(this.$store.state.project.projectId, this.db.id);
+      this.diff = await this.$api.project.metaDiffGet(this.$store.state.project.projectId, this.db.id)
 
       // this.diff = await this.$store.dispatch('sqlMgr/ActSqlOp', [{
       //   dbAlias: this.db.meta.dbAlias,
@@ -288,8 +292,8 @@ export default {
       // }, 'xcMetaDiff'])
     },
     clickReload() {
-      this.loadXcDiff();
-      this.$e('a:proj-meta:meta-data:reload');
+      this.loadXcDiff()
+      this.$e('a:proj-meta:meta-data:reload')
     },
     /* async addTableMeta(tables) {
       try {
@@ -336,30 +340,30 @@ export default {
 */
     async syncMetaDiff() {
       try {
-        await this.$api.project.metaDiffSync(this.$store.state.project.projectId, this.db.id);
+        await this.$api.project.metaDiffSync(this.$store.state.project.projectId, this.db.id)
         // await this.$store.dispatch('sqlMgr/ActSqlOp', [{
         //   dbAlias: this.db.meta.dbAlias,
         //   env: this.$store.getters['project/GtrEnv']
         // }, 'xcMetaDiffSync', {}])
-        this.$toast.success('Table metadata recreated successfully').goAway(3000);
-        await this.loadXcDiff();
+        this.$toast.success('Table metadata recreated successfully').goAway(3000)
+        await this.loadXcDiff()
 
-        this.$store.commit('tabs/removeTableOrViewTabs');
-        await this.$nextTick();
+        this.$store.commit('tabs/removeTableOrViewTabs')
+        await this.$nextTick()
         await this.$store.dispatch('project/_loadTables', {
           dbKey: '0.projectJson.envs._noco.db.0',
           key: '0.projectJson.envs._noco.db.0.tables',
           _nodes: {
             dbAlias: 'db',
             env: '_noco',
-            type: 'tableDir',
-          },
-        });
-        await this.$store.commit('meta/MutClear');
+            type: 'tableDir'
+          }
+        })
+        await this.$store.commit('meta/MutClear')
       } catch (e) {
-        this.$toast[e.response?.status === 402 ? 'info' : 'error'](e.message).goAway(3000);
+        this.$toast[e.response?.status === 402 ? 'info' : 'error'](e.message).goAway(3000)
       }
-    },
+    }
 
     /*  async recreateTableMeta(table) {
         try {
@@ -411,14 +415,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      dbAliasList: 'project/GtrDbAliasList',
+      dbAliasList: 'project/GtrDbAliasList'
     }),
     isChanged() {
-      return this.diff && this.diff.some(d => d && d.detectedChanges && d.detectedChanges.length);
+      return this.diff && this.diff.some(d => d && d.detectedChanges && d.detectedChanges.length)
     },
     prefix() {
-      return this.$store.getters['project/GtrProjectPrefix'] || '';
-    },
+      return this.$store.getters['project/GtrProjectPrefix'] || ''
+    }
     /* enableCountText() {
       return this.models
         ? `${this.models.filter(m => m.enabled).length}/${this.models.length} enabled`
@@ -457,8 +461,8 @@ export default {
       res.sort((a, b) => getPriority(b) - getPriority(a))
       return res
     } */
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">

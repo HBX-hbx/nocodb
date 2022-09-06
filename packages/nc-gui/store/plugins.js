@@ -12,7 +12,7 @@ export const getters = {
     if (state.Branding && state.Branding.title) {
       return state.Branding.title
     }
-    return 'NocoDB'
+    return 'AtomEcho'
   },
   brandLogo(state) {
     if (state.Branding && state.Branding.logo && state.Branding.logo.length) {

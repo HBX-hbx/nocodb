@@ -76,7 +76,7 @@ export default {
   }),
   computed: {
     languages() {
-      return ((this.$i18n && this.$i18n.availableLocales) || ['en']).sort()
+      return ((this.$i18n && this.$i18n.availableLocales) || ['zh_CN']).sort()
     },
     language: {
       get() {
@@ -94,7 +94,7 @@ export default {
   methods: {
     applyDirection() {
       const targetDirection = this.isRtlLang() ? 'rtl' : 'ltr'
-      const oppositeDirection = targetDirection == 'ltr' ? 'rtl' : 'ltr'
+      const oppositeDirection = targetDirection === 'ltr' ? 'rtl' : 'ltr'
       document.body.classList.remove(oppositeDirection)
       document.body.classList.add(targetDirection)
       document.body.style.direction = targetDirection
