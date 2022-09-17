@@ -1,5 +1,8 @@
 <template>
   <v-container fluid class="text-center px-10 pt-10 nc-container">
+    <v-btn @click="testProjects">
+      test
+    </v-btn>
     <v-row>
       <v-col v-if="loaded" class="col-lg-6 offset-lg-3 col-12 col-md-12">
         <v-row v-show="projects" class="justify-center">
@@ -517,6 +520,14 @@ export default {
     await this.projectsLoad()
   },
   methods: {
+    testProjects() {
+      if (!this.deleteBtnClicked) {
+        this.$router.push({
+          path: '/nc'
+        })
+      }
+      // this.$e('a:project:open', { count })
+    },
     async stopProject(project) {
       this.dialogShow = true
       this.confirmMessage = 'Do you want to stop the project?'
@@ -660,6 +671,7 @@ export default {
       this.loaded = true
     },
     async projectRouteHandler(project, count) {
+      console.log(`project route handler to ${project.id}, count: ${count}`)
       if (!this.deleteBtnClicked) {
         await this.$router.push({
           path: `/nc/${project.id}`

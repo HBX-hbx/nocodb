@@ -12,7 +12,6 @@ const defaultProject = ''//jsonfile.readFileSync(config.electron.defaultProjectP
 
 export const state = () => ({
   list: [],
-
   /***
    * Row of project in xc.sqlite + projectJson
    */
@@ -23,6 +22,7 @@ export const state = () => ({
   authDbAlias: null,
   projectId: null,
   project: null,
+  allProjects: null, // all the projects the user has, { title: '', id: '' }
   tables: []
 })
 
@@ -50,7 +50,17 @@ export const mutations = {
       && projects[0].projectJson.auth
       && projects[0].projectJson.auth.jwt
       && projects[0].projectJson.auth.jwt.dbAlias
+
+    console.log("in project.js ! list/state_list: [before]:\n", state.list)
+
+    // const tmp_state_list = state.list.slice()
+    // tmp_state_list.pop()
+    // tmp_state_list.push(treeViewDataSerializer(projects))
     Vue.set(state, 'list', treeViewDataSerializer(projects))
+    // Vue.set(state, 'list', tmp_state_list)
+    console.log("in project.js ! list/state_list: [after]:\n", state.list)
+
+
     if (!(projects && projects[0] && projects[0].workingEnv)) {
       return
     }
@@ -58,34 +68,41 @@ export const mutations = {
 
   },
 
-  project(state, val) {
-
-    const formattedProj = {
-      ...val,
-      projectJson: {
+  project(state, values) {
+    console.log('in project.js/set_list: values: \n', values)
+    const projects = values.map(val => {
+      return {
         ...val,
-        envs: {
-          _noco: {
-            db: [{
-              ...val.bases[0],
-              client: val.bases[0].type,
-              connection: {
-                database: val.bases[0].database
-              },
-              meta: {}
-            }]
+        projectJson: {
+          ...val,
+          envs: {
+            _noco: {
+              db: [{
+                ...val.bases[0],
+                client: val.bases[0].type,
+                connection: {
+                  database: val.bases[0].database
+                },
+                meta: {}
+              }]
+            }
           }
         }
       }
-    }
-
-    const projects = [formattedProj]
-
+    })
+    console.log('in project.js/formatted values: \n', projects)
+    // const projects = [formattedProj]
+    console.log('in project.js/projects:\n', projects)
     Vue.set(state, 'unserializedList', projects)
 
-    Vue.set(state, 'list', treeViewDataSerializer(projects))
+    console.log("in project.js/state_list: [before]:\n", state.list)
 
-    state.project = val
+    // const tmp_state_list = state.list.slice()
+    // tmp_state_list.push(treeViewDataSerializer(projects))
+
+    Vue.set(state, 'list', treeViewDataSerializer(projects))
+    console.log("in project.js/state_list: [after]:\n", state.list)
+    state.project = values[0] // 默认第一个 project
   },
 
   setProjectJson(state, projJson) {
@@ -101,12 +118,15 @@ export const mutations = {
     Vue.set(state, 'defaultProject', { ...projJson })
   },
   MutAppInfo(state, appInfo) {
+    console.log('project.js appInfo:\n', appInfo)
     state.appInfo = appInfo
   },
   MutProjectCost(state, cost) {
     state.project.cost = cost
   },
-
+  MutAllProjects(state, allProjects) {
+    Vue.set(state, 'allProjects', allProjects)
+  }
 }
 
 function getSerializedEnvObj(data) {
@@ -154,7 +174,11 @@ export const getters = {
   },
 
   list(state) {
+    // console.log('project.js/list:\n', state.list)
     return state.list
+  },
+  allProjects(state) {
+    return state.allProjects
   },
   currentProjectFolder(state) {
     // unserializedList.o.folder
@@ -319,7 +343,7 @@ export const actions = {
     rootGetters,
     dispatch,
     ...rest
-  }, id = null) {
+  }, ids = null) {
     // dispatch("sqlMgr/instantiateSqlMgr", null, {root: true});
     // sqlMgr = rootGetters["sqlMgr/sqlMgr"];
     // const data = await sqlMgr.projectOpen({id}); // unsearialized data
@@ -347,10 +371,14 @@ export const actions = {
         // data = await this.dispatch('sqlMgr/ActSqlOp', [{project_id: baseData.project_id}, 'PROJECT_READ_BY_WEB']); // unsearialized data
         await dispatch('users/ActGetBaseUserDetails', this.$router.currentRoute.params.shared_base_id, { root: true })
       } else {
-        commit('MutProjectId', null)
-        return
+        commit('MutProjectId', projectId = ids[0]) // 默认选择第一个 project
+        // return
       }
-      data = (await this.$api.project.read(projectId))
+      // 读取所有 project 的信息，存在 data 数组里
+      const readDataPromiseList = ids.map(id => this.$api.project.read(id))
+      data = await Promise.all(readDataPromiseList)
+      // data = (await this.$api.project.read(projectId))
+      console.log('project.js: data\n', data)
       commit('project', data)
       commit('meta/MutClear', null, { root: true })
       commit('tabs/MutClearTabState', null, { root: true })
@@ -384,12 +412,15 @@ export const actions = {
 
     if (db) {
 
+      console.log('found db: ', db)
+
       const tables = (await this.$api.dbTable.list(
         state.projectId,
         {
           includeM2M: rootState.settings.includeM2M || ''
         })).list
 
+      console.log('tables:\n', tables)
       commit('tables', tables)
 
       deepSet(state.unserializedList, tables, `${key}`)

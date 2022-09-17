@@ -271,6 +271,9 @@ import ShareOrInviteModal from '~/components/auth/ShareOrInviteModal'
 import weAreHiring from '~/helpers/weAreHiring'
 
 export default {
+  // middleware() {
+  //   console.log('middleware layouts!!!')
+  // },
   components: {
     ShareOrInviteModal,
     PreviewAs,

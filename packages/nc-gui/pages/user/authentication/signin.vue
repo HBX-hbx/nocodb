@@ -66,13 +66,20 @@
                 <!--                  <b>Sign In</b>-->
                 <!--                </v-btn>-->
 
-                <v-btn v-ge="['Sign In', '']" color="primary" large elevation-10 :disabled="false" @click="MtdOnSignin">
+                <v-btn
+                  v-ge="['Sign In', '']"
+                  color="primary"
+                  large
+                  elevation-10
+                  :disabled="false"
+                  @click="MtdOnSignin"
+                >
                   <b>{{ $t('general.signIn') }}</b>
                 </v-btn>
 
-                <br />
-                <br />
-                <br />
+                <br>
+                <br>
+                <br>
                 <!-- Don't have an account ? -->
                 <p class="caption font-weight-light">
                   {{ $t('msg.info.signUp.dontHaveAccount') }}
@@ -91,7 +98,7 @@
                     block
                     color="blue"
                   >
-                    <img :src="require('~/assets/img/gmail.png')" class="img-responsive" alt="google" width="24px" />
+                    <img :src="require('~/assets/img/gmail.png')" class="img-responsive" alt="google" width="24px">
                     <b>&nbsp; &nbsp;Sign In with Google</b>
                   </v-btn>
                   <v-btn
@@ -103,7 +110,7 @@
                     block
                     color="blue"
                   >
-                    <img :src="require('~/assets/img/github.png')" class="img-responsive" alt="github" width="24px" />
+                    <img :src="require('~/assets/img/github.png')" class="img-responsive" alt="github" width="24px">
                     <b>&nbsp; &nbsp;Sign In with Github</b>
                   </v-btn>
 
@@ -160,7 +167,7 @@
               </v-form>
 
               <template v-else>
-                <br />
+                <br>
                 <v-alert type="warning" outlined icon="mdi-alert">
                   <!--                <v-icon color="warning">mdi-alert</v-icon>-->
                   Authentication not configured in configuration
@@ -170,7 +177,7 @@
           </v-col>
         </v-row>
 
-        <br />
+        <br>
       </v-col>
     </v-row>
   </v-container>
@@ -180,7 +187,7 @@
 // const {shell} = require("electron").remote.require(
 //   "./libs"
 // );
-import { isEmail } from '@/helpers';
+import { isEmail } from '@/helpers'
 // import VueRecaptcha from 'vue-recaptcha';
 
 export default {
@@ -189,8 +196,12 @@ export default {
   },
   directives: {},
   layout: 'empty',
+  middleware() {
+    console.log('middleware pages!!!')
+  },
   validate({ params }) {
-    return true;
+    console.log('validate!!!')
+    return true
   },
   props: {},
 
@@ -198,7 +209,7 @@ export default {
     return {
       form: {
         email: null,
-        password: null,
+        password: null
       },
 
       formRules: {
@@ -206,12 +217,12 @@ export default {
           // E-mail is required
           v => !!v || this.$t('msg.error.signUpRules.emailReqd'),
           // E-mail must be valid
-          v => isEmail(v) || this.$t('msg.error.signUpRules.emailInvalid'),
+          v => isEmail(v) || this.$t('msg.error.signUpRules.emailInvalid')
         ],
         password: [
           // Password is required
-          v => !!v || this.$t('msg.error.signUpRules.passwdRequired'),
-        ],
+          v => !!v || this.$t('msg.error.signUpRules.passwdRequired')
+        ]
       },
       formUtil: {
         formErr: false,
@@ -220,13 +231,13 @@ export default {
         recpatcha: true,
         e3: true,
         passwordProgress: 0,
-        progressColorValue: 'red',
+        progressColorValue: 'red'
       },
 
       valid: false,
       e3: true,
-      recpatcha: false,
-    };
+      recpatcha: false
+    }
   },
   head() {
     return {
@@ -235,105 +246,105 @@ export default {
         {
           hid: this.$t('msg.info.loginMsg'),
           name: this.$t('msg.info.loginMsg'),
-          content: this.$t('msg.info.loginMsg'),
-        },
-      ],
-    };
+          content: this.$t('msg.info.loginMsg')
+        }
+      ]
+    }
   },
   computed: {
     counter() {
-      return this.$store.getters['users/GtrCounter'];
+      return this.$store.getters['users/GtrCounter']
     },
     displayName() {
-      return this.$store.getters['users/GtrUser'];
+      return this.$store.getters['users/GtrUser']
     },
     type() {
-      return 'jwt';
+      return 'jwt'
       // return (
       //   this.$store.state.project.appInfo &&
       //   this.$store.state.project.appInfo.authType
       // )
     },
     googleAuthEnabled() {
-      return this.$store.state.project.appInfo && this.$store.state.project.appInfo.googleAuthEnabled;
+      return this.$store.state.project.appInfo && this.$store.state.project.appInfo.googleAuthEnabled
     },
     githubAuthEnabled() {
-      return this.$store.state.project.appInfo && this.$store.state.project.appInfo.githubAuthEnabled;
-    },
+      return this.$store.state.project.appInfo && this.$store.state.project.appInfo.githubAuthEnabled
+    }
   },
   watch: {},
   async created() {
     // this.type = (await this.$store.dispatch('users/ActGetAuthType')).type;
     if (this.$route.query && this.$route.query.error) {
-      this.$nextTick(() => this.$toast.error(this.$route.query.error).goAway(5000));
-      this.$router.replace({ path: '/user/authentication/signin' });
+      this.$nextTick(() => this.$toast.error(this.$route.query.error).goAway(5000))
+      this.$router.replace({ path: '/user/authentication/signin' })
     }
   },
   mounted() {},
   beforeDestroy() {},
   methods: {
     openGoogleSiginInBrowser(e) {
-      e.preventDefault();
+      e.preventDefault()
       // shell.openExternal(process.env.auth.google.url)
     },
     openGithubSiginInBrowser(e) {
-      e.preventDefault();
+      e.preventDefault()
       // shell.openExternal(process.env.auth.github.url)
     },
 
     onNormalVerify() {
-      this.recpatcha = true;
+      this.recpatcha = true
     },
 
     PlusCounter() {
-      this.$store.dispatch('ActPlusCounter');
+      this.$store.dispatch('ActPlusCounter')
     },
 
     async MtdOnSignin(e) {
-      e.preventDefault();
+      e.preventDefault()
       if (this.type === 'jwt') {
         if (this.$refs.formType.validate()) {
-          let err = null;
-          this.form.firstName = this.form.email;
-          this.form.lastName = this.form.email;
+          let err = null
+          this.form.firstName = this.form.email
+          this.form.lastName = this.form.email
 
-          err = await this.$store.dispatch('users/ActSignIn', { ...this.form });
+          err = await this.$store.dispatch('users/ActSignIn', { ...this.form })
           if (err) {
-            this.formUtil.formErr = true;
-            this.formUtil.formErrMsg = err.data.msg;
-            return;
+            this.formUtil.formErr = true
+            this.formUtil.formErrMsg = err.data.msg
+            return
           }
         }
       } else if (this.type === 'masterKey') {
-        const valid = await this.$store.dispatch('users/ActVerifyMasterKey', this.form.secret);
+        const valid = await this.$store.dispatch('users/ActVerifyMasterKey', this.form.secret)
         if (!valid) {
-          this.formUtil.formErr = true;
-          this.formUtil.formErrMsg = 'Invalid admin secret';
-          return;
+          this.formUtil.formErr = true
+          this.formUtil.formErrMsg = 'Invalid admin secret'
+          return
         }
-        this.$store.commit('users/MutMasterKey', this.form.secret);
+        this.$store.commit('users/MutMasterKey', this.form.secret)
       }
 
       if ('redirect_to' in this.$route.query) {
-        this.$router.push(this.$route.query.redirect_to);
+        this.$router.push(this.$route.query.redirect_to)
       } else {
-        this.$router.push('/projects');
+        this.$router.push('/projects')
       }
-      this.$e('a:auth:sign-in');
+      this.$e('a:auth:sign-in')
     },
 
     MtdOnSigninGoogle(e) {
       // e.preventDefault();
-      this.$store.dispatch('users/ActAuthGoogle');
+      this.$store.dispatch('users/ActAuthGoogle')
     },
 
     MtdOnReset() {
       // console.log('in method reset');
-    },
+    }
   },
   beforeCreated() {},
-  destroy() {},
-};
+  destroy() {}
+}
 </script>
 
 <style scoped></style>

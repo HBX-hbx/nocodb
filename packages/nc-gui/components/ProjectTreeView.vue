@@ -2,11 +2,14 @@
   <div style="height: 100%" class="nc-tree-view" @mouseenter="onMiniHoverEnter" @mouseleave="onMiniHoverLeave">
     <!--    :expand-on-hover="mini"-->
     <div class="primary nc-project-title theme--dark" :class="{ shared: sharedBase }">
-      <img v-if="sharedBase" src="favicon-32.png" height="18" class="ml-2" />
-      <h3 v-if="sharedBase" class="nc-project-title white--text text-capitalize">
-        {{ $store.getters['project/GtrProjectName'] }}
-      </h3>
-      <github-star-btn v-else />
+<!--      <img v-if="sharedBase" src="favicon-32.png" height="18" class="ml-2" />-->
+<!--      <h3 v-if="sharedBase" class="nc-project-title white&#45;&#45;text text-capitalize">-->
+<!--        {{ $store.getters['project/GtrProjectName'] }}-->
+<!--      </h3>-->
+<!--      <github-star-btn v-else />-->
+      <v-btn @click="testTreeView">
+        test
+      </v-btn>
     </div>
     <v-navigation-drawer
       ref="drawer"
@@ -18,7 +21,7 @@
     >
       <div class="h-100 d-flex flex-column">
         <div class="flex-grow-1" style="overflow-y: auto; min-height: 200px">
-          <v-skeleton-loader v-if="!projects || !projects.length" class="mt-2 ml-2" type="button" />
+          <v-skeleton-loader v-if="!allProjects || !allProjects.length" class="mt-2 ml-2" type="button" />
 <!--          <v-text-field-->
 <!--            v-else-->
 <!--            v-model="search"-->
@@ -119,7 +122,7 @@
           </x-btn>
 
           <v-skeleton-loader
-            v-if="!projects || !projects.length"
+            v-if="!allProjects || !allProjects.length"
             type="list-item,list-item-three-line@3,list-item@2,list-item-three-line@3"
           />
 
@@ -191,18 +194,19 @@
           </v-treeview>-->
           <v-container v-else fluid class="px-1 pt-0">
             <v-list height="30" dense expand class="nc-project-tree nc-single-env-project-tree pt-1">
-              <template v-for="item in listViewArr">
+              <template v-for="(item, idx) in listViewArr">
                 <!--                   v-if="item.children && item.children.length"-->
                 <v-list-group
                   v-if="isNested(item) && showNode(item)"
-                  :key="item.type"
+                  :key="item.key"
                   color="textColor"
-                  :value="isActiveList(item) || search"
-                  @click="!(item.children && item.children.length) && addTab({ ...item }, false, false)"
+                  :value="isActiveList(item)"
+                  @click="addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"
                   @contextmenu.prevent="showCTXMenu($event, item, true, false)"
                 >
+<!--                  @click="!(item.children && item.children.length) && addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"-->
                   <template #appendIcon>
-                    <v-icon small color="grey"> mdi-chevron-down </v-icon>
+                    <v-icon small color="grey"> mdi-chevron-up </v-icon>
                   </template>
                   <template #activator>
                     <v-list-item-icon>
@@ -229,24 +233,27 @@
                                   child => !search || child.name.toLowerCase().includes(search.toLowerCase())
                                 ).length
                               }})</template
-                            ></span
-                          >
+                            >
+                          </span>
                           <span v-else class="body-2 font-weight-medium" v-on="on"> {{ item.name }}</span>
                         </template>
                         <span class="caption">Only visible to Creator</span>
                       </v-tooltip>
                       <template v-else>
-                        <span v-if="item.type === 'tableDir'" class="body-2 font-weight-medium">
-                          {{ $t('objects.tables')
-                          }}<template v-if="item.children && item.children.length">
-                            ({{
-                              item.children.filter(
-                                child => !search || child.name.toLowerCase().includes(search.toLowerCase())
-                              ).length
-                            }})</template
-                          ></span
-                        >
-                        <span v-else class="caption font-weight-regular"> {{ item.name }}</span>
+                        <span class="body-2 font-weight-medium">
+                          {{ allProjects[Math.floor(idx / 2)].title }}
+                        </span>
+<!--                        <span v-if="item.type === 'tableDir'" class="body-2 font-weight-medium">-->
+<!--                          {{ $t('objects.tables')-->
+<!--                          }}<template v-if="item.children && item.children.length">-->
+<!--                            ({{-->
+<!--                              item.children.filter(-->
+<!--                                child => !search || child.name.toLowerCase().includes(search.toLowerCase())-->
+<!--                              ).length-->
+<!--                            }})</template-->
+<!--                          ></span-->
+<!--                        >-->
+<!--                        <span v-else class="caption font-weight-regular"> {{ item.name }}</span>-->
                       </template>
                     </v-list-item-title>
 
@@ -264,8 +271,9 @@
                           mdi-plus-circle-outline
                         </x-icon>
                       </template>
-                      <span class="caption"
-                        >Add new <span class="text-capitalize">{{ item.type.slice(0, -3) }}</span></span
+                      <span
+                        class="caption"
+                      >Add new <span class="text-capitalize">{{ item.type.slice(0, -3) }}</span></span
                       >
                     </v-tooltip>
                   </template>
@@ -293,7 +301,7 @@
                           }||${child.name}`"
                           class="nested ml-3 nc-draggable-child"
                           style="position: relative"
-                          @click.stop="addTab({ ...child }, false, true)"
+                          @click.stop="addTab({ ...child }, false, true, allProjects[Math.floor(idx / 2)].id)"
                           @contextmenu="showCTXMenu($event, child, false, true)"
                         >
                           <v-icon
@@ -413,7 +421,7 @@
                     item.name
                   }`"
                   :class="`nc-treeview-item-${item.name}`"
-                  @click.stop="addTab({ ...item }, false, false)"
+                  @click.stop="addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"
                   @contextmenu.prevent="showCTXMenu($event, item, false, false)"
                 >
                   <v-list-item-icon>
@@ -446,6 +454,7 @@
               </template>
             </v-list>
           </v-container>
+
           <recursive-menu
             v-model="menuVisible"
             offset-y
@@ -612,16 +621,16 @@
         </div>
 
         <v-divider />
-        <template v-if="_isUIAllowed('apiDocs')">
-          <div
-            v-t="['e:api-docs']"
-            class="caption pointer nc-docs pb-2 pl-5 pr-3 pt-2 d-flex align-center"
-            @click="openLink(apiLink)"
-          >
-            <v-icon color="brown" small class="mr-2"> mdi-open-in-new </v-icon>
-            {{ $t('title.apiDocs') }}
-          </div>
-        </template>
+<!--        <template v-if="_isUIAllowed('apiDocs')">-->
+<!--          <div-->
+<!--            v-t="['e:api-docs']"-->
+<!--            class="caption pointer nc-docs pb-2 pl-5 pr-3 pt-2 d-flex align-center"-->
+<!--            @click="openLink(apiLink)"-->
+<!--          >-->
+<!--            <v-icon color="brown" small class="mr-2"> mdi-open-in-new </v-icon>-->
+<!--            {{ $t('title.apiDocs') }}-->
+<!--          </div>-->
+<!--        </template>-->
 
         <template v-if="_isUIAllowed('settings')">
           <div class="pl-5 pr-3 d-flex align-center pb-2">
@@ -860,6 +869,7 @@ export default {
       },
     },
     selectedItem() {
+      // TODO: 返回当前选中的 tab，加上 pid 在前面
       return [this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||');
     },
     direction() {
@@ -867,6 +877,7 @@ export default {
     },
     ...mapGetters({
       projects: 'project/list',
+      allProjects: 'project/allProjects',
       tabs: 'tabs/list',
       sqlMgr: 'sqlMgr/sqlMgr',
       currentProjectFolder: 'project/currentProjectFolder',
@@ -884,30 +895,63 @@ export default {
     },
     isTreeView() {
       return (
-        this.projects &&
-        (this.projects.length > 1 ||
-          (this.projects[0] &&
-            this.projects[0].children &&
-            (this.projects[0].children.length > 1 ||
-              (this.projects[0].children[0] &&
-                this.projects[0].children[0].children &&
-                this.projects[0].children[0].children.length > 1))))
+        this.projects[0] &&
+        (this.projects[0].length > 1 ||
+          (this.projects[0][0] &&
+            this.projects[0][0].children &&
+            (this.projects[0][0].children.length > 1 ||
+              (this.projects[0][0].children[0] &&
+                this.projects[0][0].children[0].children &&
+                this.projects[0][0].children[0].children.length > 1))))
       );
     },
     listViewArr() {
       return (
-        (this.projects &&
-          this.projects[0] &&
-          this.projects[0].children &&
-          this.projects[0].children[0] &&
-          this.projects[0].children[0].children &&
-          this.projects[0].children[0].children[0] &&
-          this.projects[0].children[0].children[0].children) ||
-        []
-      );
+        this.projects.map(project => {
+          return (
+            (
+              project &&
+              project.children &&
+              project.children[0] &&
+              project.children[0].children &&
+              project.children[0].children[0] &&
+              project.children[0].children[0].children) ||
+            []
+          )
+        }).flat()
+      )
     },
   },
   methods: {
+    testTreeView() {
+      console.log('isTreeView: ', this.isTreeView)
+      console.log('listViewArr:\n', this.listViewArr)
+      // console.log('icons:\n', this.icons)
+      console.log('projects:\n', this.projects)
+      console.log('route:\n', this.$route)
+      console.log('tabs:\n', this.tabs)
+      console.log('cur store project id: ', this.$store.state.project.projectId)
+
+      // console.log('testListView:\n', this.projects.map(project => {
+      //   return (
+      //     (
+      //       project &&
+      //       project[0] &&
+      //       project[0].children &&
+      //       project[0].children[0] &&
+      //       project[0].children[0].children &&
+      //       project[0].children[0].children[0] &&
+      //       project[0].children[0].children[0].children) ||
+      //     []
+      //   )
+      // }).flat())
+
+      // this.loadOneProject(this.allProjects[1].id)
+    },
+    async loadOneProject(pid) {
+      await this.loadProjectsData(pid);
+      this.loadDefaultTabs(true);
+    },
     onCreateProject(xcdb) {
       if (xcdb === 'xcdb') {
         this.$router.push('/project/xcdb')
@@ -1159,7 +1203,10 @@ export default {
     },
     ...mapMutations({
       setProject: 'project/list',
+      setAllProjects: 'project/MutAllProjects',
       updateProject: 'project/update',
+      setProjectId: 'project/MutProjectId',
+      setTabsProjectId: 'tabs/MutProjectId',
     }),
     ...mapActions({
       loadTables: 'project/loadTables',
@@ -1179,15 +1226,28 @@ export default {
       clearProjects: 'project/clearProjects',
       removeTableTab: 'tabs/removeTableTab',
     }),
-    async addTab(item, open, leaf) {
-      // console.log("addtab item", item, open, leaf);
+    async addTab(item, open, leaf, pid) {
+      console.log("addtab item", item, open, leaf, pid);
+      // console.log('this.open', this.open)
       //this.$store.commit('notification/MutToggleProgressBar', true);
+      this.setProjectId(pid)
+      this.setTabsProjectId(pid)
+      console.log(`project route handler to ${pid}`)
+      let newQuery = JSON.parse(JSON.stringify(this.$route.query))
+      newQuery.pid = pid
+      console.log('newQuery: \n', newQuery)
+      await this.$router.push({
+        query: {}
+      })
+      console.log('cur route : ', this.$route)
       try {
         if (item._nodes.type === 'tableDir' && !open) {
           //load tables
+          console.log('=============== 6 ==================\nthis.projects:\n', this.projects)
           await this.loadTables(item);
-          const currentlyOpened = JSON.parse(JSON.stringify(this.open));
-          currentlyOpened.push(item._nodes.key);
+          console.log('=============== 7 ==================\nthis.projects:\n', this.projects)
+          // const currentlyOpened = JSON.parse(JSON.stringify(this.open));
+          // currentlyOpened.push(item._nodes.key);
           this.activeListItem = item._nodes.key;
           // this.open = currentlyOpened;
         } else if (item._nodes.type === 'viewDir' && !open) {
@@ -1217,6 +1277,8 @@ export default {
         } else if (item._nodes.type === 'env') {
           return;
         } else {
+          // console.log("here el:\n", el)
+          console.log('tabs:\n', this.tabs)
           // const tabIndex = this.tabs.findIndex(el => el.key === item.key);
           const tabIndex = this.tabs.findIndex(el => {
             return (
@@ -1225,12 +1287,13 @@ export default {
                   item._nodes &&
                   el._nodes.type === item._nodes.type &&
                   el._nodes.dbAlias === item._nodes.dbAlias)) &&
-              item.name === el.name
+              item.key === el.key
             );
           });
-          if (tabIndex !== -1) {
+          console.log('tabIndex: ', tabIndex)
+          if (tabIndex !== -1) { // 找到了，只需要 change 改变就可以
             this.changeActiveTab(tabIndex);
-          } else {
+          } else { // 若未找到，则新建一个
             if (
               item._nodes.type === 'tableDir' ||
               item._nodes.type === 'project' ||
@@ -1244,6 +1307,7 @@ export default {
             }
             if (item._nodes.type === 'table') {
               let tableIndex = +item._nodes.key.split('.').pop();
+              console.log('tableIndex: ', tableIndex)
               if (
                 !(await this.$store.dispatch('settings/ActCheckMaxTable', {
                   tableIndex,
@@ -1262,7 +1326,11 @@ export default {
       }
     },
     isActiveList(item) {
-      return true; //this.treeViewStatus[item.type] = this.treeViewStatus[item.type]  || item.type === this.$route.query.type || item.type === `${this.$route.query.type}Dir`;
+      // TODO: 从 url 判断 item 是否与 url 的 pid 对应
+      console.log(' telling is active list: item\n', item)
+      const pid = this.allProjects[item.key.split('.')[0]].id
+      return pid === this.$store.state.project.projectId
+      //this.treeViewStatus[item.type] = this.treeViewStatus[item.type]  || item.type === this.$route.query.type || item.type === `${this.$route.query.type}Dir`;
     },
     showNode(item) {
       return (
@@ -1287,12 +1355,13 @@ export default {
         this.menuVisible = true;
       });
     },
-    async loadProjectsData(id = null) {
+    async loadProjectsData(ids = null) {
       try {
         this.$store.commit('tabs/clear');
         this.loadingProjects = true;
-        await this.loadProjects(id);
-
+        // console.log('=============== 2 ==================\nthis.projects:\n', this.projects)
+        await this.loadProjects(ids);
+        console.log('=============== 3 ==================\nthis.projects:\n', this.projects)
         if ('toast' in this.$route.query) {
           this.$toast
             .success(
@@ -1303,25 +1372,33 @@ export default {
             )
             .goAway(5000);
         }
-
-        try {
-          this.open = [
-            this.projects[0].key,
-            this.projects[0].children[0].key,
-            this.projects[0].children[0].children[0].key,
-          ];
-        } catch (error) {
-          console.log('this.open set array error', error);
-        }
+        // try {
+        //   this.open = [
+        //     this.projects[0].key,
+        //     this.projects[0].children[0].key,
+        //     this.projects[0].children[0].children[0].key,
+        //   ];
+        // } catch (error) {
+        //   console.log('this.open set array error', error);
+        // }
+        // console.log('=============== 4 ==================\nthis.projects:\n', this.projects)
         this.loadingProjects = false;
-        if (!this.isTreeView) {
+        // if (!this.isTreeView) {
           if (this.$route.query.type) {
+            console.log('=============== 5 ==================\nthis.projects:\n', this.projects)
             const node = this.listViewArr.find(n => n.type === `${this.$route.query.type}Dir`);
-            await this.addTab({ ...(node || this.listViewArr[0]) }, false, true);
+            await this.addTab({ ...(node || this.listViewArr[0]) }, false, true, this.allProjects[0].id);
+            console.log('=============== 8 ==================\nthis.projects:\n', this.projects)
           } else {
-            await this.addTab({ ...this.listViewArr[0] }, false, true);
+            console.log('before add tab listViewArr: \n', this.listViewArr);
+            console.log('=============== 5 ==================\nthis.projects:\n', this.projects)
+            // 默认展开第一个 project
+            await this.addTab({ ...this.listViewArr[0] }, false, true, this.allProjects[0].id);
+            console.log('=============== 8 ==================\nthis.projects:\n', this.projects)
+            console.log('after add tab listViewArr: \n', this.listViewArr);
           }
-        }
+        // }
+        // console.log('in projectTree view: [after]:\n', this.projects)
       } catch (error) {
         console.error('loadProjectsData', error);
       }
@@ -1869,12 +1946,36 @@ export default {
   async created() {
     // this.loadDefaultTabs();
     // this.instantiateSqlMgr();
+
+    // 从后端获得所有 project info：
+    const bkProjectsInfo = (await this.$api.project.list({})).list
+    const allProjects = bkProjectsInfo.map(project => {
+      return {
+        title: project.title,
+        id: project.id
+      }
+    })
+    this.setAllProjects(allProjects)
+    console.log('allProjects:\n', this.allProjects)
+    // const promiseList = this.allProjects.map(project => this.loadProjectsData(project.id))
+    //
+    // Promise.all(promiseList).then(() => {
+    //   console.log('=============== 1 ==================\nthis.projects:\n', this.projects)
+    //   this.loadDefaultTabs(true);
+    // })
+
     const _id = this.$route.params.project;
 
     if (_id === 'external') {
     }
-    await this.loadProjectsData(_id);
+
+
+    await this.loadProjectsData(this.allProjects.map(projectInfo => projectInfo.id));
     this.loadDefaultTabs(true);
+
+    // await this.loadProjectsData(this.allProjects[1].id);
+    // this.loadDefaultTabs(true);
+
     // this.loadRoles();
   },
   beforeCreate() {},

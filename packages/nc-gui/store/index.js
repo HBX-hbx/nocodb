@@ -21,7 +21,12 @@ export const mutations = {
   }
 }
 
-export const actions = {}
+export const actions = {
+  nuxtServerInit(store, context) {
+    // 可以在这里初始一些内容到store中
+    console.log('nuxtServerInit!!!')
+  }
+}
 
 export const strict = false
 /**

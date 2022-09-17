@@ -1,4 +1,5 @@
 export default async function({ store, route, redirect }) {
+  // console.log('middleware nuxt.config.js !!!')
   if (
     !route.path.startsWith('/nc/view/') &&
     store.getters['project/GtrIsFirstLoad'] === false &&

@@ -14,37 +14,36 @@
       :class="{ 'dark-them': $store.state.settings.darkTheme }"
     >
       <v-tabs-slider color="" />
-
-<!--      <v-tab-->
-<!--        v-for="(tab, index) in tabs"-->
-<!--        :key="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${-->
-<!--          tab.name-->
-<!--        }`"-->
-<!--        class="divider project-tab xc-border-right"-->
-<!--        :title="tab.name"-->
-<!--        :href="`#${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"-->
-<!--        @change="tabActivated(tab)"-->
-<!--      >-->
-<!--        <v-icon v-if="treeViewIcons[tab._nodes.type]" icon :small="true">-->
-<!--          {{ treeViewIcons[tab._nodes.type].openIcon }}-->
-<!--        </v-icon>-->
-<!--        <span-->
-<!--          class="flex-grow-1 caption font-weight-bold text-capitalize mx-2"-->
-<!--          style="white-space: nowrap; overflow: hidden; max-width: 140px; text-overflow: ellipsis"-->
-<!--        >{{ tab.name }}</span>-->
-<!--        <v-icon icon :small="true" @click="removeTab(index)">-->
-<!--          mdi-close-->
-<!--        </v-icon>-->
-<!--      </v-tab>-->
+      <v-tab
+        v-for="(tab, index) in tabs"
+        :key="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${
+          tab.name
+        }`"
+        class="divider project-tab xc-border-right"
+        :title="tab.name"
+        :href="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
+        @change="tabActivated(tab)"
+      >
+        <v-icon v-if="treeViewIcons[tab._nodes.type]" icon :small="true">
+          {{ treeViewIcons[tab._nodes.type].openIcon }}
+        </v-icon>
+        <span
+          class="flex-grow-1 caption font-weight-bold text-capitalize mx-2"
+          style="white-space: nowrap; overflow: hidden; max-width: 140px; text-overflow: ellipsis"
+        >{{ tab.name }}</span>
+        <v-icon icon :small="true" @click="removeTab(index)">
+          mdi-close
+        </v-icon>
+      </v-tab>
 
       <v-tabs-items :value="activeTab">
         <v-tab-item
           v-for="(tab, index) in tabs"
-          :key="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${
+          :key="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${
             tab.name
           }`"
           class="nc-main-tab-item"
-          :value="`${(tab._nodes && tab._nodes.type) || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
+          :value="`${tabPid[index]}||${(tab._nodes && tab._nodes.type) || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
           :transition="false"
           style="height: 100%"
           :reverse-transition="false"
@@ -54,9 +53,9 @@
               :ref="'tabs' + index"
               :is-active="
                 activeTab ===
-                  `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
+                  `${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
               "
-              :tab-id="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${
+              :tab-id="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${
                 (tab._nodes && tab._nodes.dbAlias) || ''
               }||${tab.name}`"
               :hide-log-windows.sync="hideLogWindows"
@@ -68,9 +67,9 @@
               :ref="'tabs' + index"
               :is-active="
                 activeTab ===
-                  `${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
+                  `${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`
               "
-              :tab-id="`${pid}||${(tab._nodes && tab._nodes).type || ''}||${
+              :tab-id="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${
                 (tab._nodes && tab._nodes.dbAlias) || ''
               }||${tab.name}`"
               :hide-log-windows.sync="hideLogWindows"
@@ -178,121 +177,121 @@
       </v-tabs-items>
 
       <!-- Add / Import -->
-<!--      <v-menu v-if="_isUIAllowed('addOrImport')" offset-y>-->
-<!--        <template #activator="{ on }">-->
-<!--          <v-btn color="primary" style="height: 100%; padding: 5px" v-on="on">-->
-<!--            <x-icon icon-class="add-btn" :color="['white', 'grey lighten-2']">-->
-<!--              mdi-plus-box-->
-<!--            </x-icon>-->
-<!--            <span class="flex-grow-1 caption font-weight-bold text-capitalize mx-2">-->
-<!--              &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--              Add / Import-->
-<!--            </span>-->
-<!--            <v-spacer />-->
-<!--          </v-btn>-->
-<!--        </template>-->
-<!--        <v-list class="addOrImport">-->
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('addTable')"-->
-<!--            v-t="['a:table:import-from-excel']"-->
-<!--            @click="dialogCreateTableShowMethod"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-table-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; Add new table &ndash;&gt;-->
-<!--                {{ $t('tooltip.addTable') }}-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--          <v-divider class="my-1" />-->
-<!--          <v-subheader class="caption" style="height: 35px">-->
-<!--            QUICK IMPORT FROM-->
-<!--          </v-subheader>-->
+      <!--      <v-menu v-if="_isUIAllowed('addOrImport')" offset-y>-->
+      <!--        <template #activator="{ on }">-->
+      <!--          <v-btn color="primary" style="height: 100%; padding: 5px" v-on="on">-->
+      <!--            <x-icon icon-class="add-btn" :color="['white', 'grey lighten-2']">-->
+      <!--              mdi-plus-box-->
+      <!--            </x-icon>-->
+      <!--            <span class="flex-grow-1 caption font-weight-bold text-capitalize mx-2">-->
+      <!--              &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--              Add / Import-->
+      <!--            </span>-->
+      <!--            <v-spacer />-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <v-list class="addOrImport">-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('addTable')"-->
+      <!--            v-t="['a:table:import-from-excel']"-->
+      <!--            @click="dialogCreateTableShowMethod"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-table-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; Add new table &ndash;&gt;-->
+      <!--                {{ $t('tooltip.addTable') }}-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--          <v-divider class="my-1" />-->
+      <!--          <v-subheader class="caption" style="height: 35px">-->
+      <!--            QUICK IMPORT FROM-->
+      <!--          </v-subheader>-->
 
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('airtableImport')"-->
-<!--            v-t="['a:actions:import-airtable']"-->
-<!--            @click="airtableImportModal = true"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-table-large-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--                Airtable-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('csvQuickImport')"-->
-<!--            v-t="['a:actions:import-csv']"-->
-<!--            @click="onImportFromExcelOrCSV('csv')"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-file-document-outline-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--                CSV file-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('jsonImport')"-->
-<!--            v-t="['a:actions:import-json']"-->
-<!--            @click="jsonImportModal = true"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-code-json-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--                JSON file-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('excelQuickImport')"-->
-<!--            v-t="['a:actions:import-excel']"-->
-<!--            @click="onImportFromExcelOrCSV('excel')"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-file-excel-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--                Microsoft Excel-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('airtableImport')"-->
+      <!--            v-t="['a:actions:import-airtable']"-->
+      <!--            @click="airtableImportModal = true"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-table-large-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--                Airtable-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('csvQuickImport')"-->
+      <!--            v-t="['a:actions:import-csv']"-->
+      <!--            @click="onImportFromExcelOrCSV('csv')"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-file-document-outline-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--                CSV file-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('jsonImport')"-->
+      <!--            v-t="['a:actions:import-json']"-->
+      <!--            @click="jsonImportModal = true"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-code-json-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--                JSON file-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('excelQuickImport')"-->
+      <!--            v-t="['a:actions:import-excel']"-->
+      <!--            @click="onImportFromExcelOrCSV('excel')"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-file-excel-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--                Microsoft Excel-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
 
-<!--          <v-divider class="my-1" />-->
+      <!--          <v-divider class="my-1" />-->
 
-<!--          <v-list-item-->
-<!--            v-if="_isUIAllowed('importRequest')"-->
-<!--            v-t="['e:datasource:import-request']"-->
-<!--            href="https://github.com/nocodb/nocodb/issues/2052"-->
-<!--            target="_blank"-->
-<!--          >-->
-<!--            <v-list-item-title>-->
-<!--              <v-icon small>-->
-<!--                mdi-open-in-new-->
-<!--              </v-icon>-->
-<!--              <span class="caption">-->
-<!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
-<!--                Request a data source you need ?-->
-<!--              </span>-->
-<!--            </v-list-item-title>-->
-<!--          </v-list-item>-->
-<!--        </v-list>-->
-<!--      </v-menu>-->
+      <!--          <v-list-item-->
+      <!--            v-if="_isUIAllowed('importRequest')"-->
+      <!--            v-t="['e:datasource:import-request']"-->
+      <!--            href="https://github.com/nocodb/nocodb/issues/2052"-->
+      <!--            target="_blank"-->
+      <!--          >-->
+      <!--            <v-list-item-title>-->
+      <!--              <v-icon small>-->
+      <!--                mdi-open-in-new-->
+      <!--              </v-icon>-->
+      <!--              <span class="caption">-->
+      <!--                &lt;!&ndash; TODO: i18n &ndash;&gt;-->
+      <!--                Request a data source you need ?-->
+      <!--              </span>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--        </v-list>-->
+      <!--      </v-menu>-->
     </v-tabs>
     <!-- Create Empty Table -->
     <dlg-table-create
@@ -481,21 +480,40 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ tabs: 'tabs/list', activeTabCtx: 'tabs/activeTabCtx' }),
+    ...mapGetters({ tabs: 'tabs/list', activeTabCtx: 'tabs/activeTabCtx', allProjects: 'project/allProjects' }),
     pid() {
-      return this.$route.params.project_id
+      return this.$store.state.project.projectId
+    },
+    tabPid() { // 通过 tab 的 key 前缀找到 pid
+      return this.tabs.map((tab) => {
+        if (tab.key === 'roles') {
+          return ''
+        }
+        return this.allProjects[tab.key.split('.')[0]].id
+      }
+      )
     },
     activeTab: {
       set(tab) {
+        console.log(' ============== setting active tab ====================')
         if (!tab) {
           return this.$router.push({
-            query: {}
+            query: {
+              pid: this.pid
+            }
           })
         }
-        const [type, dbalias, name] = tab.split('||')
+        console.log(' ================ pushing router =====================')
+        console.log('tab: \n', tab)
+        const [pid, type, dbalias, name] = tab.split('||')
+        let _pid = pid
+        if (pid === '') {
+          _pid = this.pid
+        }
         this.$router.push({
           query: {
-            ...this.$route.query,
+            // ...this.$route.query,
+            pid: _pid,
             type,
             dbalias,
             name
@@ -503,7 +521,7 @@ export default {
         })
       },
       get() {
-        return [this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||')
+        return [this.$route.query.pid, this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||')
       }
     }
   },

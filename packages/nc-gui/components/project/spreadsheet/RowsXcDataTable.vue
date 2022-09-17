@@ -1,5 +1,6 @@
 <template>
   <v-container class="h-100 j-excel-container backgroundColor pa-0 ma-0" fluid>
+    <v-btn @click="testRowsXcDataTable">test</v-btn>
     <v-toolbar
       height="32"
       dense
@@ -831,6 +832,7 @@ export default {
       })
     },
     selectedViewId(id) {
+      console.log('selectedViewId changing: id: ', id)
       if (this.tabsState[this.tabId] && this.tabsState[this.tabId].page) {
         this.page = this.tabsState[this.tabId].page || 1
       } else {
@@ -850,6 +852,7 @@ export default {
     }
   },
   async mounted() {
+    console.log(' ======================= in mounted ')
     try {
       if (this.tabsState && this.tabsState[this.uniqueId]) {
         if (this.tabsState[this.uniqueId].page) {
@@ -866,6 +869,13 @@ export default {
     this.searchField = this.primaryValueColumn
   },
   methods: {
+    testRowsXcDataTable() {
+      console.log('selectedView:\n', this.selectedView)
+      console.log('tabsState:\n', this.tabsState)
+      console.log('selectedViewId: ', this.selectedViewId)
+      console.log('tabId: ', this.tabId)
+      console.log('nodes: \n', this.nodes)
+    },
     clickAddNewIcon() {
       this.insertNewRow(true, true)
       this.$e('c:row:add:grid-top')
@@ -931,6 +941,7 @@ export default {
       this.featureType = feat
     },
     async createTableIfNewTable() {
+      console.log(' ======================= in createTableIfNewTable ')
       if (this.nodes.newTable && !this.nodes.tableCreated) {
         const columns = this.sqlUi.getNewTableColumns().filter((col) => {
           if (col.column_name === 'id' && this.nodes.newTable.columns.includes('id_ag')) {
@@ -943,7 +954,9 @@ export default {
           }
           return this.nodes.newTable.columns.includes(col.column_name)
         })
-        await this.$api.dbTable.create(this.projectId, {
+        console.log(this.projectId)
+        console.log(this.$store.state.project.projectId)
+        await this.$api.dbTable.create(this.$store.state.project.projectId, {
           table_name: this.nodes.table_name,
           title: this.nodes.title,
           columns

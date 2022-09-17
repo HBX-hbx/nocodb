@@ -4,7 +4,8 @@ export const state = () => ({
   list: [],
   activeTab: 0,
   activeTabCtx: {},
-  tabsState: {}
+  tabsState: {},
+  projectId: null
 })
 
 export const mutations = {
@@ -20,15 +21,21 @@ export const mutations = {
   removeTableOrViewTabs(state) {
     state.list = state.list.filter(t => !['table', 'view'].includes(t.type))
   },
+  MutProjectId(state, projectId) {
+    state.projectId = projectId
+  },
   clear(state, index) {
     state.list = []
   },
   active(state, index) {
+    console.log('acting a tab, state: \n', state)
     if (state.list[index]) {
       state.activeTabCtx = { ...state.list[index] }
       state.activeTab = index
+      // console.log('pid: ', state.projectId)
       this.$router.push({
         query: {
+          pid: state.projectId,
           name: state.list[index].name || '',
           dbalias: (state.list[index]._nodes && state.list[index]._nodes.dbAlias) || '',
           type: (state.list[index]._nodes && state.list[index]._nodes.type) || ''
@@ -381,8 +388,9 @@ export const actions = {
     //   this.commit('snackbar/setSnack', `Free plan limits to ${rootState.users.ui_ability.rules.maxTabs} tabs. Please <a href="https://nocodb.com/pricing" style="color: white;font-weight: bold;">upgrade</a> your plan for unlimited tabs.`)
     //   return
     // }
+    console.log(' ================= adding tab =====================')
     commit('add', item)
-    await Vue.nextTick()
+    await Vue.nextTick() // 等 DOM 更新后再继续往下执行
     const index = state.list.length - 1
     if (state.activeTab !== 0 && state.activeTab === index) {
       commit('active', index - 1)

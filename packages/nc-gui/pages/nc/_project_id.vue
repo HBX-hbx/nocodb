@@ -28,107 +28,107 @@
   </v-container>
 </template>
 <script>
-import { Splitpanes, Pane } from 'splitpanes';
-import ProjectTabs from '~/components/ProjectTabs';
-import ProjectTreeView from '@/components/ProjectTreeView';
+import { Splitpanes, Pane } from 'splitpanes'
+import ProjectTabs from '~/components/ProjectTabs'
+import ProjectTreeView from '@/components/ProjectTreeView'
 
 export default {
   components: {
     ProjectTreeView,
     ProjectTabs,
     Splitpanes,
-    Pane,
+    Pane
   },
   data() {
     return {
       paneSize: 18,
       mainPanelSize: 82,
-      enableTree: true,
-    };
+      enableTree: true
+    }
   },
   computed: {
     pid() {
-      return this.$route.params.project_id;
+      return this.$route.params.project_id
     },
     treeViewMinSize() {
-      return this.enableTree ? 10 : 1.5;
+      return this.enableTree ? 10 : 1.5
     },
     treeViewMaxSize() {
-      return this.enableTree ? 50 : 1.5;
+      return this.enableTree ? 50 : 1.5
     },
     treeViewSize() {
-      return this.enableTree ? this.paneSize : 1.5;
+      return this.enableTree ? this.paneSize : 1.5
     },
     projectTabsSize() {
-      return this.enableTree ? 100 - this.paneSize : 100;
-    },
+      return this.enableTree ? 100 - this.paneSize : 100
+    }
   },
   async created() {
     this.$store.watch(
       state => state.panelSize.treeView && state.panelSize.treeView.size,
-      newSize => {
-        this.paneSize = newSize;
+      (newSize) => {
+        this.paneSize = newSize
       }
-    );
+    )
   },
   mounted() {
-    if ('new' in this.$route.query) {
-      this.simpleAnim();
-      this.$router.replace({ query: {} });
-    }
+    // if ('new' in this.$route.query) {
+    //   this.simpleAnim()
+    //   this.$router.replace({ query: {} })
+    // }
     try {
       // eslint-disable-next-line no-undef
-      hj('stateChange', `${this.$axios.defaults.baseURL}/dashboard/#/nc/`);
+      hj('stateChange', `${this.$axios.defaults.baseURL}/dashboard/#/nc/`)
     } catch (e) {}
   },
   methods: {
     tableCreate(table) {
       if (this.$refs.treeview) {
-        this.$refs.treeview.mtdTableCreate(table);
+        this.$refs.treeview.mtdTableCreate(table)
       }
     },
     simpleAnim() {
-      const count = 200;
+      const count = 200
       const defaults = {
-        origin: { y: 0.7 },
-      };
+        origin: { y: 0.7 }
+      }
 
       function fire(particleRatio, opts) {
         window.confetti(
           Object.assign({}, defaults, opts, {
-            particleCount: Math.floor(count * particleRatio),
+            particleCount: Math.floor(count * particleRatio)
           })
-        );
+        )
       }
 
       fire(0.25, {
         spread: 26,
-        startVelocity: 55,
-      });
+        startVelocity: 55
+      })
       fire(0.2, {
-        spread: 60,
-      });
+        spread: 60
+      })
       fire(0.35, {
         spread: 100,
         decay: 0.91,
-        scalar: 0.8,
-      });
+        scalar: 0.8
+      })
       fire(0.1, {
         spread: 120,
         startVelocity: 25,
         decay: 0.92,
-        scalar: 1.2,
-      });
+        scalar: 1.2
+      })
       fire(0.1, {
         spread: 120,
-        startVelocity: 45,
-      });
+        startVelocity: 45
+      })
     },
     toggleTreeView() {
-      this.enableTree = !this.enableTree;
-    },
-  },
-};
+      this.enableTree = !this.enableTree
+    }
+  }
+}
 </script>
 <style scoped>
 .xc-theme {
