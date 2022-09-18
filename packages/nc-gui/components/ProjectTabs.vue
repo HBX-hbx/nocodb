@@ -485,11 +485,12 @@ export default {
       return this.$store.state.project.projectId
     },
     tabPid() { // 通过 tab 的 key 前缀找到 pid
+      console.log('tabs: \n', this.tabs)
       return this.tabs.map((tab) => {
-        if (tab.key === 'roles') {
+        if (tab._nodes.type === 'roles') {
           return ''
         }
-        return this.allProjects[tab.key.split('.')[0]].id
+        return this.allProjects[tab._nodes.key.split('.')[0]].id
       }
       )
     },

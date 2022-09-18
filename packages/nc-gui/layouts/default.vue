@@ -11,26 +11,26 @@
     >
       <div class="d-flex align-center pt-1" style="flex: 1">
         <v-toolbar-title>
-          <v-tooltip bottom>
-            <template #activator="{ on }">
-              <v-btn
-                v-t="['c:navbar:home']"
-                to="/projects"
-                icon
-                class="pa-1 pr-0 brand-icon nc-noco-brand-icon"
-                v-on="on"
-              >
-                <v-img :src="logo" max-height="32px" max-width="32px" />
-              </v-btn>
-            </template>
-            <!-- Home -->
-            {{ $t('general.home') }}
-            <span
-              class="caption font-weight-light pointer"
-            >(v{{ $store.state.project.appInfo && $store.state.project.appInfo.version }})</span>
-          </v-tooltip>
+<!--          <v-tooltip bottom>-->
+<!--            <template #activator="{ on }">-->
+<!--              <v-btn-->
+<!--                v-t="['c:navbar:home']"-->
+<!--                to="/projects"-->
+<!--                icon-->
+<!--                class="pa-1 pr-0 brand-icon nc-noco-brand-icon"-->
+<!--                v-on="on"-->
+<!--              >-->
+<!--                <v-img :src="logo" max-height="32px" max-width="32px" />-->
+<!--              </v-btn>-->
+<!--            </template>-->
+<!--            &lt;!&ndash; Home &ndash;&gt;-->
+<!--            {{ $t('general.home') }}-->
+<!--            <span-->
+<!--              class="caption font-weight-light pointer"-->
+<!--            >(v{{ $store.state.project.appInfo && $store.state.project.appInfo.version }})</span>-->
+<!--          </v-tooltip>-->
 
-          <span class="body-1 ml-n1" @click="$router.push('/projects')"> {{ brandName }}</span>
+          <span class="body-1" @click="$router.push('/projects')">{{ brandName }}</span>
         </v-toolbar-title>
 
         <!--        <v-toolbar-items  />-->

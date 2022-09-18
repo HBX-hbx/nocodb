@@ -14,7 +14,7 @@ export default ({ app, store }) => {
     locale: store.state.settings.language,
 
     // Set the fallback locale in case the current locale can't be found
-    fallbackLocale: 'en',
+    fallbackLocale: 'zh_CN',
 
     // Associate each locale to a content file
     messages: {

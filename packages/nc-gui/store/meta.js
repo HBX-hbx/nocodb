@@ -5,7 +5,11 @@ export const state = () => ({
 
 export const mutations = {
   MutMeta(state, { key, value }) {
+    console.log(' ============= before MutMeta ==============\n', state.metas)
+    console.log('key: \n', key)
+    console.log('value: \n', value)
     state.metas = { ...state.metas, [key]: value }
+    console.log(' ============= after MutMeta ==============\n', state.metas)
   },
   MutLoading(state, { key, value }) {
     state.loading = { ...state.loading, [key]: value }
@@ -70,6 +74,8 @@ export const actions = {
     console.log('model: \n', model)
     // const model = await dispatch('sqlMgr/ActSqlOp', [{ env, dbAlias, project_id }, 'tableXcModelGet', { tableName }], { root: true })
     // const meta = JSON.parse(model.meta)
+
+    // TODO: 检查 model 的 views 与其他字段是否匹配，model 中 的 meta 字段换了，但是 views 没换，这是为什么？
     commit('MutMeta', {
       key: model.table_name,
       value: model

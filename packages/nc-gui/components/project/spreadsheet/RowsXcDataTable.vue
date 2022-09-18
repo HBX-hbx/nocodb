@@ -1300,7 +1300,6 @@ export default {
     },
     async loadMeta() {
       // load latest table meta
-      console.log(parseInt(this.nodes.key.split('.')[0], 10))
       await this.$store.dispatch('meta/ActLoadMeta', {
         env: this.nodes.env,
         dbAlias: this.nodes.dbAlias,
@@ -1625,9 +1624,15 @@ export default {
         return this.selectedView && this.selectedView.lock_type
       },
       set(type) {
+        console.log(`================ setting lockType: ${type} ====================`)
+        console.log('selectedView: \n', this.selectedView)
+        console.log('selectedViewId: ', this.selectedViewId)
         this.selectedView.lock_type = type
+        // TODO: maybe here? updating the selectedViewId
         this.$api.dbView.update(this.selectedViewId, {
           lock_type: type
+        }).then(() => {
+          console.log('callback new selectedViewId: ', this.selectedViewId)
         })
       }
     },
@@ -1636,13 +1641,18 @@ export default {
         return this.selectedView && this.selectedView.show_system_fields
       },
       set(v) {
+        console.log(`================ setting showSystemFields: ${v} ====================`)
+        console.log('selectedView: \n', this.selectedView)
+        console.log('selectedViewId: ', this.selectedViewId)
         if (this.selectedView) {
           this.selectedView.show_system_fields = v
+          // TODO: maybe here? updating the selectedViewId
           this.$api.dbView
             .update(this.selectedViewId, {
               show_system_fields: v
             })
             .then(() => {
+              console.log('callback new selectedViewId: ', this.selectedViewId)
               if (v) {
                 this.loadTableData()
               }

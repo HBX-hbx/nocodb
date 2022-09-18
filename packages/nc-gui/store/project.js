@@ -801,6 +801,8 @@ export const actions = {
 
   async ActLoadProjectInfo({ commit }) {
     const appInfo = (await this.$api.utils.appInfo())
+    console.log('=============== ActLoadProjectInfo ===============')
+    console.log('appInfo: \n', appInfo)
     commit('MutAppInfo', appInfo)
   }
 }

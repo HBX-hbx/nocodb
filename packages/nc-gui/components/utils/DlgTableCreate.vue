@@ -156,7 +156,7 @@
 </template>
 
 <script>
-import { validateTableName } from '~/helpers';
+import { validateTableName } from '~/helpers'
 
 export default {
   name: 'DlgTableCreate',
@@ -166,91 +166,91 @@ export default {
       isAdvanceOptVisible: false,
       table: {
         name: '',
-        columns: ['id', 'title', 'created_at', 'updated_at'],
+        columns: ['id', 'title', 'created_at', 'updated_at']
       },
       isIdToggleAllowed: false,
       valid: false,
       idType: 'AI',
       idTypes: [
         { value: 'AI', text: 'Auto increment number' },
-        { value: 'AG', text: 'Auto generated string' },
-      ],
-    };
+        { value: 'AG', text: 'Auto generated string' }
+      ]
+    }
   },
   computed: {
     dialogShow: {
       get() {
-        return this.value;
+        return this.value
       },
       set(v) {
-        this.$emit('input', v);
-      },
+        this.$emit('input', v)
+      }
     },
     projectPrefix() {
-      return this.$store.getters['project/GtrProjectPrefix'];
+      return this.$store.getters['project/GtrProjectPrefix']
     },
     tables() {
-      return this.$store.state.project.tables || [];
-    },
+      return this.$store.state.project.tables || []
+    }
   },
   watch: {
     'table.alias'(alias) {
-      this.$set(this.table, 'name', `${this.projectPrefix || ''}${alias}`);
-    },
+      this.$set(this.table, 'name', `${this.projectPrefix || ''}${alias}`)
+    }
   },
   created() {
-    this.populateDefaultTitle();
+    this.populateDefaultTitle()
   },
   mounted() {
     setTimeout(() => {
-      const el = this.$refs.input.$el;
-      el.querySelector('input').focus();
-      el.querySelector('input').select();
-    }, 100);
+      const el = this.$refs.input.$el
+      el.querySelector('input').focus()
+      el.querySelector('input').select()
+    }, 100)
   },
 
   methods: {
     populateDefaultTitle() {
-      let c = 1;
+      let c = 1
       while (this.tables.some(t => t.title === `Sheet${c}`)) {
-        c++;
+        c++
       }
-      this.$set(this.table, 'alias', `Sheet${c}`);
+      this.$set(this.table, 'alias', `Sheet${c}`)
     },
     validateTableName(v) {
-      return validateTableName(v, this.$store.getters['project/GtrProjectIsGraphql']);
+      return validateTableName(v, this.$store.getters['project/GtrProjectIsGraphql'])
     },
     validateDuplicateAlias(v) {
-      return (this.tables || []).every(t => t.title !== (v || '')) || 'Duplicate table alias';
+      return (this.tables || []).every(t => t.title !== (v || '')) || 'Duplicate table alias'
     },
     validateLedingOrTrailingWhiteSpace(v) {
-      return !/^\s+|\s+$/.test(v) || 'Leading or trailing whitespace not allowed in table name';
+      return !/^\s+|\s+$/.test(v) || 'Leading or trailing whitespace not allowed in table name'
     },
     validateDuplicate(v) {
       return (
         (this.tables || []).every(t => t.table_name.toLowerCase() !== (v || '').toLowerCase()) || 'Duplicate table name'
-      );
+      )
     },
     validateLength(v) {
-      let tableNameLengthLimit = 255;
-      const sqlClientType = this.$store.getters['project/GtrClientType'];
+      let tableNameLengthLimit = 255
+      const sqlClientType = this.$store.getters['project/GtrClientType']
       if (sqlClientType === 'mysql2' || sqlClientType === 'mysql') {
-        tableNameLengthLimit = 64;
+        tableNameLengthLimit = 64
       } else if (sqlClientType === 'pg') {
-        tableNameLengthLimit = 63;
+        tableNameLengthLimit = 63
       } else if (sqlClientType === 'mssql') {
-        tableNameLengthLimit = 128;
+        tableNameLengthLimit = 128
       }
-      return v.length <= tableNameLengthLimit || `Table name exceeds ${tableNameLengthLimit} characters`;
+      return v.length <= tableNameLengthLimit || `Table name exceeds ${tableNameLengthLimit} characters`
     },
     onCreateBtnClick() {
       this.$emit('create', {
         ...this.table,
-        columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c)),
-      });
-    },
-  },
-};
+        columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c))
+      })
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

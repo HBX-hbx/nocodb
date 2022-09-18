@@ -73,7 +73,9 @@
               color="primary"
               @click="createProject"
             >
-              <v-icon class="mr-1 mt-n1"> mdi-rocket-launch-outline </v-icon>
+              <v-icon class="mr-1 mt-n1">
+                mdi-rocket-launch-outline
+              </v-icon>
               <!-- Create -->
               <span class="mr-1">{{ $t('general.create') }}</span>
             </v-btn>
@@ -85,7 +87,7 @@
 </template>
 
 <script>
-import colors from '@/mixins/colors';
+import colors from '@/mixins/colors'
 
 export default {
   name: 'Name',
@@ -97,7 +99,7 @@ export default {
     projectType: 'rest',
     projectTypes: [
       { text: 'REST APIs', value: 'rest', icon: 'mdi-code-json', iconColor: 'green' },
-      { text: 'GRAPHQL APIs', value: 'graphql', icon: 'mdi-graphql', iconColor: 'pink' },
+      { text: 'GRAPHQL APIs', value: 'graphql', icon: 'mdi-graphql', iconColor: 'pink' }
       /*   {
            text: 'Automatic gRPC APIs on database',
            value: 'grpc',
@@ -108,28 +110,28 @@ export default {
     form: {
       titleValidationRule: [
         v => !!v || 'Title is required',
-        v => v.length <= 50 || 'Project name exceeds 50 characters',
-      ],
-    },
+        v => v.length <= 50 || 'Project name exceeds 50 characters'
+      ]
+    }
   }),
   computed: {
     typeIcon() {
       if (this.projectType) {
-        return this.projectTypes.find(({ value }) => value === this.projectType);
+        return this.projectTypes.find(({ value }) => value === this.projectType)
       } else {
-        return { icon: 'mdi-server', iconColor: 'primary' };
+        return { icon: 'mdi-server', iconColor: 'primary' }
       }
-    },
+    }
   },
   mounted() {
     setTimeout(() => {
-      this.$refs.name.$el.querySelector('input').focus();
-    }, 100);
+      this.$refs.name.$el.querySelector('input').focus()
+    }, 100)
   },
   methods: {
     async createProject() {
       if (this.$refs.form.validate()) {
-        this.loading = true;
+        this.loading = true
         try {
           // const result = await this.$store.dispatch('sqlMgr/ActSqlOp', [null, 'projectCreateByWebWithXCDB', {
           //   title: this.name,
@@ -137,38 +139,39 @@ export default {
           // }])
 
           const result = await this.$api.project.create({
-            title: this.name,
-          });
+            title: this.name
+          })
 
-          await this.$store.dispatch('project/ActLoadProjectInfo');
+          await this.$store.dispatch('project/ActLoadProjectInfo')
 
-          this.projectReloading = false;
+          this.projectReloading = false
 
           if (
             this.$store.state.project.appInfo.firstUser ||
             this.$store.state.project.appInfo.authType === 'masterKey'
           ) {
             return this.$router.push({
-              path: '/user/authentication/signup',
-            });
+              path: '/user/authentication/signup'
+            })
           }
 
           this.$router.push({
-            path: `/nc/${result.id}`,
+            // path: `/nc/${result.id}`,
+            path: '/nc',
             query: {
-              new: 1,
-            },
-          });
+              new: 1
+            }
+          })
         } catch (e) {
-          this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000);
+          this.$toast.error(await this._extractSdkResponseErrorMsg(e)).goAway(3000)
         }
-        this.loading = false;
+        this.loading = false
       } else {
         // this.$toast.
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -217,12 +217,14 @@ export const actions = {
   /** ************** START : authentication ****************/
   async ActSignUp({ commit, dispatch }, data) {
     let err = null
+    console.log('signing up: \n', data)
     try {
       if (!data.ignore_subscribe) {
         delete data.ignore_subscribe
       }
 
       const userRes = await this.$api.auth.signup(data)
+      console.log('response: \n', userRes)
 
       commit('MutSetToken', userRes.token)
 
@@ -238,6 +240,8 @@ export const actions = {
   async ActSignIn({ commit, dispatch }, data) {
     // console.log('in action signin');
     let err = null
+    console.log('============== ActSignIn ==================')
+    console.log('data: \n', data)
     try {
       const userPromise = await this.$api.auth.signin(data)
 
@@ -276,6 +280,17 @@ export const actions = {
           'xc-auth': state.token
         }
       })
+      console.log('=================== ActGetUserDetails =====================')
+      console.log('user: \n', user)
+      // const newUser = {
+      //   ...user,
+      //   roles: {
+      //     super: true,
+      //     user: true
+      //   }
+      // }
+      // console.log('newUser: \n', newUser)
+      // commit('MutSetUser', newUser)
       commit('MutSetUser', user)
     } catch (e) {
       console.log('ignoring user/me error')

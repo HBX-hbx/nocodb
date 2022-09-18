@@ -1259,7 +1259,8 @@ export default {
 
         if (!this.edit && !this.allSchemas) {
           this.$router.push({
-            path: `/nc/${result.id}`,
+            // path: `/nc/${result.id}`,
+            path: '/nc',
             query: {
               new: 1
             }

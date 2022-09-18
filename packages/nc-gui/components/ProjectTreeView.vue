@@ -929,6 +929,7 @@ export default {
       console.log('projects:\n', this.projects)
       console.log('route:\n', this.$route)
       console.log('tabs:\n', this.tabs)
+      console.log('menuItem:\n', this.menuItem)
       console.log('cur store project id: ', this.$store.state.project.projectId)
 
       // console.log('testListView:\n', this.projects.map(project => {
@@ -1643,6 +1644,10 @@ export default {
       this.dialogRenameTable.defaultValue = null;
     },
     mtdTableCreate(table) {
+      console.log(' ==================== mtdTableCreate =====================')
+      console.log('table: \n', table)
+      console.log('menuItem: \n', this.menuItem)
+      // TODO: 需要从 key 来判断添加的 table 所属的 project 是否是当前 store 里存的 project
       if (!this.menuItem || this.menuItem.type !== 'tableDir') {
         this.menuItem = this.listViewArr.find(n => n.type === 'tableDir');
       }
