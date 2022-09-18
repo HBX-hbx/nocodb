@@ -654,8 +654,9 @@ export default {
     async projectsLoad() {
       try {
         this.loadingProjects = true
+        console.log('before:\n', this.projects)
         this.projects = (await this.$api.project.list({})).list
-
+        console.log('after:\n', this.projects)
         // todo: multiplex
         const user = this.$store.state.users.user
         if (!(this.projects && this.projects.length) && user && user.roles && user.roles.owner) {

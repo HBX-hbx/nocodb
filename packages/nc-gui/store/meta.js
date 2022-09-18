@@ -16,6 +16,7 @@ export const mutations = {
 }
 
 export const actions = {
+  // 加载 table 的原始数据
   async ActLoadMeta({ state, commit, dispatch, rootState }, {
     table_name: tableName,
     env = '_noco',
@@ -23,6 +24,7 @@ export const actions = {
     force,
     // eslint-disable-next-line camelcase
     project_id,
+    index, // 第几个 project
     id
   }) {
     if (!force && state.loading[tableName || id]) {
@@ -41,11 +43,13 @@ export const actions = {
     if (!force && state.metas[id]) {
       return state.metas[id]
     }
-
+    console.log('===== acting loading meta for the table =====')
+    console.log('index: ', index)
+    console.log('rootState.project.unserializedList: ', rootState.project.unserializedList)
     const modelId = id ||
       (rootState
         .project
-        .unserializedList[0]
+        .unserializedList[index] // TODO: 默认返回第 0 项，即返回了第一个项目的信息
         .projectJson
         .envs
         ._noco
@@ -55,6 +59,7 @@ export const actions = {
       console.warn(`Table '${tableName}' is not found in the table list`)
       return
     }
+    console.log('modelId: ', modelId)
 
     commit('MutLoading', {
       key: tableName || id,
@@ -62,6 +67,7 @@ export const actions = {
     })
 
     const model = await this.$api.dbTable.read(modelId)
+    console.log('model: \n', model)
     // const model = await dispatch('sqlMgr/ActSqlOp', [{ env, dbAlias, project_id }, 'tableXcModelGet', { tableName }], { root: true })
     // const meta = JSON.parse(model.meta)
     commit('MutMeta', {

@@ -875,6 +875,7 @@ export default {
       console.log('selectedViewId: ', this.selectedViewId)
       console.log('tabId: ', this.tabId)
       console.log('nodes: \n', this.nodes)
+      console.log('meta: \n', this.meta)
     },
     clickAddNewIcon() {
       this.insertNewRow(true, true)
@@ -1299,11 +1300,13 @@ export default {
     },
     async loadMeta() {
       // load latest table meta
+      console.log(parseInt(this.nodes.key.split('.')[0], 10))
       await this.$store.dispatch('meta/ActLoadMeta', {
         env: this.nodes.env,
         dbAlias: this.nodes.dbAlias,
         table_name: this.table,
-        force: true
+        force: true,
+        index: parseInt(this.nodes.key.split('.')[0], 10) // 确认第几个 project
       })
     },
     clickPagination() {
@@ -1314,6 +1317,7 @@ export default {
       this.loadTableDataDeb(this, ignoreLoader)
     },
     async loadTableDataFn(ignoreLoader = true) {
+      console.log(' ============== loading table data func ==============')
       if (this.isForm || !this.selectedView || !this.selectedView.title) {
         return
       }
@@ -1333,6 +1337,10 @@ export default {
         //       ...(this._isUIAllowed('filterSync') ? {} : { filterArrJson: JSON.stringify(this.filters) })
         //     }
         //   })).data.data
+        console.log('projectName: ', this.projectName)
+        console.log('metaId: ', this.meta.id)
+        console.log('selectedView: ', this.selectedView.id)
+        console.log('listQueryParams: ', this.listQueryParams)
 
         const { list, pageInfo } = await this.$api.dbViewRow.list(
           'noco',
@@ -1341,6 +1349,8 @@ export default {
           this.selectedView.id,
           this.listQueryParams
         )
+        console.log('list: \n', list)
+        console.log('pageInfo: \n', pageInfo)
 
         this.count = pageInfo.totalRows // count
         this.data = list.map(row => ({

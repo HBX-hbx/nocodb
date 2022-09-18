@@ -75,8 +75,8 @@
                   &nbsp; {{ $t('general.signUp') }} &nbsp;
                 </v-btn>
 
-                <br />
-                <br />
+                <br>
+                <br>
                 <div class="d-flex align-center justify-center mb-2">
                   <v-switch v-model="subscribe" dense hide-details class="mt-0 pt-0" />
                   <label class="caption font-weight-light">Subscribe to our weekly newsletter</label>
@@ -128,7 +128,7 @@
                 </v-btn>
               </v-form>
 
-              <br />
+              <br>
 
               <div>
                 <v-btn
@@ -140,7 +140,7 @@
                   block
                   color="blue"
                 >
-                  <img :src="require('~/assets/img/gmail.png')" class="img-responsive" alt="google" width="24px" />
+                  <img :src="require('~/assets/img/gmail.png')" class="img-responsive" alt="google" width="24px">
                   <b>&nbsp; &nbsp;Sign In with Google</b>
                 </v-btn>
 
@@ -156,7 +156,7 @@
                 <!--                </v-btn>-->
               </div>
               <template v-if="type === 'none'">
-                <br />
+                <br>
                 <v-alert type="warning" outlined icon="mdi-alert">
                   <!--                <v-icon color="warning">mdi-alert</v-icon>-->
                   Authentication not configured in configuration
@@ -164,14 +164,15 @@
               </template>
             </v-card>
 
-            <br />
+            <br>
 
             <div class="text-center">
               <p class="grey--text font-weight-light caption">
                 By signing up, you agree to
-                <span class="grey--text pointer" @click="openUrl('https://nocodb.com/policy-nocodb')"
-                  ><u>Terms of service</u></span
-                >
+                <span
+                  class="grey--text pointer"
+                  @click="openUrl('https://nocodb.com/policy-nocodb')"
+                ><u>Terms of service</u></span>
               </p>
               <!--              <div class="d-flex align-center mb-4 justify-center">
                 <v-checkbox v-model="subscribe" color="grey" dense hide-details class="mt-0  pt-0" />
@@ -186,8 +187,8 @@
 </template>
 
 <script>
-import { isEmail } from '@/helpers';
-import passwordValidateMixin from '@/pages/user/authentication/passwordValidateMixin';
+import { isEmail } from '@/helpers'
+import passwordValidateMixin from '@/pages/user/authentication/passwordValidateMixin'
 // import VueRecaptcha from 'vue-recaptcha';
 
 export default {
@@ -198,7 +199,7 @@ export default {
   mixins: [passwordValidateMixin],
   layout: 'empty',
   validate({ params }) {
-    return true;
+    return true
   },
   props: {},
 
@@ -210,17 +211,17 @@ export default {
       dialog: false,
       form: {
         email: null,
-        password: null,
+        password: null
       },
 
       formRules: {
         email: [
           v => !!v || 'E-mail is required',
           // ref : https://stackoverflow.com/a/46181
-          v => isEmail(v) || 'E-mail must be valid',
+          v => isEmail(v) || 'E-mail must be valid'
         ],
         password: [v => this.PasswordValidate(v) || this.passwordValidateMsg],
-        secret: [v => !!v || 'Required'],
+        secret: [v => !!v || 'Required']
       },
       formUtil: {
         formErr: false,
@@ -231,43 +232,43 @@ export default {
         e3: true,
         e4: true,
         passwordProgress: 0,
-        progressColorValue: 'red',
+        progressColorValue: 'red'
       },
 
       googleAuthUrl: '/api/auth/google',
       facebookAuthUrl: '/api/auth/facebook',
 
-      signUpButtonLoading: false,
-    };
+      signUpButtonLoading: false
+    }
   },
   head() {
     return {
       title: 'Sign Up | Noco',
-      meta: [{ hid: 'Sign Up To Noco', name: 'Sign Up To Noco', content: 'Sign Up To Noco' }],
-    };
+      meta: [{ hid: 'Sign Up To Noco', name: 'Sign Up To Noco', content: 'Sign Up To Noco' }]
+    }
   },
   computed: {
     counter() {
-      return this.$store.getters['users/GtrCounter'];
+      return this.$store.getters['users/GtrCounter']
     },
     displayName() {
-      return this.$store.getters['users/GtrUser'];
+      return this.$store.getters['users/GtrUser']
     },
     type() {
-      return 'jwt'; // this.$store.state.project && this.$store.state.project.appInfo && this.$store.state.project.appInfo.authType
+      return 'jwt' // this.$store.state.project && this.$store.state.project.appInfo && this.$store.state.project.appInfo.authType
     },
     firstUser() {
       return (
         this.$store.state.project && this.$store.state.project.appInfo && this.$store.state.project.appInfo.firstUser
-      );
+      )
     },
     googleAuthEnabled() {
       return (
         this.$store.state.project &&
         this.$store.state.project.appInfo &&
         this.$store.state.project.appInfo.googleAuthEnabled
-      );
-    },
+      )
+    }
   },
   watch: {},
   async created() {
@@ -282,20 +283,20 @@ export default {
     // console.log(this.$route.query);
 
     if ('buy' in this.$route.query) {
-      this.googleAuthUrl += '?redirect_to=/';
-      this.facebookAuthUrl += '?redirect_to=/';
+      this.googleAuthUrl += '?redirect_to=/'
+      this.facebookAuthUrl += '?redirect_to=/'
     } else {
-      this.googleAuthUrl += '?redirect_to=/';
-      this.facebookAuthUrl += '?redirect_to=/';
+      this.googleAuthUrl += '?redirect_to=/'
+      this.facebookAuthUrl += '?redirect_to=/'
     }
   },
   beforeDestroy() {},
   methods: {
     openUrl(url) {
-      window.open(url, '_blank');
+      window.open(url, '_blank')
     },
     openGoogleSiginInBrowser(e) {
-      e.preventDefault();
+      e.preventDefault()
       // if(this._isMac) {
       // shell.openExternal(process.env.auth.google.url)
       // }else{
@@ -303,74 +304,74 @@ export default {
       // }
     },
     openGithubSiginInBrowser(e) {
-      e.preventDefault();
+      e.preventDefault()
       // shell.openExternal(process.env.auth.github.url)
     },
     onNormalVerify() {
-      this.formUtil.recpatcha = true;
+      this.formUtil.recpatcha = true
       // this.formUtil.recpatcha = false;
     },
 
     progressColor(num) {
-      this.formUtil.progressColorValue = ['error', 'warning', 'info', 'success'][Math.floor(num / 25)];
-      return this.formUtil.progressColorValue;
+      this.formUtil.progressColorValue = ['error', 'warning', 'info', 'success'][Math.floor(num / 25)]
+      return this.formUtil.progressColorValue
     },
 
     PlusCounter() {
-      this.$store.dispatch('ActPlusCounter');
+      this.$store.dispatch('ActPlusCounter')
     },
 
     async MtdOnSignup(e) {
-      e.preventDefault();
+      e.preventDefault()
 
-      this.signUpButtonLoading = true;
+      this.signUpButtonLoading = true
 
       if (this.type === 'jwt') {
         if (this.$refs.formType.validate()) {
           // this.$nuxt.$loading.start()
           // console.log('hello', this.form);
-          this.form.firstName = this.form.username;
-          this.form.lastName = this.form.username;
+          this.form.firstName = this.form.username
+          this.form.lastName = this.form.username
           //
           // await this.$recaptchaLoaded()
           // const recaptchaToken = await this.$recaptcha('login')
 
           const err = await this.$store.dispatch('users/ActSignUp', {
             ...this.form,
-            ignore_subscribe: !this.subscribe,
-          }); // recaptchaToken});
+            ignore_subscribe: !this.subscribe
+          }) // recaptchaToken});
 
           // console.log('in method signup', err);
 
-          await this.$store.dispatch('project/ActLoadProjectInfo');
+          await this.$store.dispatch('project/ActLoadProjectInfo')
 
           if (err) {
-            this.formUtil.formErr = true;
-            this.formUtil.formErrMsg = err.data.msg;
-            this.signUpButtonLoading = false;
-            return;
+            this.formUtil.formErr = true
+            this.formUtil.formErrMsg = err.data.msg
+            this.signUpButtonLoading = false
+            return
           }
 
           // this.$nuxt.$loading.finish()
         }
       } else if (this.type === 'masterKey') {
-        const valid = await this.$store.dispatch('users/ActVerifyMasterKey', this.form.secret);
+        const valid = await this.$store.dispatch('users/ActVerifyMasterKey', this.form.secret)
         if (!valid) {
-          this.formUtil.formErr = true;
-          this.formUtil.formErrMsg = 'Invalid admin secret';
-          this.signUpButtonLoading = false;
-          return;
+          this.formUtil.formErr = true
+          this.formUtil.formErrMsg = 'Invalid admin secret'
+          this.signUpButtonLoading = false
+          return
         }
-        this.$store.commit('users/MutMasterKey', this.form.secret);
+        this.$store.commit('users/MutMasterKey', this.form.secret)
       }
 
       if ('redirect_to' in this.$route.query) {
-        this.$router.push(this.$route.query.redirect_to);
+        this.$router.push(this.$route.query.redirect_to)
       } else {
-        this.$router.push('/projects?toast');
+        this.$router.push('/projects?toast')
       }
-      this.signUpButtonLoading = false;
-      this.$e('a:auth:sign-up');
+      this.signUpButtonLoading = false
+      this.$e('a:auth:sign-up')
     },
 
     MtdOnReset() {
@@ -378,14 +379,14 @@ export default {
     },
 
     async MtdOnSignupGoogle(e) {
-      await this.$store.dispatch('users/ActAuthGoogle');
+      await this.$store.dispatch('users/ActAuthGoogle')
       // console.log('MtdOnSignupGoogle', err);
-    },
+    }
   },
 
   beforeCreated() {},
-  destroy() {},
-};
+  destroy() {}
+}
 </script>
 
 <style scoped>

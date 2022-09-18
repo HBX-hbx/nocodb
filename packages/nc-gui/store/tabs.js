@@ -35,7 +35,7 @@ export const mutations = {
       // console.log('pid: ', state.projectId)
       this.$router.push({
         query: {
-          pid: state.projectId,
+          // pid: state.projectId,
           name: state.list[index].name || '',
           dbalias: (state.list[index]._nodes && state.list[index]._nodes.dbAlias) || '',
           type: (state.list[index]._nodes && state.list[index]._nodes.type) || ''
@@ -96,6 +96,7 @@ export const actions = {
   },
   async loadDefaultTabs({ commit, state, rootGetters, dispatch, rootState }, load) {
     const tabs = []
+    console.log('this.$router.currentRoute: ', this.$router.currentRoute)
 
     if ('name' in this.$router.currentRoute.query &&
       'type' in this.$router.currentRoute.query &&
@@ -275,6 +276,7 @@ export const actions = {
       }
 
       if (rootGetters['users/GtrIsAdmin']) {
+        console.log('is admin !')
         tabs.unshift({
           name: 'Team & Auth ',
           key: 'roles',
@@ -295,6 +297,7 @@ export const actions = {
         }
       }
     }
+    console.log('tabs in tabs.js: ', tabs)
     commit('list', tabs)
   },
   async loadFirstTableTab({ commit, state, rootGetters, dispatch, rootState }, load) {
@@ -391,12 +394,14 @@ export const actions = {
     console.log(' ================= adding tab =====================')
     commit('add', item)
     await Vue.nextTick() // 等 DOM 更新后再继续往下执行
+    console.log('in tabs.js tabs:', state.list)
+    console.log('in tabs.js activeTab: ', state.activeTab)
     const index = state.list.length - 1
     if (state.activeTab !== 0 && state.activeTab === index) {
       commit('active', index - 1)
       setTimeout(() => commit('active', index))
     } else {
-      commit('active', index)
+      commit('active', index) // active the last added tab in tabs
     }
     // this.$nextTick(() => {
     //   this.$router.push({

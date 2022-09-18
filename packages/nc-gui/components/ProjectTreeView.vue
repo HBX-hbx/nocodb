@@ -201,10 +201,9 @@
                   :key="item.key"
                   color="textColor"
                   :value="isActiveList(item)"
-                  @click="addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"
+                  @click="!(item.children && item.children.length) && addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"
                   @contextmenu.prevent="showCTXMenu($event, item, true, false)"
                 >
-<!--                  @click="!(item.children && item.children.length) && addTab({ ...item }, false, false, allProjects[Math.floor(idx / 2)].id)"-->
                   <template #appendIcon>
                     <v-icon small color="grey"> mdi-chevron-up </v-icon>
                   </template>
@@ -296,7 +295,7 @@
                           active-class="font-weight-bold"
                           :selectable="true"
                           dense
-                          :value="`${(child._nodes && child._nodes).type || ''}||${
+                          :value="`${allProjects[Math.floor(idx / 2)].id}||${(child._nodes && child._nodes).type || ''}||${
                             (child._nodes && child._nodes.dbAlias) || ''
                           }||${child.name}`"
                           class="nested ml-3 nc-draggable-child"
@@ -870,7 +869,7 @@ export default {
     },
     selectedItem() {
       // TODO: 返回当前选中的 tab，加上 pid 在前面
-      return [this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||');
+      return [this.$store.state.project.projectId, this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||');
     },
     direction() {
       return this.navigation.shown === false ? 'Open' : 'Closed';
@@ -1232,14 +1231,14 @@ export default {
       //this.$store.commit('notification/MutToggleProgressBar', true);
       this.setProjectId(pid)
       this.setTabsProjectId(pid)
-      console.log(`project route handler to ${pid}`)
-      let newQuery = JSON.parse(JSON.stringify(this.$route.query))
-      newQuery.pid = pid
-      console.log('newQuery: \n', newQuery)
-      await this.$router.push({
-        query: {}
-      })
-      console.log('cur route : ', this.$route)
+      // console.log(`project route handler to ${pid}`)
+      // let newQuery = JSON.parse(JSON.stringify(this.$route.query))
+      // newQuery.pid = pid
+      // console.log('newQuery: \n', newQuery)
+      // await this.$router.push({
+      //   query: newQuery
+      // })
+      // console.log('cur route : ', this.$route)
       try {
         if (item._nodes.type === 'tableDir' && !open) {
           //load tables
@@ -1385,13 +1384,13 @@ export default {
         this.loadingProjects = false;
         // if (!this.isTreeView) {
           if (this.$route.query.type) {
-            console.log('=============== 5 ==================\nthis.projects:\n', this.projects)
+            console.log('=============== 5 up ==================\nthis.projects:\n', this.projects)
             const node = this.listViewArr.find(n => n.type === `${this.$route.query.type}Dir`);
             await this.addTab({ ...(node || this.listViewArr[0]) }, false, true, this.allProjects[0].id);
             console.log('=============== 8 ==================\nthis.projects:\n', this.projects)
           } else {
             console.log('before add tab listViewArr: \n', this.listViewArr);
-            console.log('=============== 5 ==================\nthis.projects:\n', this.projects)
+            console.log('=============== 5 down ==================\nthis.projects:\n', this.projects)
             // 默认展开第一个 project
             await this.addTab({ ...this.listViewArr[0] }, false, true, this.allProjects[0].id);
             console.log('=============== 8 ==================\nthis.projects:\n', this.projects)
@@ -1971,8 +1970,9 @@ export default {
 
 
     await this.loadProjectsData(this.allProjects.map(projectInfo => projectInfo.id));
+    console.log('before load default tabs')
     this.loadDefaultTabs(true);
-
+    console.log('after load default tabs')
     // await this.loadProjectsData(this.allProjects[1].id);
     // this.loadDefaultTabs(true);
 

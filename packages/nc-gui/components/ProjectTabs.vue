@@ -21,7 +21,7 @@
         }`"
         class="divider project-tab xc-border-right"
         :title="tab.name"
-        :href="`${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
+        :href="`#${tabPid[index]}||${(tab._nodes && tab._nodes).type || ''}||${(tab._nodes && tab._nodes.dbAlias) || ''}||${tab.name}`"
         @change="tabActivated(tab)"
       >
         <v-icon v-if="treeViewIcons[tab._nodes.type]" icon :small="true">
@@ -494,26 +494,21 @@ export default {
       )
     },
     activeTab: {
+      // ProjectTreeView 中调用了 loadDefaultTabs 后，改变了 tabs.js 里的 list， 为什么路由就变了？
       set(tab) {
         console.log(' ============== setting active tab ====================')
         if (!tab) {
           return this.$router.push({
-            query: {
-              pid: this.pid
-            }
+            query: {}
           })
         }
         console.log(' ================ pushing router =====================')
         console.log('tab: \n', tab)
-        const [pid, type, dbalias, name] = tab.split('||')
-        let _pid = pid
-        if (pid === '') {
-          _pid = this.pid
-        }
+        const [_, type, dbalias, name] = tab.split('||')
         this.$router.push({
           query: {
-            // ...this.$route.query,
-            pid: _pid,
+            ...this.$route.query,
+            // pid: _pid,
             type,
             dbalias,
             name
@@ -521,7 +516,8 @@ export default {
         })
       },
       get() {
-        return [this.$route.query.pid, this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||')
+        console.log('getting activeTab: ', [this.pid, this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||'))
+        return [this.pid, this.$route.query.type, this.$route.query.dbalias, this.$route.query.name].join('||')
       }
     }
   },

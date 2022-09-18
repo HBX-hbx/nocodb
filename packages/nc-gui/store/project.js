@@ -35,6 +35,9 @@ export const mutations = {
   },
   MutProjectId(state, projectId) {
     state.projectId = projectId
+    const index = state.allProjects.findIndex((project) => project.id === projectId)
+    state.project = state.unserializedList[index]
+    console.log('state.project changed to: \n', state.project)
   },
   update(state, data) {
   },
@@ -92,7 +95,6 @@ export const mutations = {
     })
     console.log('in project.js/formatted values: \n', projects)
     // const projects = [formattedProj]
-    console.log('in project.js/projects:\n', projects)
     Vue.set(state, 'unserializedList', projects)
 
     console.log("in project.js/state_list: [before]:\n", state.list)
@@ -102,7 +104,7 @@ export const mutations = {
 
     Vue.set(state, 'list', treeViewDataSerializer(projects))
     console.log("in project.js/state_list: [after]:\n", state.list)
-    state.project = values[0] // 默认第一个 project
+    state.project = projects[0] // 默认第一个 project
   },
 
   setProjectJson(state, projJson) {
@@ -220,7 +222,7 @@ export const getters = {
     return data
   },
   GtrProjectName(state) {
-    return state.project && state.project.title
+    return state.project && state.project.title  // TODO: state.project 默认存储第一个 project
   },
   GtrProjectId(state) {
     return state.project && state.project.id
