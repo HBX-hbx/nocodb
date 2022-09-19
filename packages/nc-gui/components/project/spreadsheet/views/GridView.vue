@@ -7,7 +7,7 @@
     @dragend="dragOver = false"
     @drop.prevent.stop="onFileDrop"
   >
-    <v-btn @click="testGridView">test</v-btn>
+<!--    <v-btn @click="testGridView">test</v-btn>-->
     <table v-if="data" class="xc-row-table nc-grid backgroundColorDefault" style="">
       <thead>
         <tr class="text-left nc-grid-header-row">

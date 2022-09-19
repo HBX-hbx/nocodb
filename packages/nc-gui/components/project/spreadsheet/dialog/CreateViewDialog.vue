@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ViewTypes } from 'nocodb-sdk';
+import { ViewTypes } from 'nocodb-sdk'
 
 export default {
   name: 'CreateViewDialog',
@@ -49,85 +49,85 @@ export default {
     'meta',
     'copyView',
     'viewsList',
-    'selectedViewId',
+    'selectedViewId'
   ],
   data: () => ({
     valid: false,
     view_name: '',
     loading: false,
-    queryParams: {},
+    queryParams: {}
   }),
   computed: {
     localState: {
       get() {
-        return this.value;
+        return this.value
       },
       set(v) {
-        this.$emit('input', v);
-      },
+        this.$emit('input', v)
+      }
     },
     typeAlias() {
       return {
         [ViewTypes.GRID]: 'grid',
         [ViewTypes.GALLERY]: 'gallery',
         [ViewTypes.FORM]: 'form',
-        [ViewTypes.KANBAN]: 'kanban',
-      }[this.show_as];
-    },
+        [ViewTypes.KANBAN]: 'kanban'
+      }[this.show_as]
+    }
   },
   mounted() {
     try {
       if (this.copyView && this.copyView.query_params) {
-        this.queryParams = { ...JSON.parse(this.copyView.query_params) };
+        this.queryParams = { ...JSON.parse(this.copyView.query_params) }
       }
     } catch (e) {}
-    this.view_name = `${this.alias || this.table}${this.viewsCount}`;
+    this.view_name = `${this.alias || this.table}${this.viewsCount}`
 
     this.$nextTick(() => {
-      const input = this.$refs.name.$el.querySelector('input');
-      input.setSelectionRange(0, this.view_name.length);
-      input.focus();
-    });
+      const input = this.$refs.name.$el.querySelector('input')
+      input.setSelectionRange(0, this.view_name.length)
+      input.focus()
+    })
   },
   methods: {
     async createView() {
       if (!this.valid) {
-        return;
+        return
       }
 
-      this.loading = true;
+      this.loading = true
       try {
-        let data;
+        let data
         switch (this.show_as) {
           case ViewTypes.GRID:
             data = await this.$api.dbView.gridCreate(this.meta.id, {
               title: this.view_name,
-              copy_from_id: this.selectedViewId,
-            });
-            break;
+              copy_from_id: this.selectedViewId
+            })
+            break
           case ViewTypes.GALLERY:
             data = await this.$api.dbView.galleryCreate(this.meta.id, {
               title: this.view_name,
-              copy_from_id: this.selectedViewId,
-            });
-            break;
+              copy_from_id: this.selectedViewId
+            })
+            break
           case ViewTypes.FORM:
             data = await this.$api.dbView.formCreate(this.meta.id, {
               title: this.view_name,
-              copy_from_id: this.selectedViewId,
-            });
-            break;
+              copy_from_id: this.selectedViewId
+            })
+            break
         }
-        this.$toast.success('View created successfully').goAway(3000);
-        this.$emit('created', data);
-        this.$emit('input', false);
+        this.$toast.success('View created successfully').goAway(3000)
+        this.$emit('created', data)
+        this.$emit('input', false)
       } catch (e) {
-        this.$toast.error(e.message).goAway(3000);
+        this.$toast.error(e.message).goAway(3000)
       }
-      this.loading = false;
-    },
-  },
-};
+      this.loading = false
+    }
+  }
+}
 </script>
 
 <style scoped></style>

@@ -832,7 +832,7 @@ export default {
       })
     },
     selectedViewId(id) {
-      console.log('selectedViewId changing: id: ', id)
+      console.log(`selectedViewId changed to ${id} `)
       if (this.tabsState[this.tabId] && this.tabsState[this.tabId].page) {
         this.page = this.tabsState[this.tabId].page || 1
       } else {
@@ -862,6 +862,7 @@ export default {
       await this.createTableIfNewTable()
       this.loadingMeta = true
       await this.loadMeta(false)
+      this.loadViews = true
       this.loadingMeta = false
     } catch (e) {
       console.log(e)
@@ -972,7 +973,7 @@ export default {
         this.nodes.tableCreated = true
       }
 
-      this.loadViews = true
+      // this.loadViews = true
     },
 
     comingSoon() {
