@@ -391,6 +391,7 @@ export const actions = {
     //   this.commit('snackbar/setSnack', `Free plan limits to ${rootState.users.ui_ability.rules.maxTabs} tabs. Please <a href="https://nocodb.com/pricing" style="color: white;font-weight: bold;">upgrade</a> your plan for unlimited tabs.`)
     //   return
     // }
+    // debugger
     console.log(' ================= adding tab =====================')
     commit('add', item)
     await Vue.nextTick() // 等 DOM 更新后再继续往下执行

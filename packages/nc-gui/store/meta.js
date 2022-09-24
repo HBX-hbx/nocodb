@@ -69,7 +69,6 @@ export const actions = {
       key: tableName || id,
       value: true
     })
-
     const model = await this.$api.dbTable.read(modelId)
     console.log('model: \n', model)
     // const model = await dispatch('sqlMgr/ActSqlOp', [{ env, dbAlias, project_id }, 'tableXcModelGet', { tableName }], { root: true })

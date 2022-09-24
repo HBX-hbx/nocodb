@@ -253,6 +253,7 @@
     "saveProject": "保存项目",
     "createProjectExtended": {
       "extDB": "连接已有数据库",
+      "extUrl": "从外部 URL 导入",
       "excel": "从Excel创建项目",
       "template": "从模板创建项目"
     },
@@ -295,10 +296,13 @@
     "nextRecord": "下一步记录",
     "previousRecord": "之前的纪录",
     "copyApiURL": "复制 API 链接",
-    "createTable": "表创造",
-    "refreshTable": "表刷新",
-    "renameTable": "表重命名",
-    "deleteTable": "表删除",
+    "createTable": "创建数据表",
+    "createTableExtended": {
+      "extUrl": "从外部 URL 导入"
+    },
+    "refreshTable": "刷新数据表",
+    "renameTable": "重命名数据表",
+    "deleteTable": "删除数据表",
     "addField": "将新字段添加到此表",
     "setPrimary": "设置为主要值",
     "addRow": "添加新行",
@@ -350,6 +354,7 @@
   "tooltip": {
     "saveChanges": "保存更改",
     "xcDB": "新建项目",
+    "WebTable": "支持从网页 URL 导入表",
     "extDB": "支持 MySQL、PostgreSQL、SQL Server 和 SQLite",
     "apiRest": "通过 REST APIs 访问",
     "apiGQL": "通过 GraphQL APIs 访问",
@@ -482,6 +487,7 @@
       "tablesMetadataInSync": "表元数据同步",
       "addMultipleUsers": "您可以添加多个逗号（，）分隔的电子邮件",
       "enterTableName": "输入表名",
+      "enterURL": "输入 URL",
       "addDefaultColumns": "添加默认列",
       "tableNameInDb": "数据库中保存的表名"
     },

@@ -253,6 +253,7 @@
     "saveProject": "Save Project",
     "createProjectExtended": {
       "extDB": "Create By Connecting <br>To An External Database",
+      "extUrl": "Create From a URL",
       "excel": "Create Project from excel",
       "template": "Create Project from template"
     },
@@ -350,6 +351,7 @@
   "tooltip": {
     "saveChanges": "Save changes",
     "xcDB": "Create a new project",
+    "WebTable": "Create a table from external web",
     "extDB": "Supports MySQL, PostgreSQL, SQL Server & SQLite",
     "apiRest": "Accessible via REST APIs",
     "apiGQL": "Accessible via GraphQL APIs",
@@ -482,6 +484,7 @@
       "tablesMetadataInSync": "Tables metadata is in Sync",
       "addMultipleUsers": "You can add multiple comma(,) separated emails",
       "enterTableName": "Enter table name",
+      "enterURL": "Enter URL",
       "addDefaultColumns": "Add default columns",
       "tableNameInDb": "Table name as saved in database"
     },

@@ -88,6 +88,32 @@
                 >
                   <v-list-item-icon class="mr-2">
                     <v-icon small class="">
+                      mdi-chart-timeline-variant
+                    </v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    <!-- Create By Connecting <br>To An External Database -->
+                    <span class="caption font-weight-regular" v-html="$t('activity.createProjectExtended.extUrl')" />
+                  </v-list-item-title>
+                  <v-spacer />
+                  <v-tooltip right>
+                    <template #activator="{ on }">
+                      <v-icon x-small color="grey" class="ml-4" v-on="on">
+                        mdi-information-outline
+                      </v-icon>
+                    </template>
+                    <!-- Create a table from external web -->
+                    <span class="caption">{{ $t('tooltip.WebTable') }}</span>
+                  </v-tooltip>
+                </v-list-item>
+                <v-divider />
+                <v-list-item
+                  title
+                  class="pt-2 create-external-db-project nc-create-external-db-project"
+                  @click="onCreateProject()"
+                >
+                  <v-list-item-icon class="mr-2">
+                    <v-icon small class="">
                       mdi-power-plug-outline
                     </v-icon>
                   </v-list-item-icon>
@@ -1647,9 +1673,10 @@ export default {
       console.log(' ==================== mtdTableCreate =====================')
       console.log('table: \n', table)
       console.log('menuItem: \n', this.menuItem)
+      console.log('listViewArr: \n', this.listViewArr)
       // TODO: 需要从 key 来判断添加的 table 所属的 project 是否是当前 store 里存的 project
       if (!this.menuItem || this.menuItem.type !== 'tableDir') {
-        this.menuItem = this.listViewArr.find(n => n.type === 'tableDir');
+        this.menuItem = this.listViewArr.find(n => n.key === this.menuItem.key);
       }
       // const tables = table.name.split(',');
       this.$store.commit('notification/MutToggleProgressBar', true);

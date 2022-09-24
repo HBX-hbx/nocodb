@@ -1,6 +1,8 @@
 <template>
   <v-container class="h-100 j-excel-container backgroundColor pa-0 ma-0" fluid>
-    <v-btn @click="testRowsXcDataTable">test</v-btn>
+    <v-btn @click="testRowsXcDataTable">
+      test
+    </v-btn>
     <v-toolbar
       height="32"
       dense
@@ -118,130 +120,130 @@
         "
       />
 
-<!--      <template v-if="!isForm">-->
-<!--        &lt;!&ndash; Export Cache &ndash;&gt;-->
-<!--        <v-tooltip v-if="debug" bottom>-->
-<!--          <template #activator="{ on }">-->
-<!--            <v-icon class="mr-3" small v-on="on" @click="exportCache">-->
-<!--              mdi-export-->
-<!--            </v-icon>-->
-<!--          </template>-->
-<!--          <span class="caption"> Export Cache </span>-->
-<!--        </v-tooltip>-->
-<!--        &lt;!&ndash; Delete Cache &ndash;&gt;-->
-<!--        <v-tooltip v-if="debug" bottom>-->
-<!--          <template #activator="{ on }">-->
-<!--            <v-icon class="mr-3" small v-on="on" @click="deleteCache">-->
-<!--              mdi-delete-->
-<!--            </v-icon>-->
-<!--          </template>-->
-<!--          <span class="caption"> Delete Cache </span>-->
-<!--        </v-tooltip>-->
-<!--        <debug-metas v-if="debug" class="mr-3" />-->
-<!--        <v-tooltip bottom>-->
-<!--          <template #activator="{ on }">-->
-<!--            <v-icon v-if="!isPkAvail && !isForm" color="warning" small class="mr-3" v-on="on">-->
-<!--              mdi-information-outline-->
-<!--            </v-icon>-->
-<!--          </template>-->
-<!--          <span class="caption"> Update & Delete not allowed since the table doesn't have any primary key </span>-->
-<!--        </v-tooltip>-->
-<!--        <lock-menu v-if="_isUIAllowed('view-type')" v-model="lockType" />-->
+      <!--      <template v-if="!isForm">-->
+      <!--        &lt;!&ndash; Export Cache &ndash;&gt;-->
+      <!--        <v-tooltip v-if="debug" bottom>-->
+      <!--          <template #activator="{ on }">-->
+      <!--            <v-icon class="mr-3" small v-on="on" @click="exportCache">-->
+      <!--              mdi-export-->
+      <!--            </v-icon>-->
+      <!--          </template>-->
+      <!--          <span class="caption"> Export Cache </span>-->
+      <!--        </v-tooltip>-->
+      <!--        &lt;!&ndash; Delete Cache &ndash;&gt;-->
+      <!--        <v-tooltip v-if="debug" bottom>-->
+      <!--          <template #activator="{ on }">-->
+      <!--            <v-icon class="mr-3" small v-on="on" @click="deleteCache">-->
+      <!--              mdi-delete-->
+      <!--            </v-icon>-->
+      <!--          </template>-->
+      <!--          <span class="caption"> Delete Cache </span>-->
+      <!--        </v-tooltip>-->
+      <!--        <debug-metas v-if="debug" class="mr-3" />-->
+      <!--        <v-tooltip bottom>-->
+      <!--          <template #activator="{ on }">-->
+      <!--            <v-icon v-if="!isPkAvail && !isForm" color="warning" small class="mr-3" v-on="on">-->
+      <!--              mdi-information-outline-->
+      <!--            </v-icon>-->
+      <!--          </template>-->
+      <!--          <span class="caption"> Update & Delete not allowed since the table doesn't have any primary key </span>-->
+      <!--        </v-tooltip>-->
+      <!--        <lock-menu v-if="_isUIAllowed('view-type')" v-model="lockType" />-->
 
-<!--        &lt;!&ndash;        <x-btn-->
-<!--          tooltip="Reload view data"-->
-<!--          outlined-->
-<!--          small-->
-<!--          text-->
-<!--          btn.class="nc-table-reload-btn px-0"-->
-<!--          @click="reload"-->
-<!--        >&ndash;&gt;-->
-<!--        <v-icon small class="mx-n1" color="grey lighten-1">-->
-<!--          mdi-circle-small-->
-<!--        </v-icon>-->
-<!--        &lt;!&ndash; tooltip="Reload view data" &ndash;&gt;-->
-<!--        <x-icon :tooltip="$t('general.reload')" icon.class="nc-table-reload-btn mx-1" small @click="reloadClick">-->
-<!--          mdi-reload-->
-<!--        </x-icon>-->
-<!--        <v-icon v-if="isEditable && relationType !== 'bt'" small class="mx-n1" color="grey lighten-1">-->
-<!--          mdi-circle-small-->
-<!--        </v-icon>-->
-<!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <x-btn&ndash;&gt;-->
-<!--        &lt;!&ndash;          v-if="isEditable && relationType !== 'bt'"&ndash;&gt;-->
-<!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
-<!--        &lt;!&ndash;          :disabled="isLocked"&ndash;&gt;-->
-<!--        &lt;!&ndash;          outlined&ndash;&gt;-->
-<!--        &lt;!&ndash;          small&ndash;&gt;-->
-<!--        &lt;!&ndash;          text&ndash;&gt;-->
-<!--        &lt;!&ndash;          btn.class="nc-add-new-row-btn"&ndash;&gt;-->
-<!--        &lt;!&ndash;          @click="insertNewRow(true,true)"&ndash;&gt;-->
-<!--        &lt;!&ndash;        >&ndash;&gt;-->
+      <!--        &lt;!&ndash;        <x-btn-->
+      <!--          tooltip="Reload view data"-->
+      <!--          outlined-->
+      <!--          small-->
+      <!--          text-->
+      <!--          btn.class="nc-table-reload-btn px-0"-->
+      <!--          @click="reload"-->
+      <!--        >&ndash;&gt;-->
+      <!--        <v-icon small class="mx-n1" color="grey lighten-1">-->
+      <!--          mdi-circle-small-->
+      <!--        </v-icon>-->
+      <!--        &lt;!&ndash; tooltip="Reload view data" &ndash;&gt;-->
+      <!--        <x-icon :tooltip="$t('general.reload')" icon.class="nc-table-reload-btn mx-1" small @click="reloadClick">-->
+      <!--          mdi-reload-->
+      <!--        </x-icon>-->
+      <!--        <v-icon v-if="isEditable && relationType !== 'bt'" small class="mx-n1" color="grey lighten-1">-->
+      <!--          mdi-circle-small-->
+      <!--        </v-icon>-->
+      <!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
+      <!--        &lt;!&ndash;        <x-btn&ndash;&gt;-->
+      <!--        &lt;!&ndash;          v-if="isEditable && relationType !== 'bt'"&ndash;&gt;-->
+      <!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
+      <!--        &lt;!&ndash;          :disabled="isLocked"&ndash;&gt;-->
+      <!--        &lt;!&ndash;          outlined&ndash;&gt;-->
+      <!--        &lt;!&ndash;          small&ndash;&gt;-->
+      <!--        &lt;!&ndash;          text&ndash;&gt;-->
+      <!--        &lt;!&ndash;          btn.class="nc-add-new-row-btn"&ndash;&gt;-->
+      <!--        &lt;!&ndash;          @click="insertNewRow(true,true)"&ndash;&gt;-->
+      <!--        &lt;!&ndash;        >&ndash;&gt;-->
 
-<!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
-<!--        <x-icon-->
-<!--          v-if="!isView && isEditable && relationType !== 'bt'"-->
-<!--          icon.class="nc-add-new-row-btn mx-1"-->
-<!--          :tooltip="$t('activity.addRow')"-->
-<!--          :disabled="isLocked"-->
-<!--          small-->
-<!--          :color="['success', '']"-->
-<!--          @click="clickAddNewIcon"-->
-<!--        >-->
-<!--          mdi-plus-outline-->
-<!--        </x-icon>-->
-<!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <x-btn-->
-<!--          small-->
-<!--          text-->
-<!--          btn.class="nc-save-new-row-btn"-->
-<!--          outlined-->
-<!--          tooltip="Save new rows"-->
-<!--          :disabled="!edited || isLocked"-->
-<!--          @click="save"-->
-<!--        >-->
-<!--          <v-icon small class="mr-1" color="grey  darken-3">-->
-<!--            save-->
-<!--          </v-icon>-->
-<!--          Save-->
-<!--        </x-btn>&ndash;&gt;-->
-<!--        &lt;!&ndash;        <v-tooltip&ndash;&gt;-->
-<!--        &lt;!&ndash;          bottom&ndash;&gt;-->
-<!--        &lt;!&ndash;        >&ndash;&gt;-->
-<!--        &lt;!&ndash;          <template #activator="{on}">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <v-btn-->
-<!--              v-show="_isUIAllowed('table-delete')"-->
-<!--              class="nc-table-delete-btn"-->
-<!--              :disabled="isLocked"-->
-<!--              small-->
-<!--              outlined-->
-<!--              text-->
-<!--              v-on="on"-->
-<!--              @click="checkAndDeleteTable"-->
-<!--            >&ndash;&gt;-->
-<!--        <v-icon v-if="_isUIAllowed('table-delete')" small class="mx-n1" color="grey lighten-1">-->
-<!--          mdi-circle-small-->
-<!--        </v-icon>-->
-<!--        <x-icon-->
-<!--          v-if="_isUIAllowed('table-delete')"-->
-<!--          icon.class="nc-table-delete-btn mx-1 mr-1"-->
-<!--          :disabled="isLocked"-->
-<!--          small-->
-<!--          :color="['red', '']"-->
-<!--          :tooltip="$t('activity.deleteTable')"-->
-<!--          @click="checkAndDeleteTable"-->
-<!--        >-->
-<!--          mdi-delete-outline-->
-<!--        </x-icon>-->
+      <!--        &lt;!&ndash;          tooltip="Add new row"&ndash;&gt;-->
+      <!--        <x-icon-->
+      <!--          v-if="!isView && isEditable && relationType !== 'bt'"-->
+      <!--          icon.class="nc-add-new-row-btn mx-1"-->
+      <!--          :tooltip="$t('activity.addRow')"-->
+      <!--          :disabled="isLocked"-->
+      <!--          small-->
+      <!--          :color="['success', '']"-->
+      <!--          @click="clickAddNewIcon"-->
+      <!--        >-->
+      <!--          mdi-plus-outline-->
+      <!--        </x-icon>-->
+      <!--        &lt;!&ndash;        </x-btn>&ndash;&gt;-->
+      <!--        &lt;!&ndash;        <x-btn-->
+      <!--          small-->
+      <!--          text-->
+      <!--          btn.class="nc-save-new-row-btn"-->
+      <!--          outlined-->
+      <!--          tooltip="Save new rows"-->
+      <!--          :disabled="!edited || isLocked"-->
+      <!--          @click="save"-->
+      <!--        >-->
+      <!--          <v-icon small class="mr-1" color="grey  darken-3">-->
+      <!--            save-->
+      <!--          </v-icon>-->
+      <!--          Save-->
+      <!--        </x-btn>&ndash;&gt;-->
+      <!--        &lt;!&ndash;        <v-tooltip&ndash;&gt;-->
+      <!--        &lt;!&ndash;          bottom&ndash;&gt;-->
+      <!--        &lt;!&ndash;        >&ndash;&gt;-->
+      <!--        &lt;!&ndash;          <template #activator="{on}">&ndash;&gt;-->
+      <!--        &lt;!&ndash;            <v-btn-->
+      <!--              v-show="_isUIAllowed('table-delete')"-->
+      <!--              class="nc-table-delete-btn"-->
+      <!--              :disabled="isLocked"-->
+      <!--              small-->
+      <!--              outlined-->
+      <!--              text-->
+      <!--              v-on="on"-->
+      <!--              @click="checkAndDeleteTable"-->
+      <!--            >&ndash;&gt;-->
+      <!--        <v-icon v-if="_isUIAllowed('table-delete')" small class="mx-n1" color="grey lighten-1">-->
+      <!--          mdi-circle-small-->
+      <!--        </v-icon>-->
+      <!--        <x-icon-->
+      <!--          v-if="_isUIAllowed('table-delete')"-->
+      <!--          icon.class="nc-table-delete-btn mx-1 mr-1"-->
+      <!--          :disabled="isLocked"-->
+      <!--          small-->
+      <!--          :color="['red', '']"-->
+      <!--          :tooltip="$t('activity.deleteTable')"-->
+      <!--          @click="checkAndDeleteTable"-->
+      <!--        >-->
+      <!--          mdi-delete-outline-->
+      <!--        </x-icon>-->
 
-<!--        <v-icon small class="ml-n2" color="grey lighten-1">-->
-<!--          mdi-circle-small-->
-<!--        </v-icon>-->
-<!--        &lt;!&ndash;            </v-btn>&ndash;&gt;-->
-<!--        &lt;!&ndash;          </template>&ndash;&gt;-->
-<!--        &lt;!&ndash;          <span class="">Delete table</span>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </v-tooltip>&ndash;&gt;-->
-<!--      </template>-->
+      <!--        <v-icon small class="ml-n2" color="grey lighten-1">-->
+      <!--          mdi-circle-small-->
+      <!--        </v-icon>-->
+      <!--        &lt;!&ndash;            </v-btn>&ndash;&gt;-->
+      <!--        &lt;!&ndash;          </template>&ndash;&gt;-->
+      <!--        &lt;!&ndash;          <span class="">Delete table</span>&ndash;&gt;-->
+      <!--        &lt;!&ndash;        </v-tooltip>&ndash;&gt;-->
+      <!--      </template>-->
 
       <!-- Cell height -->
       <!--      <v-menu>

@@ -7,151 +7,233 @@
     @keydown.enter="$emit('create', table)"
   >
     <!-- Create A New Table -->
-    <v-card class="elevation-1 backgroundColor nc-create-table-card">
-      <v-form ref="form" v-model="valid">
-        <v-card-title class="primary subheading white--text py-2">
-          {{ $t('activity.createTable') }}
-        </v-card-title>
+    <v-tabs
+      centered
+      color="cyan"
+      icons-and-text
+    >
+      <v-tabs-slider color="yellow" />
 
-        <v-card-text class="py-6 px-10">
-          <!--hint="Enter table name"-->
-          <v-text-field
-            ref="input"
-            v-model="table.alias"
-            solo
-            flat
-            persistent-hint
-            dense
-            hide-details1
-            :rules="[validateTableName, validateDuplicateAlias, validateLength]"
-            :hint="$t('msg.info.enterTableName')"
-            class="mt-4 caption nc-table-name"
-          />
+      <v-tab href="#tab-1">
+        {{ $t('activity.createTable') }}
+        <v-icon small class="">
+          mdi-card-plus-outline
+        </v-icon>
+      </v-tab>
 
-          <div class="d-flex justify-end">
-            <div class="grey--text caption pointer" @click="isAdvanceOptVisible = !isAdvanceOptVisible">
-              {{ isAdvanceOptVisible ? 'Hide' : 'Show' }} more
-              <v-icon x-small color="grey">
-                {{ isAdvanceOptVisible ? 'mdi-minus-circle-outline' : 'mdi-plus-circle-outline' }}
-              </v-icon>
-            </div>
-          </div>
+      <v-tab href="#tab-2">
+        {{ $t('activity.createTableExtended.extUrl') }}
+        <v-icon small class="">
+          mdi-chart-timeline-variant
+        </v-icon>
+      </v-tab>
 
-          <div class="nc-table-advanced-options" :class="{ active: isAdvanceOptVisible }">
-            <!--hint="Table name as saved in database"-->
-            <v-text-field
-              v-if="!projectPrefix"
-              v-model="table.name"
-              solo
-              flat
-              dense
-              persistent-hint
-              :rules="[validateDuplicate]"
-              :hint="$t('msg.info.tableNameInDb')"
-              class="mt-4 caption nc-table-name-alias"
-            />
+      <v-tab-item
+        :key="1"
+        :value="'tab-1'"
+      >
+        <v-card class="elevation-1 backgroundColor nc-create-table-card">
+          <v-form ref="form" v-model="valid">
+<!--            <v-card-title class="primary subheading white&#45;&#45;text py-2">-->
+<!--              {{ $t('activity.createTable') }}-->
+<!--            </v-card-title>-->
 
-            <div class="mt-5">
-              <label class="add-default-title grey--text">
-                <!--Add Default Columns-->
-                {{ $t('msg.info.addDefaultColumns') }}
-              </label>
+            <v-card-text class="py-6 px-10">
+              <!--hint="Enter table name"-->
+              <v-text-field
+                ref="input"
+                v-model="table.alias"
+                solo
+                flat
+                persistent-hint
+                dense
+                hide-details1
+                :rules="[validateTableName, validateDuplicateAlias, validateLength]"
+                :hint="$t('msg.info.enterTableName')"
+                class="mt-4 caption nc-table-name"
+              />
 
-              <div class="d-flex caption justify-space-between align-center">
-                <v-checkbox
-                  key="chk1"
-                  v-model="table.columns"
-                  dense
-                  class="mt-0"
-                  color="info"
-                  hide-details
-                  value="id"
-                  @click.capture.prevent.stop="
-                    () => {
-                      $toast.info('ID column is required, you can rename this later if required.').goAway(3000);
-                      if (!table.columns.includes('id')) {
-                        table.columns.push('id');
-                      }
-                    }
-                  "
-                >
-                  <template #label>
-                    <div>
-                      <span v-if="!isIdToggleAllowed" class="caption" @dblclick="isIdToggleAllowed = true">id</span>
-                      <v-select
-                        v-else
-                        v-model="idType"
-                        style="max-width: 100px"
-                        class="caption"
-                        outlined
-                        dense
-                        hide-details
-                        :items="idTypes"
-                      />
-                    </div>
-                  </template>
-                </v-checkbox>
-                <v-checkbox
-                  key="chk2"
-                  v-model="table.columns"
-                  dense
-                  class="mt-0"
-                  color="info"
-                  hide-details
-                  value="title"
-                >
-                  <template #label>
-                    <span class="caption">title</span>
-                  </template>
-                </v-checkbox>
-                <v-checkbox
-                  key="chk3"
-                  v-model="table.columns"
-                  dense
-                  class="mt-0"
-                  color="info"
-                  hide-details
-                  value="created_at"
-                >
-                  <template #label>
-                    <span class="caption">created_at</span>
-                  </template>
-                </v-checkbox>
-                <v-checkbox
-                  key="chk4"
-                  v-model="table.columns"
-                  dense
-                  class="mt-0"
-                  color="info"
-                  hide-details
-                  value="updated_at"
-                >
-                  <template #label>
-                    <span class="caption">updated_at</span>
-                  </template>
-                </v-checkbox>
+              <div class="d-flex justify-end">
+                <div class="grey--text caption pointer" @click="isAdvanceOptVisible = !isAdvanceOptVisible">
+                  {{ isAdvanceOptVisible ? 'Hide' : 'Show' }} more
+                  <v-icon x-small color="grey">
+                    {{ isAdvanceOptVisible ? 'mdi-minus-circle-outline' : 'mdi-plus-circle-outline' }}
+                  </v-icon>
+                </div>
               </div>
-            </div>
-          </div>
-        </v-card-text>
-        <v-divider />
 
-        <v-card-actions class="py-4 px-10">
-          <v-spacer />
-          <v-btn class="" @click="dialogShow = false">
-            {{ $t('general.cancel') }}
-          </v-btn>
-          <v-btn
-            :disabled="!(table.name && table.name.length) || !(table.alias && table.alias.length) || !valid"
-            color="primary"
-            class="nc-create-table-submit"
-            @click="onCreateBtnClick"
-          >
-            {{ $t('general.submit') }}
-          </v-btn>
-        </v-card-actions>
-      </v-form>
-    </v-card>
+              <div class="nc-table-advanced-options" :class="{ active: isAdvanceOptVisible }">
+                <!--hint="Table name as saved in database"-->
+                <v-text-field
+                  v-if="!projectPrefix"
+                  v-model="table.name"
+                  solo
+                  flat
+                  dense
+                  persistent-hint
+                  :rules="[validateDuplicate]"
+                  :hint="$t('msg.info.tableNameInDb')"
+                  class="mt-4 caption nc-table-name-alias"
+                />
+
+                <div class="mt-5">
+                  <label class="add-default-title grey--text">
+                    <!--Add Default Columns-->
+                    {{ $t('msg.info.addDefaultColumns') }}
+                  </label>
+
+                  <div class="d-flex caption justify-space-between align-center">
+                    <v-checkbox
+                      key="chk1"
+                      v-model="table.columns"
+                      dense
+                      class="mt-0"
+                      color="info"
+                      hide-details
+                      value="id"
+                      @click.capture.prevent.stop="
+                        () => {
+                          $toast.info('ID column is required, you can rename this later if required.').goAway(3000);
+                          if (!table.columns.includes('id')) {
+                            table.columns.push('id');
+                          }
+                        }
+                      "
+                    >
+                      <template #label>
+                        <div>
+                          <span v-if="!isIdToggleAllowed" class="caption" @dblclick="isIdToggleAllowed = true">id</span>
+                          <v-select
+                            v-else
+                            v-model="idType"
+                            style="max-width: 100px"
+                            class="caption"
+                            outlined
+                            dense
+                            hide-details
+                            :items="idTypes"
+                          />
+                        </div>
+                      </template>
+                    </v-checkbox>
+                    <v-checkbox
+                      key="chk2"
+                      v-model="table.columns"
+                      dense
+                      class="mt-0"
+                      color="info"
+                      hide-details
+                      value="title"
+                    >
+                      <template #label>
+                        <span class="caption">title</span>
+                      </template>
+                    </v-checkbox>
+                    <v-checkbox
+                      key="chk3"
+                      v-model="table.columns"
+                      dense
+                      class="mt-0"
+                      color="info"
+                      hide-details
+                      value="created_at"
+                    >
+                      <template #label>
+                        <span class="caption">created_at</span>
+                      </template>
+                    </v-checkbox>
+                    <v-checkbox
+                      key="chk4"
+                      v-model="table.columns"
+                      dense
+                      class="mt-0"
+                      color="info"
+                      hide-details
+                      value="updated_at"
+                    >
+                      <template #label>
+                        <span class="caption">updated_at</span>
+                      </template>
+                    </v-checkbox>
+                  </div>
+                </div>
+              </div>
+            </v-card-text>
+            <v-divider />
+
+            <v-card-actions class="py-4 px-10">
+              <v-spacer />
+              <v-btn class="" @click="dialogShow = false">
+                {{ $t('general.cancel') }}
+              </v-btn>
+              <v-btn
+                :disabled="!(table.name && table.name.length) || !(table.alias && table.alias.length) || !valid"
+                color="primary"
+                class="nc-create-table-submit"
+                @click="onCreateBtnClick()"
+              >
+                {{ $t('general.submit') }}
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item
+        :key="2"
+        :value="'tab-2'"
+      >
+        <v-card class="elevation-1 backgroundColor nc-create-table-card">
+          <v-form ref="form" v-model="valid">
+            <!--            <v-card-title class="primary subheading white&#45;&#45;text py-2">-->
+            <!--              {{ $t('activity.createTable') }}-->
+            <!--            </v-card-title>-->
+
+            <v-card-text class="py-6 px-10">
+              <v-text-field
+                ref="input"
+                v-model="url"
+                solo
+                flat
+                persistent-hint
+                dense
+                hide-details1
+                :hint="$t('msg.info.enterURL')"
+                class="mt-4 caption nc-table-name"
+              />
+              <!--hint="Enter table name"-->
+              <v-text-field
+                ref="input"
+                v-model="table.alias"
+                solo
+                flat
+                persistent-hint
+                dense
+                hide-details1
+                :rules="[validateTableName, validateDuplicateAlias, validateLength]"
+                :hint="$t('msg.info.enterTableName')"
+                class="mt-4 caption nc-table-name"
+              />
+            </v-card-text>
+            <v-divider />
+
+            <v-card-actions class="py-4 px-10">
+              <v-spacer />
+              <v-btn class="" @click="dialogShow = false">
+                {{ $t('general.cancel') }}
+              </v-btn>
+              <v-btn
+                :disabled="!(table.name && table.name.length) || !(table.alias && table.alias.length) || !valid"
+                color="primary"
+                class="nc-create-table-submit"
+                @click="onCreateBtnClick('ext')"
+              >
+                {{ $t('general.submit') }}
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
   </v-dialog>
 </template>
 
@@ -168,6 +250,7 @@ export default {
         name: '',
         columns: ['id', 'title', 'created_at', 'updated_at']
       },
+      url: '',
       isIdToggleAllowed: false,
       valid: false,
       idType: 'AI',
@@ -243,11 +326,25 @@ export default {
       }
       return v.length <= tableNameLengthLimit || `Table name exceeds ${tableNameLengthLimit} characters`
     },
-    onCreateBtnClick() {
-      this.$emit('create', {
-        ...this.table,
-        columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c))
-      })
+    onCreateBtnClick(ext) {
+      if (ext === 'ext') {
+        console.log(`url: ${this.url}`)
+        console.log('table: \n', this.table)
+        console.log('payload: \n', {
+          ...this.table,
+          columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c))
+        })
+        this.$emit('create', {
+          ...this.table,
+          url: this.url,
+          columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c))
+        })
+      } else {
+        this.$emit('create', {
+          ...this.table,
+          columns: this.table.columns.map(c => (c === 'id' && this.idType === 'AG' ? 'id_ag' : c))
+        })
+      }
     }
   }
 }
