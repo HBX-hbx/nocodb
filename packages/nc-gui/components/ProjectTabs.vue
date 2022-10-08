@@ -4,7 +4,7 @@
       ref="projectTabs"
       v-model="activeTab"
       dark
-      background-color="primary"
+      background-color="white"
       height="40"
       class="project-tabs nc-project-tabs"
       color=""

@@ -142,17 +142,21 @@ export default class Project implements ProjectType {
     projectId: string,
     ncMeta = Noco.ncMeta
   ): Promise<Project> {
+    console.log('---------------------- -1 --------------------------');
     let projectData =
       projectId &&
       (await NocoCache.get(
         `${CacheScope.PROJECT}:${projectId}`,
         CacheGetType.TYPE_OBJECT
       ));
+    console.log('---------------------- 0 --------------------------');
     if (!projectData) {
+      console.log('---------------------- 1 --------------------------');
       projectData = await ncMeta.metaGet2(null, null, MetaTable.PROJECT, {
         id: projectId,
         deleted: false,
       });
+      console.log('---------------------- 2 --------------------------');
       await NocoCache.set(`${CacheScope.PROJECT}:${projectId}`, projectData);
       if (projectData?.uuid) {
         await NocoCache.set(
@@ -160,6 +164,7 @@ export default class Project implements ProjectType {
           projectId
         );
       }
+      console.log('---------------------- 3 --------------------------');
     } else {
       if (projectData?.deleted) {
         projectData = null;

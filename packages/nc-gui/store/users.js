@@ -244,7 +244,7 @@ export const actions = {
     console.log('data: \n', data)
     try {
       const userPromise = await this.$api.auth.signin(data)
-
+      console.log('userPromise: \n', userPromise)
       commit('MutSetToken', userPromise.token)
 
       await dispatch('ActGetUserDetails')
@@ -275,6 +275,7 @@ export const actions = {
 
   async ActGetUserDetails({ commit, state }) {
     try {
+      console.log('state.token: \n', state.token)
       const user = await this.$api.auth.me({}, {
         headers: {
           'xc-auth': state.token

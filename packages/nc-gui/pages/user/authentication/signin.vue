@@ -304,6 +304,7 @@ export default {
       e.preventDefault()
       if (this.type === 'jwt') {
         if (this.$refs.formType.validate()) {
+          console.log('============ mtd on signIn ===============')
           let err = null
           this.form.firstName = this.form.email
           this.form.lastName = this.form.email

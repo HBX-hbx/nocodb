@@ -33,6 +33,7 @@ export async function projectGet(
   req: Request<any, any, any>,
   res: Response<Project>
 ) {
+  console.log('------------------ project Get ---------------------------');
   const project = await Project.getWithInfo(req.params.projectId);
 
   // delete datasource connection details

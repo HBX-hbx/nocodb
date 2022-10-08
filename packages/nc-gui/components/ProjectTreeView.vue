@@ -1,16 +1,16 @@
 <template>
   <div style="height: 100%" class="nc-tree-view" @mouseenter="onMiniHoverEnter" @mouseleave="onMiniHoverLeave">
     <!--    :expand-on-hover="mini"-->
-    <div class="primary nc-project-title theme--dark" :class="{ shared: sharedBase }">
+<!--    <div class="primary nc-project-title theme&#45;&#45;dark" :class="{ shared: sharedBase }">-->
 <!--      <img v-if="sharedBase" src="favicon-32.png" height="18" class="ml-2" />-->
 <!--      <h3 v-if="sharedBase" class="nc-project-title white&#45;&#45;text text-capitalize">-->
 <!--        {{ $store.getters['project/GtrProjectName'] }}-->
 <!--      </h3>-->
 <!--      <github-star-btn v-else />-->
-      <v-btn @click="testTreeView">
-        test
-      </v-btn>
-    </div>
+<!--      <v-btn @click="testTreeView">-->
+<!--        test-->
+<!--      </v-btn>-->
+<!--    </div>-->
     <v-navigation-drawer
       ref="drawer"
       v-model="navigation.shown"
@@ -37,17 +37,17 @@
 <!--              <v-icon v-if="search" class="mt-3 mr-3" color="grey" x-small @click="search = ''"> mdi-close </v-icon>-->
 <!--            </template>-->
 <!--          </v-text-field>-->
-          <template v-else-if="connectToExternalDB">
-            <v-menu offset-y bottom open-on-hover full-width>
+          <div v-else-if="connectToExternalDB" style="margin: 1vh; padding-right: 1vh">
+            <v-menu offset-y bottom open-on-hover full-width right>
               <template #activator="{ on }">
                 <div>
-                  <x-btn
+                  <v-btn
                     v-if="_isUIAllowed('projectCreate')"
                     v-ge="['home', 'project-new']"
                     data-v-step="1"
                     outlined
-                    color="primary"
                     class="nc-new-project-menu"
+                    block
                     v-on="on"
                   >
                     <!-- New Project -->
@@ -55,7 +55,7 @@
                     <v-icon class="mr-1" small>
                       mdi-menu-down
                     </v-icon>
-                  </x-btn>
+                  </v-btn>
                 </div>
               </template>
               <v-list dense>
@@ -134,7 +134,7 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-          </template>
+          </div>
           <x-btn
             v-else-if="_isUIAllowed('projectCreate', true)"
             v-ge="['home', 'project-new']"

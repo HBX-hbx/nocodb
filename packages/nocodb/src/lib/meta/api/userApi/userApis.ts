@@ -199,9 +199,8 @@ async function successfulSignIn({
       ip: req.clientIp,
       description: auditDescription,
     });
-
     res.json({
-      token: genJwt(user, Noco.getConfig()),
+      token: genJwt(user, Noco.getConfig()), // user token
     } as any);
   } catch (e) {
     console.log(e);

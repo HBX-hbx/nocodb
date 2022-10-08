@@ -43,13 +43,13 @@
         <span v-shortkey="['ctrl', 'shift', 'd']" @shortkey="openDiscord" />
       </div>
 
-      <div v-if="isDashboard" class="text-capitalize text-center title" style="flex: 1">
-        {{ $store.getters['project/GtrProjectName'] }}
-      </div>
+<!--      <div v-if="isDashboard" class="text-capitalize text-center title" style="flex: 1">-->
+<!--        {{ $store.getters['project/GtrProjectName'] }}-->
+<!--      </div>-->
 
       <div style="flex: 1" class="d-flex justify-end">
         <v-toolbar-items class="hidden-sm-and-down nc-topright-menu">
-          <release-info />
+<!--          <release-info />-->
 
 <!--          <language class="mr-3" />-->
 <!--          <template v-if="isDashboard">-->

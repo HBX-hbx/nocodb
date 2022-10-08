@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0 ma-0" style="overflow: auto">
-    <splitpanes class="xc-theme nc-dashboard">
+    <splitpanes class="xc-theme">
       <pane
         :min-size="treeViewMinSize"
         :size="treeViewSize"
