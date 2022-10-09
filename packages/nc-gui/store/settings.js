@@ -12,10 +12,7 @@ export const state = () => ({
   isGaEnabled: true,
   isErrorReportingEnabled: true,
   customTheme: {},
-  language: browserLang({
-    languages: ['en', 'ar', 'nl', 'fr', 'de', 'it', 'ja', 'ru', 'es', 'ca', 'cs', 'et', 'lt', 'no', 'te', 'ur', 'zh-cn', 'da', 'tl', 'el', 'ms', 'pl', 'sr', 'sv', 'th', 'bn', 'zh-tw', 'fi', 'ko', 'iw', 'ml', 'pt', 'sk', 'tg', 'tr', 'vi', 'bg', 'hr', 'eo', 'id', 'lv', 'mr', 'ro', 'sl', 'ta', 'uk', 'kn', 'hi'],
-    fallback: 'zh-cn'
-  }),
+  language: 'zh_CN',
   showTour: {
     home: true,
     dashboard: true
