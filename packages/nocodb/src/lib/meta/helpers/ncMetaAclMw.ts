@@ -51,6 +51,8 @@ export default function (handlerFn, permissionName) {
       // todo : verify user have access to project or not
 
       const roles = req['session']?.passport?.user?.roles;
+      console.log('roles: \n', roles);
+      console.log('permissionName: ', permissionName);
       const isAllowed =
         roles &&
         Object.entries(roles).some(([name, hasRole]) => {
@@ -60,6 +62,7 @@ export default function (handlerFn, permissionName) {
             (projectAcl[name] === '*' || projectAcl[name][permissionName])
           );
         });
+      console.log('isAllowed: ', isAllowed);
       if (!isAllowed) {
         NcError.forbidden(
           `${permissionName} - ${Object.keys(roles).filter(

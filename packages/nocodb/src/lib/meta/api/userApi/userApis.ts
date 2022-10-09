@@ -86,6 +86,14 @@ export async function signup(req: Request, res: Response<TableType>) {
   } else {
     let roles = 'user';
 
+    // roles = 'user,super';
+    // // todo: update in nc_store
+    // // roles = 'owner,creator,editor'
+    // Tele.emit('evt', {
+    //   evt_type: 'project:invite',
+    //   count: 1,
+    // });
+
     if (await User.isFirst()) {
       roles = 'user,super';
       // todo: update in nc_store
