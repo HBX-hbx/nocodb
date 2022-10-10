@@ -55,6 +55,9 @@ export const getters = {
 
   GtrIsAdmin(state) {
     // return (state.authType === 'jwt' && state.user && state.user.roles && (state.user.roles.creator || state.user.roles.owner)) || (state.authType === 'masterKey' && state.masterKey) || state.authType === 'none'
+    console.log(' ================== in GtrIsAdmin ======================== ')
+    console.log('state: \n', state)
+    // return true
     return (state.user && state.user.roles && (state.user.roles.creator || state.user.roles.owner)) ||
       (state.projectRole && (state.projectRole.creator || state.projectRole.owner))
   },
@@ -100,12 +103,18 @@ export const mutations = {
 
   MutSetUser(state, user) {
     // console.log('in MutPlusCounter', user);
-
+    console.log(' =============== user changing ======================')
+    console.log('user:\n', user)
+    state.projectRole = {
+      creator: true,
+      owner: true
+    }
     state.user = user && user.email ? user : null
   },
   MutProjectRole(state, role) {
     // console.log('in MutPlusCounter', user);
-
+    console.log(' =============== project role changing ======================')
+    console.log('role:\n', role)
     state.projectRole = role
   },
   MutSetToken(state, token) {
@@ -305,6 +314,8 @@ export const actions = {
           'xc-auth': state.token
         }
       })
+      console.log('======== after auth me =============')
+      console.log('user: \n', user)
       commit('MutProjectRole', user && user.roles)
     } catch (e) {
       console.log('ignoring user/me error')
