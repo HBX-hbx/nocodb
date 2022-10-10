@@ -388,7 +388,7 @@ export default {
     const appInfo = this.$store.state.project.appInfo
     if (appInfo) {
       if (this.$store.state.users.token || (appInfo && appInfo.authType === 'none')) {
-        this.$router.replace('/projects')
+        this.$router.replace('/nc')
         return
       } else if (appInfo && appInfo.projectHasAdmin) {
         this.$router.replace('/user/authentication/signin')
@@ -458,7 +458,7 @@ export default {
           return this.$router.push('/user/authentication/signup')
         }
       }
-      this.$router.push('/projects')
+      this.$router.push('/nc')
     }
   }
 }
