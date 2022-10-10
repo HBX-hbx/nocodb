@@ -21,7 +21,7 @@ export default {
    */
   head: {
     titleTemplate: '',
-    title: 'NocoDB',
+    title: '原子回声',
     meta: [
       { charset: 'utf-8' },
       {
