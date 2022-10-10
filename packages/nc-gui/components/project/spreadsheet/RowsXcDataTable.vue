@@ -42,7 +42,7 @@
           dense
           solo
           hide-details
-          :placeholder="searchField ? $t('placeholder.searchColumn', { searchField }) : 'Search all columns'"
+          :placeholder="searchField ? $t('placeholder.searchColumn', { searchField }) : '搜索列'"
           class="elevation-0 pa-0 flex-grow-1 caption search-field"
           @keyup.enter="searchQuery = searchQueryVal"
           @blur="searchQuery = searchQueryVal"
@@ -272,21 +272,21 @@
             </v-menu>-->
 
       <!--tooltip="Toggle navigation drawer"-->
-      <x-btn
-        :tooltip="$t('tooltip.toggleNavDraw')"
-        outlined
-        small
-        text
-        :btn-class="{ 'primary lighten-5 nc-toggle-nav-drawer': !toggleDrawer }"
-        @click="
-          // toggleDrawer = !toggleDrawer;
-          toggleClick();
-        "
-      >
-        <v-icon small class="mx-0" color="grey  darken-3">
-          {{ toggleDrawer ? 'mdi-door-closed' : 'mdi-door-open' }}
-        </v-icon>
-      </x-btn>
+<!--      <x-btn-->
+<!--        :tooltip="$t('tooltip.toggleNavDraw')"-->
+<!--        outlined-->
+<!--        small-->
+<!--        text-->
+<!--        :btn-class="{ 'primary lighten-5 nc-toggle-nav-drawer': !toggleDrawer }"-->
+<!--        @click="-->
+<!--          // toggleDrawer = !toggleDrawer;-->
+<!--          toggleClick();-->
+<!--        "-->
+<!--      >-->
+<!--        <v-icon small class="mx-0" color="grey  darken-3">-->
+<!--          {{ toggleDrawer ? 'mdi-door-closed' : 'mdi-door-open' }}-->
+<!--        </v-icon>-->
+<!--      </x-btn>-->
     </v-toolbar>
     <div
       :class="`cell-height-${cellHeight}`"

@@ -5,24 +5,25 @@
         <v-row align="center">
           <v-col md="4" offset-md="4">
             <v-card class="pa-10 elevation-10 mt-10" color="">
-              <div
-                style="
-                  position: absolute;
-                  top: -45px;
-                  left: -moz-calc(50% - 45px);
-                  left: -webkit-calc(50% - 45px);
-                  left: calc(50% - 45px);
-                  border-radius: 15px;
-                "
-                class="primary"
-              >
-                <v-img class="mx-auto" width="90" height="90" :src="require('~/assets/img/icons/512x512-trans.png')" />
-              </div>
+<!--              <div-->
+<!--                style="-->
+<!--                  position: absolute;-->
+<!--                  top: -45px;-->
+<!--                  left: -moz-calc(50% - 45px);-->
+<!--                  left: -webkit-calc(50% - 45px);-->
+<!--                  left: calc(50% - 45px);-->
+<!--                  border-radius: 15px;-->
+<!--                "-->
+<!--                class="primary"-->
+<!--              >-->
+<!--                <v-img class="mx-auto" width="90" height="90" :src="require('~/assets/img/icons/512x512-trans.png')" />-->
+<!--              </div>-->
 
               <h1 class="mt-4">
-                SIGN UP
-                {{ $route.query.redirect_to === '/referral' ? '& REFER' : '' }}
-                {{ $route.query.redirect_to === '/pricing' ? '& BUY' : '' }}
+                {{ $t('general.signUp') }}
+<!--                SIGN UP-->
+<!--                {{ $route.query.redirect_to === '/referral' ? '& REFER' : '' }}-->
+<!--                {{ $route.query.redirect_to === '/pricing' ? '& BUY' : '' }}-->
               </h1>
               <div>
                 <v-alert v-model="formUtil.formErr" type="error" dismissible>
@@ -368,7 +369,7 @@ export default {
       if ('redirect_to' in this.$route.query) {
         this.$router.push(this.$route.query.redirect_to)
       } else {
-        this.$router.push('/projects?toast')
+        this.$router.push('/nc')
       }
       this.signUpButtonLoading = false
       this.$e('a:auth:sign-up')
